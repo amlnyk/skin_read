@@ -1,19 +1,67 @@
 {
   "items": [
     {
-      "id": "placeholder-condition-1",
-      "source": "технічна заглушка, етап 2",
-      "reviewStatus": "placeholder",
-      "condition": null,
-      "nameUk": null,
+      "id": "condition-dehydrated",
+      "source": "content/source/message.txt, розділ 10, «Структура бази результатів»",
+      "reviewStatus": "draft",
+      "condition": "dehydrated",
+      "nameUk": "Зневоднена",
       "description": null
     },
     {
-      "id": "placeholder-condition-2",
-      "source": "технічна заглушка, етап 2",
-      "reviewStatus": "placeholder",
-      "condition": null,
-      "nameUk": null,
+      "id": "condition-sensitive",
+      "source": "content/source/message.txt, розділ 10, «Структура бази результатів»",
+      "reviewStatus": "draft",
+      "condition": "sensitive",
+      "nameUk": "Чутлива",
+      "description": null
+    },
+    {
+      "id": "condition-reactive",
+      "source": "content/source/message.txt, розділ 10, «Структура бази результатів»",
+      "reviewStatus": "draft",
+      "condition": "reactive",
+      "nameUk": "Реактивна",
+      "description": null
+    },
+    {
+      "id": "condition-combination",
+      "source": "content/source/message.txt, розділ 10, «Структура бази результатів»",
+      "reviewStatus": "draft",
+      "condition": "combination",
+      "nameUk": "Комбінована",
+      "description": null
+    },
+    {
+      "id": "condition-breakouts",
+      "source": "content/source/message.txt, розділ 10, «Структура бази результатів»",
+      "reviewStatus": "draft",
+      "condition": "breakouts",
+      "nameUk": "З висипаннями / запаленнями",
+      "description": null
+    },
+    {
+      "id": "condition-pigmentation",
+      "source": "content/source/message.txt, розділ 10, «Структура бази результатів»",
+      "reviewStatus": "draft",
+      "condition": "pigmentation",
+      "nameUk": "З пігментацією / постакне",
+      "description": null
+    },
+    {
+      "id": "condition-aging_signs",
+      "source": "content/source/message.txt, розділ 10, «Структура бази результатів»",
+      "reviewStatus": "draft",
+      "condition": "aging_signs",
+      "nameUk": "З ознаками вікових змін",
+      "description": null
+    },
+    {
+      "id": "condition-stable",
+      "source": "content/source/message.txt, розділ 10, «Структура бази результатів»",
+      "reviewStatus": "draft",
+      "condition": "stable",
+      "nameUk": "Стабільна",
       "description": null
     }
   ]

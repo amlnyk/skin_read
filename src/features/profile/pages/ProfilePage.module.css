@@ -1,0 +1,16 @@
+.page {
+  display: grid;
+  align-content: start;
+  gap: var(--space-5);
+  padding: var(--space-4);
+}
+
+.updated {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.actions {
+  display: grid;
+  gap: var(--space-3);
+}

@@ -1,4 +1,5 @@
-import { Navigate } from 'react-router-dom';
+import { useMemo } from 'react';
+import { Navigate, useSearchParams } from 'react-router-dom';
 import { t } from '@/i18n';
 import { Button, ProgressBar } from '@/ui';
 import { ContradictionDialog } from '../components/ContradictionDialog';
@@ -6,8 +7,12 @@ import { QuestionView } from '../components/QuestionView';
 import { useTestFlow } from '../hooks/useTestFlow';
 import styles from './TestPage.module.css';
 
+// `/test?only=<question ids separated by commas>` asks just those questions ("Change" on the profile).
 export function TestPage() {
-  const flow = useTestFlow();
+  const [params] = useSearchParams();
+  const only = params.get('only');
+  const scope = useMemo(() => (only ? only.split(',').filter(Boolean) : null), [only]);
+  const flow = useTestFlow(scope);
 
   if (flow.finished) return <Navigate to="/test/result" replace />;
 

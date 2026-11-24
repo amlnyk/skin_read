@@ -14,7 +14,11 @@ import {
   createTestStore,
 } from '@/test/fakes';
 import { TestPage } from './pages/TestPage';
-import { TestResultPage } from './pages/TestResultPage';
+
+// The real result screen lives in features/profile; here a stub marks where the test ends.
+function ResultStub() {
+  return <h1>result</h1>;
+}
 
 type Options = {
   adapter?: ReturnType<typeof createMemoryAdapter>;
@@ -31,7 +35,7 @@ function setup({
   const router = createMemoryRouter(
     [
       { path: '/test', element: <TestPage /> },
-      { path: '/test/result', element: <TestResultPage /> },
+      { path: '/test/result', element: <ResultStub /> },
     ],
     { initialEntries: [path] },
   );
@@ -295,7 +299,7 @@ describe('the contradiction in question 2', () => {
 describe('the whole test', () => {
   function answerRequiredAndSkipTheRest() {
     for (let step = 0; step < 20; step += 1) {
-      if (screen.queryByRole('heading', { name: t('test.resultTitle') })) return;
+      if (screen.queryByRole('heading', { name: 'result' })) return;
       const skip = screen.queryByRole('button', { name: t('test.skip') });
       if (skip) {
         fireEvent.click(skip);
@@ -312,7 +316,7 @@ describe('the whole test', () => {
     const { store, router } = setup();
     answerRequiredAndSkipTheRest();
 
-    expect(screen.getByRole('heading', { name: t('test.resultTitle') })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'result' })).toBeInTheDocument();
     expect(router.state.location.pathname).toBe('/test/result');
     const draft = store.getState().testDraft;
     expect(draft.currentQuestionId).toBeNull();
@@ -349,16 +353,10 @@ describe('the whole test', () => {
     expect(screen.getByRole('radio', { name: '18–24' })).toBeInTheDocument();
   });
 
-  it('after the end: thanks, the raw answers stay saved, and "Try again" starts over', () => {
-    const { store, router } = setup();
+  it('after the end the raw answers stay saved for the profile', () => {
+    const { store } = setup();
     answerRequiredAndSkipTheRest();
     expect(Object.keys(store.getState().testDraft.answers)).toHaveLength(7);
-
-    fireEvent.click(screen.getByRole('button', { name: t('test.retry') }));
-    expect(router.state.location.pathname).toBe('/test');
-    expect(heading(Q1)).toBeInTheDocument();
-    expect(store.getState().testDraft.answers).toEqual({});
-    expect(store.getState().testDraft.startedAt).toBeNull();
   });
 
   it('a finished test sends /test to the result', async () => {
@@ -370,19 +368,13 @@ describe('the whole test', () => {
     expect(router.state.location.pathname).toBe('/test/result');
   });
 
-  it('an unfinished test sends the result page back to /test', () => {
-    const { router } = setup({ path: '/test/result' });
-    expect(router.state.location.pathname).toBe('/test');
-    expect(heading(Q1)).toBeInTheDocument();
-  });
-
   it('the finished test is remembered after a reload', () => {
     const adapter = createMemoryAdapter();
     setup({ adapter });
     answerRequiredAndSkipTheRest();
     cleanup();
     const again = setup({ adapter, path: '/test/result' });
-    expect(screen.getByRole('heading', { name: t('test.resultTitle') })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'result' })).toBeInTheDocument();
     expect(again.router.state.location.pathname).toBe('/test/result');
   });
 });
@@ -419,7 +411,7 @@ describe('edge cases of the content', () => {
     fireEvent.change(screen.getByRole('textbox'), { target: { value: 'My words' } });
     expect(store.getState().testDraft.answers).toEqual({ free: 'My words' });
     fireEvent.click(screen.getByRole('button', { name: t('test.finish') }));
-    expect(screen.getByRole('heading', { name: t('test.resultTitle') })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'result' })).toBeInTheDocument();
   });
 
   it('finishing with a required answer missing returns to that question', () => {
@@ -429,5 +421,40 @@ describe('edge cases of the content', () => {
     fireEvent.click(screen.getByRole('button', { name: t('test.finish') }));
     expect(heading(Q1)).toBeInTheDocument();
     expect(store.getState().testDraft.currentQuestionId).toBe('q1_base_type');
+  });
+});
+
+describe('a scoped test (changing one group on the profile screen)', () => {
+  const FULL: TestAnswers = {
+    ...REQUIRED_DONE,
+    q5_avoid: ['none'],
+    q7_products_count: '1_2',
+    q8_care_time: 'morning_evening',
+  };
+
+  it('asks only the questions of the group and then goes to the result', () => {
+    const { store, router } = setup({ path: '/test?only=q3_goals' });
+    prefill(store, 'q3_goals', FULL);
+
+    expect(heading(Q3)).toBeInTheDocument();
+    expect(screen.getByRole('progressbar')).toHaveAttribute('max', '1');
+    expect(screen.queryByRole('button', { name: t('test.back') })).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: t('test.finish') }));
+    expect(router.state.location.pathname).toBe('/test/result');
+    expect(store.getState().testDraft.currentQuestionId).toBeNull();
+    expect(store.getState().testDraft.answers).toEqual(FULL);
+  });
+
+  it('the cycle effects join the group only when the cycle answer opens them', () => {
+    const { store } = setup({ path: '/test?only=q6_1_cycle,q6_1_effects' });
+    prefill(store, 'q6_1_cycle', { ...FULL, q6_1_cycle: ['pre_menstrual'] });
+    expect(screen.getByRole('progressbar')).toHaveAttribute('max', '2');
+  });
+
+  it('unknown ids in the address are ignored: the group is just empty', () => {
+    const { store } = setup({ path: '/test?only=nonsense' });
+    prefill(store, 'q3_goals', FULL);
+    expect(screen.getByText(t('test.empty'))).toBeInTheDocument();
   });
 });

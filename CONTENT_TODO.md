@@ -14,6 +14,15 @@
 - **Окреме уточнення щодо комбінованого типу шкіри** (ТЗ, питання 1, «рекомендоване доповнення»): не додано, чекає рішення.
 - **Текст вікна суперечності** (питання 2: «Стабільна» разом з «Чутлива», «Реактивна» або «З висипаннями / запаленнями»). Заголовок «Уточни, що ближче до істини зараз» узято із завдання етапу, пояснювальний рядок у вікні нейтральний і тимчасовий (`src/i18n/uk.ts`, `test.contradictionText`). Потрібен текст косметолога.
 
+## Етап 4: профіль і безпека (заповнює вручну авторка / косметолог)
+
+- **Описи типів шкіри** (жирна, суха, нормальна): записи в `skin-types.json` мають назви з ТЗ (розділ 10), `description: null`. У матеріалах «готові тексти, надані авторкою» не знайдено. Закриває: косметолог.
+- **Описи станів** (зневоднена, чутлива, реактивна, комбінована, з висипаннями, з пігментацією, з ознаками вікових змін, стабільна): `conditions.json`, назви з ТЗ, `description: null`. Окремий блок для комбінованої шкіри ТЗ прямо просить погодити з косметологом; чутлива й реактивна можуть мати спільний блок з додатковою обережністю для реактивної. Поки тексту немає, екран пише «Інформація готується», а для комбінованої додає примітку.
+- **Тексти повідомлень безпеки** (`safety-messages.json`): «Негайно звернися за екстреною медичною допомогою.» і «Звернися за медичною допомогою.» це мої мінімальні переформулювання директив ТЗ (розділ 25) для користувача, статус `draft`. Потрібні затверджені формулювання.
+- **Примітки до прапорців безпеки** (лікарське призначення, вагітність або планування, інші обмеження): записи `safety-note-*` це `placeholder`, тексту в ТЗ немає. Застосунок не повинен радити припиняти лікування (ТЗ, розділ 25). Закриває: косметолог.
+- **Питання про невідкладні ознаки** (утруднене дихання, набряк губ чи язика): у тесті їх немає, бо в ТЗ немає ні формулювання, ні варіантів. Код уже вміє їх обробляти за id `breathing_difficulty` і `lip_or_tongue_swelling`. Потрібне рішення, чи додавати такі варіанти до блоку безпеки.
+- **Службові примітки на екрані результату** (`uk.ts`, ключі `profile.note*`, `profile.minorNote`, `profile.contradictionNote`): нейтральні тимчасові формулювання про дії застосунку, не косметологічні поради. Перевірити тон.
+
 <!-- content-audit:start -->
 ## Записи, що чекають наповнення або затвердження (створено автоматично)
 
@@ -21,18 +30,15 @@
 
 ### placeholder
 
-- skin-types.json: placeholder-skin-type-1
-- skin-types.json: placeholder-skin-type-2
-- conditions.json: placeholder-condition-1
-- conditions.json: placeholder-condition-2
 - recommendations.json: placeholder-recommendation-1
 - ingredient-groups.json: placeholder-group-1
 - ingredient-groups.json: placeholder-group-2
 - ingredients.json: placeholder-ingredient-1
 - ingredients.json: placeholder-ingredient-2
 - compat-rules.json: placeholder-rule-1
-- safety-messages.json: placeholder-safety-1
-- safety-messages.json: placeholder-safety-2
+- safety-messages.json: safety-note-prescribed_derm_treatment
+- safety-messages.json: safety-note-pregnancy_or_planning
+- safety-messages.json: safety-note-other_limits
 - product-categories.json: placeholder-category-1
 - product-categories.json: placeholder-category-2
 
@@ -50,6 +56,19 @@
 - questionnaire.json: q8_care_time
 - questionnaire.json: q9_safety_flags
 - questionnaire.json: q10_age_band
+- skin-types.json: skin-type-oily
+- skin-types.json: skin-type-dry
+- skin-types.json: skin-type-normal
+- conditions.json: condition-dehydrated
+- conditions.json: condition-sensitive
+- conditions.json: condition-reactive
+- conditions.json: condition-combination
+- conditions.json: condition-breakouts
+- conditions.json: condition-pigmentation
+- conditions.json: condition-aging_signs
+- conditions.json: condition-stable
+- safety-messages.json: safety-emergency
+- safety-messages.json: safety-see_doctor
 - disclaimer.json: medical-disclaimer
 
 <!-- content-audit:end -->

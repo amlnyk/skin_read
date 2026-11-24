@@ -4,7 +4,7 @@ import { t } from '@/i18n';
 import { CarePage } from '@/features/care';
 import { HomePage } from '@/features/home';
 import { OnboardingPage } from '@/features/onboarding';
-import { ProfilePage } from '@/features/profile';
+import { ProfilePage, ResultPage } from '@/features/profile';
 import { OnboardingGuard } from './guards/OnboardingGuard';
 import { Layout } from './Layout';
 
@@ -16,9 +16,6 @@ const ReferencePage = lazy(() =>
 );
 // The test has its own full-screen layout (no bottom navigation) and loads on demand.
 const TestPage = lazy(() => import('@/features/test').then((m) => ({ default: m.TestPage })));
-const TestResultPage = lazy(() =>
-  import('@/features/test').then((m) => ({ default: m.TestResultPage })),
-);
 
 function Loading() {
   return <p role="status">{t('common.loading')}</p>;
@@ -59,11 +56,7 @@ export const appRoutes: RouteObject[] = [
       },
       {
         path: '/test/result',
-        element: (
-          <Suspense fallback={<Loading />}>
-            <TestResultPage />
-          </Suspense>
-        ),
+        element: <ResultPage />,
       },
       {
         path: '/',

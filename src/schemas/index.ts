@@ -8,6 +8,7 @@ export * from './product';
 export * from './profile';
 export * from './questionIds';
 export * from './routine';
+export * from './safetyMessageIds';
 export * from './scan';
 export * from './settings';
 export * from './test';

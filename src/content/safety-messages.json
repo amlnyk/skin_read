@@ -1,17 +1,38 @@
 {
   "items": [
     {
-      "id": "placeholder-safety-1",
-      "source": "технічна заглушка, етап 2",
+      "id": "safety-emergency",
+      "source": "content/source/message.txt, розділ 25, «Реакція на небезпечні симптоми» (директива застосунку, переформульована для користувача; чекає затвердження)",
+      "reviewStatus": "draft",
+      "level": "emergency",
+      "text": "Негайно звернися за екстреною медичною допомогою."
+    },
+    {
+      "id": "safety-see_doctor",
+      "source": "content/source/message.txt, розділ 25, «Реакція на небезпечні симптоми» (директива застосунку, переформульована для користувача; чекає затвердження)",
+      "reviewStatus": "draft",
+      "level": "see_doctor",
+      "text": "Звернися за медичною допомогою."
+    },
+    {
+      "id": "safety-note-prescribed_derm_treatment",
+      "source": "технічна заглушка, етап 4: у ТЗ немає тексту примітки",
       "reviewStatus": "placeholder",
       "level": "note",
       "text": null
     },
     {
-      "id": "placeholder-safety-2",
-      "source": "технічна заглушка, етап 2",
+      "id": "safety-note-pregnancy_or_planning",
+      "source": "технічна заглушка, етап 4: у ТЗ немає тексту примітки",
       "reviewStatus": "placeholder",
-      "level": "see_doctor",
+      "level": "note",
+      "text": null
+    },
+    {
+      "id": "safety-note-other_limits",
+      "source": "технічна заглушка, етап 4: у ТЗ немає тексту примітки",
+      "reviewStatus": "placeholder",
+      "level": "note",
       "text": null
     }
   ]

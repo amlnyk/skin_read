@@ -1,7 +1,0 @@
-.page {
-  display: grid;
-  align-content: start;
-  gap: var(--space-4);
-  min-height: 100dvh;
-  padding: var(--space-4);
-}

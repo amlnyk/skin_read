@@ -1,19 +1,27 @@
 {
   "items": [
     {
-      "id": "placeholder-skin-type-1",
-      "source": "технічна заглушка, етап 2",
-      "reviewStatus": "placeholder",
-      "baseType": null,
-      "nameUk": null,
+      "id": "skin-type-oily",
+      "source": "content/source/message.txt, розділ 10, «Структура бази результатів»",
+      "reviewStatus": "draft",
+      "baseType": "oily",
+      "nameUk": "Жирна або схильна до жирності",
       "description": null
     },
     {
-      "id": "placeholder-skin-type-2",
-      "source": "технічна заглушка, етап 2",
-      "reviewStatus": "placeholder",
-      "baseType": null,
-      "nameUk": null,
+      "id": "skin-type-dry",
+      "source": "content/source/message.txt, розділ 10, «Структура бази результатів»",
+      "reviewStatus": "draft",
+      "baseType": "dry",
+      "nameUk": "Суха або схильна до сухості",
+      "description": null
+    },
+    {
+      "id": "skin-type-normal",
+      "source": "content/source/message.txt, розділ 10, «Структура бази результатів»",
+      "reviewStatus": "draft",
+      "baseType": "normal",
+      "nameUk": "Нормальна / резистентна",
       "description": null
     }
   ]

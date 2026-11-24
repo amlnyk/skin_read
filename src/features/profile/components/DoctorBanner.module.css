@@ -1,0 +1,10 @@
+.banner {
+  padding: var(--space-4);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  background: var(--color-notice-bg);
+}
+
+.banner h2 {
+  margin-bottom: var(--space-2);
+}
