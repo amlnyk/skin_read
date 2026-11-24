@@ -1,0 +1,12 @@
+node_modules
+dist
+coverage
+.env
+.env.*
+!.env.example
+.vercel
+.DS_Store
+Thumbs.db
+
+# Uncomment if the repository is public and the source materials contain personal data:
+# content/source/
