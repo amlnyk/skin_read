@@ -1,8 +1,10 @@
+import { t } from '@/i18n';
+
 export function ProfilePage() {
   return (
     <section>
-      <h1>Профіль</h1>
-      <p>Розділ ще в розробці.</p>
+      <h1>{t('nav.profile')}</h1>
+      <p>{t('common.inDevelopment')}</p>
     </section>
   );
 }

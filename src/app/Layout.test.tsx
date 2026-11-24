@@ -1,6 +1,7 @@
 import { render, screen, within } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
+import { t } from '@/i18n';
 import { Layout } from './Layout';
 
 describe('Layout', () => {
@@ -15,17 +16,17 @@ describe('Layout', () => {
       </MemoryRouter>,
     );
 
-    const nav = screen.getByRole('navigation', { name: 'Основна навігація' });
+    const nav = screen.getByRole('navigation', { name: t('nav.label') });
     const links = within(nav).getAllByRole('link');
     expect(links).toHaveLength(5);
     expect(links.map((link) => link.textContent)).toEqual([
-      'Головна',
-      'Мій догляд',
-      'Сканер',
-      'Довідник',
-      'Профіль',
+      t('nav.home'),
+      t('nav.care'),
+      t('nav.scan'),
+      t('nav.reference'),
+      t('nav.profile'),
     ]);
-    expect(within(nav).getByRole('link', { name: 'Головна' })).toHaveAttribute(
+    expect(within(nav).getByRole('link', { name: t('nav.home') })).toHaveAttribute(
       'aria-current',
       'page',
     );

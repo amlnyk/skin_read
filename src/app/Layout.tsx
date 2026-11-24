@@ -1,24 +1,30 @@
+import { Suspense } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
+import { t, type MessageKey } from '@/i18n';
 import { ErrorBoundary } from './ErrorBoundary';
 import styles from './Layout.module.css';
 
-const tabs = [
-  { to: '/', label: 'Головна', end: true },
-  { to: '/care', label: 'Мій догляд', end: false },
-  { to: '/scan', label: 'Сканер', end: false },
-  { to: '/reference', label: 'Довідник', end: false },
-  { to: '/profile', label: 'Профіль', end: false },
-] as const;
+type Tab = { to: string; labelKey: MessageKey; end: boolean };
+
+const tabs: readonly Tab[] = [
+  { to: '/', labelKey: 'nav.home', end: true },
+  { to: '/care', labelKey: 'nav.care', end: false },
+  { to: '/scan', labelKey: 'nav.scan', end: false },
+  { to: '/reference', labelKey: 'nav.reference', end: false },
+  { to: '/profile', labelKey: 'nav.profile', end: false },
+];
 
 export function Layout() {
   return (
     <div className={styles.shell}>
       <main className={styles.main}>
         <ErrorBoundary>
-          <Outlet />
+          <Suspense fallback={<p role="status">{t('common.loading')}</p>}>
+            <Outlet />
+          </Suspense>
         </ErrorBoundary>
       </main>
-      <nav className={styles.nav} aria-label="Основна навігація">
+      <nav className={styles.nav} aria-label={t('nav.label')}>
         <ul className={styles.list}>
           {tabs.map((tab) => (
             <li key={tab.to} className={styles.item}>
@@ -29,7 +35,7 @@ export function Layout() {
                   isActive ? `${styles.link} ${styles.active}` : styles.link
                 }
               >
-                {tab.label}
+                {t(tab.labelKey)}
               </NavLink>
             </li>
           ))}

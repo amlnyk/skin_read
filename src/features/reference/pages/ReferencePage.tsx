@@ -1,8 +1,10 @@
+import { t } from '@/i18n';
+
 export function ReferencePage() {
   return (
     <section>
-      <h1>Довідник</h1>
-      <p>Розділ ще в розробці.</p>
+      <h1>{t('nav.reference')}</h1>
+      <p>{t('common.inDevelopment')}</p>
     </section>
   );
 }

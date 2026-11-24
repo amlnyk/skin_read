@@ -1,0 +1,9 @@
+node_modules
+dist
+coverage
+package-lock.json
+content/source
+.husky/_
+# Hand-written documents and plain text are not auto-formatted.
+*.md
+*.txt

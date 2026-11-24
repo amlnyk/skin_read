@@ -1,0 +1,7 @@
+npx lint-staged
+
+if ! command -v gitleaks >/dev/null 2>&1; then
+  echo "gitleaks not found in PATH. Commit from Windows PowerShell. Commit stopped."
+  exit 1
+fi
+gitleaks protect --staged --redact -v

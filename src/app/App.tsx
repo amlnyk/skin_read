@@ -1,8 +1,10 @@
 import { RouterProvider } from 'react-router-dom';
 import { ErrorBoundary } from './ErrorBoundary';
-import { router } from './router';
+import type { AppRouter } from './router';
 
-export function App() {
+type Props = { router: AppRouter };
+
+export function App({ router }: Props) {
   return (
     <ErrorBoundary>
       <RouterProvider router={router} />

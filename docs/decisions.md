@@ -67,3 +67,23 @@
 
 - npm попередив, що eslint 9.39.5 більше не підтримується (deprecated). Зараз це не блокує. Перехід на новішу мажорну версію ESLint розглядається окремо, після перевірки сумісності з typescript-eslint і плагінами; мажорні оновлення лише через запис у цьому журналі.
 - `ErrorBoundary` не має `componentDidCatch`, щоб нічого не логувати й не зберігати дані користувача.
+
+## 2026-11-24. Етап 1B: рішення
+
+1. **Межі шарів: `no-restricted-imports`, а не `eslint-plugin-boundaries`.** Причини: нуль нових пакетів, повна сумісність із ESLint 9 flat config (а eslint 9.39 уже deprecated, плагін міг би відставати від нової мажорної версії), правила видно прямо в `eslint.config.js`. Ціна: перевіряється текст шляху, не реальний файл; тому між шарами вимагається аліас `@/`. Деталі в ARCHITECTURE.md, розділ 2.
+2. **Аліас `@/`** = `src/`: у `tsconfig.json` (paths, без baseUrl, бо він застарів у TypeScript 6) і `vite.config.ts` (resolve.alias, діє й у Vitest). Для `vite.config.ts` потрібні типи Node, тому додано `@types/node` і `"types": ["node"]` у tsconfig.
+3. **i18n.** Словник `src/i18n/uk.ts` + `t(key)` з типізованими ключами. Заборона голих рядків: `react/jsx-no-literals` (текст), плюс власні селектори на кирилицю в атрибутах і виразах JSX та на `aria-label|alt|title|placeholder`. Уся кирилиця з Етапу 1 перенесена в словник. Текст медичного застереження лишається в `src/content/disclaimer.json` (це доменний контент, не інтерфейс).
+4. **Сервіси.** Порти в `lib/ports.ts`, реалізації в `lib/*`, збирання в `app/compositionRoot.ts`, подача в React через `ServicesProvider`/`useServices()`, які лежать у `src/lib/services`, бо features не можуть імпортувати app. Фейки для тестів у `src/test/fakes.ts`.
+5. **Порт `StorageAdapter` повертає `Result`**, а не кидає виняток (квота, вимкнений localStorage). `ContentProvider` і `LabelReader` визначені мінімально й уточнюються на етапах контенту й фото.
+6. **Генерація id** має запасний шлях без `crypto.randomUUID` (він є лише в безпечному контексті; при перевірці з телефона через `http://<ip>` його немає).
+7. **Env.** `parseEnv` (zod) повертає `Result`; порожні значення з `.env.example` вважаються «не задано». При помилці `main.tsx` показує просте повідомлення замість порожнього екрана й логує лише імена змінних.
+8. **Lazy-маршрути** (`React.lazy` + `Suspense` у Layout): scan, reference; journal і compare додадуться разом із фічами.
+9. **Guard онбордингу** працює від заглушки `store/onboardingStore.ts` зі значенням `completed: true` за замовчуванням, щоб застосунок лишався придатним до перегляду. Редірект на `/onboarding` покритий тестом. Реальний прапорець (із persist) зʼявиться з онбордингом.
+10. **Покриття.** Vitest + `@vitest/coverage-v8`; пороги: рядки загалом не нижче 70%, `src/logic/**` не нижче 90% (поки logic порожня, поріг проходить). `index.ts`, тести, `src/test`, `main.tsx` у покриття не рахуються.
+11. **Prettier входить у `npm run check`** (`format:check`). `.prettierignore` виключає `*.md`, `*.txt`, `package-lock.json`, `content/source`, щоб авторські документи не переформатовувалися автоматично. `.gitattributes` (`eol=lf`) прибирає попередження CRLF у Windows.
+12. **husky + lint-staged** замінюють локальний неверсований `.git/hooks/pre-commit`. Хук `.husky/pre-commit`: lint-staged (eslint --fix, prettier), потім `gitleaks protect --staged`. Якщо gitleaks немає в PATH, коміт зупиняється (навмисно). Коміти робити з Windows PowerShell.
+13. **CI.** `.github/workflows/ci.yml`: `actions/checkout@v7`, `actions/setup-node@v7` (Node LTS, кеш npm), `npm ci`, `npm run check`, `npm audit --audit-level=high`, `gitleaks/gitleaks-action@v3`. Версії дій узято як найновіші мажорні теги на момент роботи (`git ls-remote --tags`). Теги можна замінити на SHA пізніше; Dependabot оновлює дії щотижня.
+14. **Захист гілки main** і налаштування безпеки GitHub описано в `docs/ci-setup.md`: це робить власниця репозиторію на сайті. Vercel-частини пропущені.
+15. **Результат запуску 1B** (локально, 2026-11-24): `npm run check` зелений; 41 тест; покриття рядків 94,5% (поріг 70%); `npm audit` 0 вразливостей; усі 10 проб ESLint і проба pre-commit пройшли. Початковий JS головного маршруту 120,7 КБ gzip (ціль не більше 200 КБ); `scan` і `reference` винесені в окремі чанки.
+16. **Знайдена й виправлена помилка:** `createLocalStorageAdapter(undefined)` використовував реальний localStorage (JS підставляє значення за замовчуванням). Тепер «недоступно» передається як `null`.
+

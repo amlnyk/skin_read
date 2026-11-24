@@ -1,4 +1,5 @@
 import { Component, type ReactNode } from 'react';
+import { t } from '@/i18n';
 import styles from './ErrorBoundary.module.css';
 
 type Props = { children: ReactNode };
@@ -21,10 +22,10 @@ export class ErrorBoundary extends Component<Props, State> {
     if (this.state.hasError) {
       return (
         <div className={styles.box} role="alert">
-          <h1 className={styles.title}>Щось пішло не так</h1>
-          <p>Спробуй оновити екран. Твої дані не втрачено.</p>
+          <h1 className={styles.title}>{t('errors.title')}</h1>
+          <p>{t('errors.hint')}</p>
           <button type="button" className={styles.button} onClick={this.reset}>
-            Спробувати знову
+            {t('errors.retry')}
           </button>
         </div>
       );
