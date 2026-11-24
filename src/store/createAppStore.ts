@@ -15,6 +15,7 @@ function pickPersisted(state: AppState): PersistedState {
     onboarding: state.onboarding,
     testDraft: state.testDraft,
     profile: state.profile,
+    careSetup: state.careSetup,
     routine: state.routine,
     routineLog: state.routineLog,
     products: state.products,
@@ -124,6 +125,10 @@ export function createAppStore(adapter: StorageAdapter, key: string = STORAGE_KE
             },
             remove: () => set({ profile: null }),
           },
+          careSetup: {
+            set: (careSetup) => set({ careSetup }),
+            update: (patch) => set({ careSetup: { ...get().careSetup, ...patch } }),
+          },
           routine: makeCollection(
             () => get().routine,
             (routine) => set({ routine }),
@@ -156,10 +161,14 @@ export function createAppStore(adapter: StorageAdapter, key: string = STORAGE_KE
             () => get().journal,
             (journal) => set({ journal }),
           ),
-          needs: makeCollection(
-            () => get().needs,
-            (needs) => set({ needs }),
-          ),
+          needs: {
+            ...makeCollection(
+              () => get().needs,
+              (needs) => set({ needs }),
+            ),
+            upsert: (item) =>
+              set({ needs: [...get().needs.filter((need) => need.id !== item.id), item] }),
+          },
           settings: {
             set: (settings) => set({ settings }),
             update: (patch) => set({ settings: { ...get().settings, ...patch } }),

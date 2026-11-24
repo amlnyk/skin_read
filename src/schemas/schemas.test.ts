@@ -1,13 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import valid from '@fixtures/persisted-valid.json';
 import {
+  careSetupSchema,
   contentBundleSchema,
   ingredientSchema,
   journalEntrySchema,
   persistedStateSchema,
   productSchema,
+  routineStepInfoSchema,
   scanResultSchema,
   settingsSchema,
+  shoppingNeedSchema,
   skinProfileSchema,
 } from './index';
 
@@ -165,5 +168,53 @@ describe('content schemas', () => {
 
   it('the bundle needs all containers', () => {
     expect(contentBundleSchema.safeParse({}).success).toBe(false);
+  });
+});
+
+describe('care setup, needs and routine steps (stage 5)', () => {
+  it('care setup: a known scenario, a category list and the revision of the profile', () => {
+    const setup = { scenario: 'partial', ownedCategories: ['moisturizer'], builtForRevision: 1 };
+    expect(careSetupSchema.safeParse(setup).success).toBe(true);
+    expect(
+      careSetupSchema.safeParse({ scenario: null, ownedCategories: [], builtForRevision: null })
+        .success,
+    ).toBe(true);
+    expect(careSetupSchema.safeParse({ ...setup, scenario: 'maybe' }).success).toBe(false);
+    expect(careSetupSchema.safeParse({ ...setup, ownedCategories: ['soap'] }).success).toBe(false);
+    expect(careSetupSchema.safeParse({ ...setup, builtForRevision: 0 }).success).toBe(false);
+  });
+
+  it('a need keeps only what the user did with it', () => {
+    expect(
+      shoppingNeedSchema.safeParse({ id: 'need-cleanser', done: false, dismissed: true }).success,
+    ).toBe(true);
+    expect(shoppingNeedSchema.safeParse({ id: 'need-cleanser', done: false }).success).toBe(false);
+  });
+
+  const stepInfo = {
+    id: 'step-base-cleanser',
+    source: 'test',
+    reviewStatus: 'placeholder',
+    kind: 'base',
+    category: 'cleanser',
+    slots: [],
+    title: null,
+    purpose: null,
+    frequency: null,
+    lookFor: [],
+    goals: [],
+    reactionGroups: [],
+    avoidTags: [],
+    antiAging: false,
+  };
+
+  it('a routine step record may have no texts at all (a placeholder)', () => {
+    expect(routineStepInfoSchema.safeParse(stepInfo).success).toBe(true);
+  });
+
+  it('a routine step record refuses an unknown kind, slot or goal', () => {
+    expect(routineStepInfoSchema.safeParse({ ...stepInfo, kind: 'extra' }).success).toBe(false);
+    expect(routineStepInfoSchema.safeParse({ ...stepInfo, slots: ['noon'] }).success).toBe(false);
+    expect(routineStepInfoSchema.safeParse({ ...stepInfo, goals: ['glow'] }).success).toBe(false);
   });
 });

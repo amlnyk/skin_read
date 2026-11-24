@@ -58,6 +58,7 @@ export function createEmptyBundle(): ContentBundle {
     compatRules: [],
     safetyMessages: [],
     productCategories: [],
+    routineSteps: [],
   };
 }
 

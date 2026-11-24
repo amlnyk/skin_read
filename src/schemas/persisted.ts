@@ -3,7 +3,7 @@ import { journalEntrySchema } from './journal';
 import { shoppingNeedSchema } from './needs';
 import { productSchema } from './product';
 import { skinProfileSchema } from './profile';
-import { routineLogSchema, routineSchema } from './routine';
+import { careSetupSchema, routineLogSchema, routineSchema } from './routine';
 import { scanResultSchema } from './scan';
 import { settingsSchema } from './settings';
 import { testDraftSchema } from './test';
@@ -14,6 +14,7 @@ export const persistedStateSchema = z.object({
   onboarding: z.object({ completed: z.boolean() }),
   testDraft: testDraftSchema,
   profile: skinProfileSchema.nullable(),
+  careSetup: careSetupSchema,
   routine: z.array(routineSchema),
   routineLog: z.array(routineLogSchema),
   products: z.array(productSchema),

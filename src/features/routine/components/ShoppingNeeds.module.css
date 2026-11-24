@@ -1,0 +1,68 @@
+.list {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.hint {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.group {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.items {
+  display: grid;
+  gap: var(--space-3);
+  padding: 0;
+}
+
+.card {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  list-style: none;
+}
+
+.facts {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.facts dt {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.facts ul {
+  padding-left: var(--space-5);
+}
+
+.reason {
+  color: var(--color-text-muted);
+}
+
+.done {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--tap-target);
+}
+
+.done input {
+  width: 24px;
+  height: 24px;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target);
+  color: var(--color-primary);
+  font-weight: 700;
+}

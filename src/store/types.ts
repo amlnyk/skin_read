@@ -1,4 +1,5 @@
 import type {
+  CareSetup,
   JournalEntry,
   PersistedState,
   Product,
@@ -38,6 +39,7 @@ export type AppActions = {
     update(patch: Partial<SkinProfile>): void;
     remove(): void;
   };
+  careSetup: { set(setup: CareSetup): void; update(patch: Partial<CareSetup>): void };
   routine: Collection<Routine>;
   routineLog: {
     set(entries: RoutineLog[]): void;
@@ -48,7 +50,10 @@ export type AppActions = {
   products: Collection<Product>;
   scans: Collection<ScanResult>;
   journal: Collection<JournalEntry>;
-  needs: Collection<ShoppingNeed>;
+  needs: Collection<ShoppingNeed> & {
+    /** Adds the item or replaces the one with the same id. */
+    upsert(item: ShoppingNeed): void;
+  };
   settings: { set(settings: Settings): void; update(patch: Partial<Settings>): void };
   /** Puts every slice back to its initial value. */
   resetAll(): void;

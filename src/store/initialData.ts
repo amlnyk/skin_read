@@ -6,6 +6,7 @@ export function createInitialData(): PersistedState {
     onboarding: { completed: false },
     testDraft: { answers: {}, currentQuestionId: null, startedAt: null, updatedAt: null },
     profile: null,
+    careSetup: { scenario: null, ownedCategories: [], builtForRevision: null },
     routine: [],
     routineLog: [],
     products: [],

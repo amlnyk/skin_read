@@ -1,3 +1,4 @@
+export { analyzeSavedProfile } from './analyzeSavedProfile';
 export { answersFromProfile } from './answersFromProfile';
 export { applyRestrictions, type Candidate } from './applyRestrictions';
 export { buildProfile } from './buildProfile';

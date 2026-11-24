@@ -26,5 +26,6 @@ export function applyContentPolicy(bundle: ContentBundle, policy: ContentPolicy)
     compatRules: visible(bundle.compatRules, policy),
     safetyMessages: visible(bundle.safetyMessages, policy),
     productCategories: visible(bundle.productCategories, policy),
+    routineSteps: visible(bundle.routineSteps, policy),
   };
 }

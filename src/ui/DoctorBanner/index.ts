@@ -1,0 +1,1 @@
+export { DoctorBanner } from './DoctorBanner';

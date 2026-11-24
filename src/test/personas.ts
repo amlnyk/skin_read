@@ -136,5 +136,6 @@ export function profileContent({
     compatRules: [],
     safetyMessages: [],
     productCategories: [],
+    routineSteps: [],
   };
 }

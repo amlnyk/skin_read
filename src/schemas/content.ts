@@ -1,10 +1,14 @@
 import { z } from 'zod';
 import { LIMITS, contentMetaShape, idSchema } from './common';
 import {
+  avoidPrefSchema,
   baseTypeSchema,
   conditionSchema,
+  frequencySchema,
+  goalSchema,
   productCategorySchema,
   reactionGroupSchema,
+  slotSchema,
 } from './enums';
 
 // Text fields are nullable on purpose: when the cosmetologist's material is missing the field
@@ -131,6 +135,32 @@ export const questionSchema = z.object({
 });
 export type Question = z.infer<typeof questionSchema>;
 
+// ---- Routine steps ----
+// "base" records explain the base steps (cleanser, moisturizer, sunscreen): what the step is for
+// and which components to look for. "optional" records are candidates for the optional step of
+// the evening (or the morning); with no verified candidate the routine has no optional step.
+export const routineStepInfoSchema = z.object({
+  ...contentMetaShape,
+  kind: z.enum(['base', 'optional']),
+  category: productCategorySchema,
+  // where an optional step may stand; base records leave it empty
+  slots: z.array(slotSchema),
+  // the name of an optional step; base steps are named by their category
+  title: text,
+  purpose: text,
+  // how often an optional step is used; null while the cosmetologist has not given it
+  frequency: frequencySchema.nullable(),
+  // ids of ingredient groups to look for (a reference, checked by the content audit)
+  lookFor: z.array(idSchema),
+  // optional steps only: the goals that bring the step
+  goals: z.array(goalSchema),
+  // the reaction groups and preferences the step goes against
+  reactionGroups: z.array(reactionGroupSchema),
+  avoidTags: z.array(avoidPrefSchema),
+  antiAging: z.boolean(),
+});
+export type RoutineStepInfo = z.infer<typeof routineStepInfoSchema>;
+
 // ---- Single-record content ----
 export const disclaimerSchema = z.object({
   ...contentMetaShape,
@@ -149,5 +179,6 @@ export const contentBundleSchema = z.object({
   compatRules: z.array(compatibilityRuleSchema),
   safetyMessages: z.array(safetyMessageSchema),
   productCategories: z.array(productCategoryInfoSchema),
+  routineSteps: z.array(routineStepInfoSchema),
 });
 export type ContentBundle = z.infer<typeof contentBundleSchema>;

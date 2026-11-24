@@ -41,6 +41,9 @@
 - safety-messages.json: safety-note-other_limits
 - product-categories.json: placeholder-category-1
 - product-categories.json: placeholder-category-2
+- routine-steps.json: step-base-cleanser
+- routine-steps.json: step-base-moisturizer
+- routine-steps.json: step-base-sunscreen
 
 ### draft
 

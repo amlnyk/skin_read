@@ -116,5 +116,8 @@
     "source": "test fixture",
     "reviewStatus": "verified",
     "text": "Test disclaimer"
+  },
+  "routine-steps.json": {
+    "items": []
   }
 }

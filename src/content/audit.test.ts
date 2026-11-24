@@ -60,6 +60,32 @@ describe('auditContent', () => {
     expect(report.errors[0]).toContain('items.0.reviewStatus');
   });
 
+  it('reports a routine step that looks for an unknown ingredient group', () => {
+    const broken = clone();
+    broken['routine-steps.json'] = {
+      items: [
+        {
+          id: 'step-x',
+          source: 'test',
+          reviewStatus: 'draft',
+          kind: 'base',
+          category: 'cleanser',
+          slots: [],
+          title: null,
+          purpose: null,
+          frequency: null,
+          lookFor: ['no-such-group'],
+          goals: [],
+          reactionGroups: [],
+          avoidTags: [],
+          antiAging: false,
+        },
+      ],
+    };
+    const report = auditContent(broken);
+    expect(report.errors.some((e) => e.includes('"step-x" refers to unknown group'))).toBe(true);
+  });
+
   it('reports a broken disclaimer', () => {
     const report = auditContent({ ...(raw as Record<string, unknown>), 'disclaimer.json': {} });
     expect(report.errors.some((e) => e.startsWith('disclaimer.json'))).toBe(true);

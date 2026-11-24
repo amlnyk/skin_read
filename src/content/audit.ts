@@ -81,6 +81,15 @@ export function auditContent(raw: Readonly<Record<string, unknown>>): AuditRepor
       }
     }
 
+    // Routine steps may point only to real ingredient groups.
+    for (const step of bundle.routineSteps) {
+      for (const group of step.lookFor) {
+        if (!groupIds.has(group)) {
+          errors.push(`routine-steps.json: "${step.id}" refers to unknown group "${group}"`);
+        }
+      }
+    }
+
     // Questionnaire: option ids are unique inside a question; showIf points to a real
     // earlier question and to real option ids of it.
     const questionIndex = new Map(bundle.questionnaire.map((q, i) => [q.id, i]));

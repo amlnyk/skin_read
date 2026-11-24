@@ -143,6 +143,10 @@ export const frequencySchema = z.enum([
 ]);
 export type Frequency = z.infer<typeof frequencySchema>;
 
+// The answer to "Do you already have a care routine?" (stage 5).
+export const scenarioSchema = z.enum(['none', 'have', 'partial', 'skipped']);
+export type Scenario = z.infer<typeof scenarioSchema>;
+
 export const stepStatusSchema = z.enum(['owned', 'to_choose', 'optional', 'needs_check']);
 export type StepStatus = z.infer<typeof stepStatusSchema>;
 

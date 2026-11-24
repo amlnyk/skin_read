@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import valid from '@fixtures/persisted-valid.json';
+import valid1 from '@fixtures/persisted-v1.json';
 import type { Product } from '@/schemas';
 import {
   createJsdomStorageAdapter,
@@ -9,7 +10,7 @@ import {
 } from '@/test/fakes';
 import { createAppStore, STORAGE_KEY } from './createAppStore';
 
-const envelope = (state: unknown, version = 1) => JSON.stringify({ state, version });
+const envelope = (state: unknown, version = 2) => JSON.stringify({ state, version });
 
 describe('persistence round trip', () => {
   it('starts with initial data and a healthy status', () => {
@@ -29,7 +30,7 @@ describe('persistence round trip', () => {
       version: number;
       state: Record<string, unknown>;
     };
-    expect(saved.version).toBe(1);
+    expect(saved.version).toBe(2);
     // actions and the session status are never saved
     expect(saved.state).not.toHaveProperty('actions');
     expect(saved.state).not.toHaveProperty('persistence');
@@ -53,6 +54,19 @@ describe('persistence round trip', () => {
     const state = createAppStore(adapter).getState();
     expect(state.persistence).toEqual({ kind: 'ok' });
     expect(state.products).toHaveLength(1);
+  });
+
+  it('restores data saved by version 1 and brings it to the current shape', () => {
+    const adapter = createMemoryAdapter({ [STORAGE_KEY]: envelope(valid1, 1) });
+    const state = createAppStore(adapter).getState();
+    expect(state.persistence).toEqual({ kind: 'ok' });
+    expect(state.careSetup).toEqual({
+      scenario: null,
+      ownedCategories: [],
+      builtForRevision: null,
+    });
+    expect(state.needs).toEqual([{ id: 'need-1', done: false, dismissed: false }]);
+    expect(state.profile?.id).toBe('profile-1');
   });
 
   it('works with the real jsdom localStorage', () => {
@@ -111,6 +125,32 @@ describe('actions', () => {
     ]);
     actions.routineLog.remove('2026-01-01', 'am');
     expect(store.getState().routineLog.map((e) => e.slot)).toEqual(['pm']);
+  });
+
+  it('care setup: set and update', () => {
+    const store = createAppStore(createMemoryAdapter());
+    const { actions } = store.getState();
+    actions.careSetup.set({
+      scenario: 'partial',
+      ownedCategories: ['moisturizer'],
+      builtForRevision: 1,
+    });
+    actions.careSetup.update({ builtForRevision: 2 });
+    expect(store.getState().careSetup).toEqual({
+      scenario: 'partial',
+      ownedCategories: ['moisturizer'],
+      builtForRevision: 2,
+    });
+  });
+
+  it('needs: upsert adds an item and replaces the one with the same id', () => {
+    const store = createAppStore(createMemoryAdapter());
+    const { actions } = store.getState();
+    actions.needs.upsert({ id: 'need-cleanser', done: false, dismissed: false });
+    actions.needs.upsert({ id: 'need-sunscreen', done: false, dismissed: false });
+    actions.needs.upsert({ id: 'need-cleanser', done: true, dismissed: false });
+    expect(store.getState().needs).toHaveLength(2);
+    expect(store.getState().needs.find((need) => need.id === 'need-cleanser')?.done).toBe(true);
   });
 
   it('profile: update changes an existing profile and does nothing without one', () => {

@@ -1,1 +1,1 @@
-export {};
+export { RoutinePage } from './pages/RoutinePage';

@@ -6,6 +6,7 @@ import {
   compatibilityRuleSchema,
   productCategoryInfoSchema,
   questionSchema,
+  routineStepInfoSchema,
   safetyMessageSchema,
   skinRecommendationSchema,
   skinTypeInfoSchema,
@@ -23,6 +24,7 @@ export const CONTENT_FILES = [
   { file: 'compat-rules.json', key: 'compatRules', schema: compatibilityRuleSchema },
   { file: 'safety-messages.json', key: 'safetyMessages', schema: safetyMessageSchema },
   { file: 'product-categories.json', key: 'productCategories', schema: productCategoryInfoSchema },
+  { file: 'routine-steps.json', key: 'routineSteps', schema: routineStepInfoSchema },
 ] as const satisfies readonly { file: string; key: keyof ContentBundle; schema: unknown }[];
 
 // Files with a single record (not a container). Counted by the audit, not part of the bundle.

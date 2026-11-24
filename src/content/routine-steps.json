@@ -1,0 +1,52 @@
+{
+  "items": [
+    {
+      "id": "step-base-cleanser",
+      "source": "технічна заглушка, етап 5",
+      "reviewStatus": "placeholder",
+      "kind": "base",
+      "category": "cleanser",
+      "slots": [],
+      "title": null,
+      "purpose": null,
+      "frequency": null,
+      "lookFor": [],
+      "goals": [],
+      "reactionGroups": [],
+      "avoidTags": [],
+      "antiAging": false
+    },
+    {
+      "id": "step-base-moisturizer",
+      "source": "технічна заглушка, етап 5",
+      "reviewStatus": "placeholder",
+      "kind": "base",
+      "category": "moisturizer",
+      "slots": [],
+      "title": null,
+      "purpose": null,
+      "frequency": null,
+      "lookFor": [],
+      "goals": [],
+      "reactionGroups": [],
+      "avoidTags": [],
+      "antiAging": false
+    },
+    {
+      "id": "step-base-sunscreen",
+      "source": "технічна заглушка, етап 5",
+      "reviewStatus": "placeholder",
+      "kind": "base",
+      "category": "sunscreen",
+      "slots": [],
+      "title": null,
+      "purpose": null,
+      "frequency": null,
+      "lookFor": [],
+      "goals": [],
+      "reactionGroups": [],
+      "avoidTags": [],
+      "antiAging": false
+    }
+  ]
+}

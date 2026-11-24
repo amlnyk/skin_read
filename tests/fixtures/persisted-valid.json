@@ -45,6 +45,13 @@
           "order": 0,
           "category": "cleanser",
           "status": "to_choose",
+          "frequency": "as_needed"
+        },
+        {
+          "id": "step-2",
+          "order": 1,
+          "category": "moisturizer",
+          "status": "owned",
           "frequency": "daily"
         }
       ]
@@ -83,13 +90,14 @@
   ],
   "needs": [
     {
-      "id": "need-1",
-      "category": "moisturizer",
-      "purpose": "Test purpose",
-      "characteristics": [],
-      "warnings": [],
-      "priority": "base",
-      "done": false
+      "id": "need-cleanser",
+      "done": false,
+      "dismissed": false
+    },
+    {
+      "id": "need-sunscreen",
+      "done": true,
+      "dismissed": true
     }
   ],
   "settings": {
@@ -115,5 +123,10 @@
     },
     "cycleTrackingVisible": false,
     "showShavingField": false
+  },
+  "careSetup": {
+    "scenario": "partial",
+    "ownedCategories": ["moisturizer"],
+    "builtForRevision": 1
   }
 }

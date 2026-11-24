@@ -5,8 +5,8 @@ import { t, type MessageKey } from '@/i18n';
 import { useServices } from '@/lib/services';
 import type { ProfileNote } from '@/logic/profile';
 import { QUESTION_IDS, SAFETY_MESSAGE_IDS, safetyNoteId } from '@/schemas';
-import { Button, MedicalDisclaimer } from '@/ui';
-import { DoctorBanner } from '../components/DoctorBanner';
+import { useAppStore } from '@/store';
+import { Button, DoctorBanner, MedicalDisclaimer } from '@/ui';
 import { EmergencyScreen } from '../components/EmergencyScreen';
 import { TextBlocks } from '../components/TextBlocks';
 import { ValueGroup } from '../components/ValueGroup';
@@ -28,6 +28,7 @@ export function ResultPage() {
   const { built, confirm } = useProfileBuilder();
   const navigate = useNavigate();
   const [acknowledged, setAcknowledged] = useState(false);
+  const careScenario = useAppStore((state) => state.careSetup.scenario);
 
   if (!built) return <Navigate to="/test" replace />;
 
@@ -52,7 +53,8 @@ export function ResultPage() {
 
   const onConfirm = () => {
     confirm();
-    navigate('/profile');
+    // The first confirmed profile leads to the question about the care the user already has.
+    navigate(careScenario === null ? '/care' : '/profile');
   };
 
   return (

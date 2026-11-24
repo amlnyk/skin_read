@@ -33,6 +33,7 @@ function setup(
       { path: '/test', element: <h1>test stub</h1> },
       { path: '/test/result', element: <ResultPage /> },
       { path: '/profile', element: <ProfilePage /> },
+      { path: '/care', element: <h1>care stub</h1> },
     ],
     { initialEntries: [path] },
   );
@@ -96,7 +97,7 @@ describe('ResultPage', () => {
     ).toBeInTheDocument();
   });
 
-  it('"Confirm" saves the profile with revision 1 and opens the profile screen', () => {
+  it('"Confirm" saves the profile with revision 1 and opens the care question', () => {
     const { store, router } = setup('/test/result', 'demo', (s) => {
       finish(s, PERSONAS.T1);
     });
@@ -107,6 +108,20 @@ describe('ResultPage', () => {
     expect(profile?.revision).toBe(1);
     expect(profile?.id).toBe('profile-1');
     expect(profile?.baseType).toBe('oily');
+    // no answer about the care yet: the next screen is "Мій догляд"
+    expect(router.state.location.pathname).toBe('/care');
+  });
+
+  it('"Confirm" opens the profile when the care question was already answered', () => {
+    const { router } = setup('/test/result', 'demo', (s) => {
+      finish(s, PERSONAS.T1);
+      act(() =>
+        s
+          .getState()
+          .actions.careSetup.set({ scenario: 'none', ownedCategories: [], builtForRevision: 1 }),
+      );
+    });
+    fireEvent.click(screen.getByRole('button', { name: t('profile.confirm') }));
     expect(router.state.location.pathname).toBe('/profile');
   });
 

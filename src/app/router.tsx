@@ -1,10 +1,10 @@
 import { lazy, Suspense } from 'react';
 import { createBrowserRouter, type RouteObject } from 'react-router-dom';
 import { t } from '@/i18n';
-import { CarePage } from '@/features/care';
 import { HomePage } from '@/features/home';
 import { OnboardingPage } from '@/features/onboarding';
 import { ProfilePage, ResultPage } from '@/features/profile';
+import { RoutinePage } from '@/features/routine';
 import { OnboardingGuard } from './guards/OnboardingGuard';
 import { Layout } from './Layout';
 
@@ -63,7 +63,7 @@ export const appRoutes: RouteObject[] = [
         element: <Layout />,
         children: [
           { index: true, element: <HomePage /> },
-          { path: 'care', element: <CarePage /> },
+          { path: 'care', element: <RoutinePage /> },
           { path: 'scan', element: <ScanPage /> },
           { path: 'reference', element: <ReferencePage /> },
           { path: 'profile', element: <ProfilePage /> },

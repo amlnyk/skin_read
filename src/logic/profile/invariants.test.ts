@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { PERSONAS, profileContent } from '@/test/personas';
 import type { TestAnswers } from '@/types';
+import { analyzeSavedProfile } from './analyzeSavedProfile';
 import { applyRestrictions, type Candidate } from './applyRestrictions';
 import { buildProfile } from './buildProfile';
 import { effectiveGoals } from './effectiveGoals';
@@ -185,5 +186,31 @@ describe('the rules', () => {
     expect(build({ q1_base_type: 'oily', q2_conditions: ['breakouts'] }).analysis.mode).toBe(
       'standard',
     );
+  });
+});
+
+describe('analyzeSavedProfile', () => {
+  const NOW = Date.UTC(2026, 0, 1, 12);
+  const IDENTITY = { id: 'p', revision: 1, createdAt: '2026-01-01T12:00:00.000Z' };
+  const content = profileContent();
+
+  it('gives the same analysis as the one made from the answers, for every persona', () => {
+    for (const [name, answers] of Object.entries(PERSONAS)) {
+      if (name === 'T5b') continue; // an emergency sign is not part of the profile, see below
+      const { profile, analysis } = buildProfile(answers, content, NOW, IDENTITY);
+      expect(analyzeSavedProfile(profile, {}, content, NOW), name).toEqual(analysis);
+    }
+  });
+
+  it('keeps the emergency of the last test: the saved profile alone cannot hold it', () => {
+    const { profile, analysis } = buildProfile(PERSONAS.T5b, content, NOW, IDENTITY);
+    expect(analysis.mode).toBe('emergency');
+    expect(analyzeSavedProfile(profile, {}, content, NOW).mode).not.toBe('emergency');
+    expect(analyzeSavedProfile(profile, PERSONAS.T5b, content, NOW).mode).toBe('emergency');
+  });
+
+  it('ignores other answers of the saved test', () => {
+    const { profile, analysis } = buildProfile(PERSONAS.T1, content, NOW, IDENTITY);
+    expect(analyzeSavedProfile(profile, PERSONAS.T2, content, NOW)).toEqual(analysis);
   });
 });
