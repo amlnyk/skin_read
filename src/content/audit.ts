@@ -25,6 +25,26 @@ export type AuditReport = {
 
 const emptyCounts = (): StatusCounts => ({ placeholder: 0, draft: 0, verified: 0 });
 
+// The same comparison as normalizeText in src/logic/inci (the content layer must not import
+// logic). src/test/normalizeParity.test.ts keeps the two functions equal.
+export function normalizeName(text: string): string {
+  return text
+    .normalize('NFD')
+    .replace(/\p{M}/gu, '')
+    .toLowerCase()
+    .replace(/['\u2019\u02bc\u2018`\u00b4\u2032]/g, '')
+    .replace(/[^\p{L}\p{N}]+/gu, ' ')
+    .trim();
+}
+
+const DENATURED_ALCOHOL_GROUP = 'alcohol_denat';
+const FATTY_ALCOHOLS: ReadonlySet<string> = new Set([
+  'cetyl alcohol',
+  'cetearyl alcohol',
+  'stearyl alcohol',
+  'behenyl alcohol',
+]);
+
 type AnyRecord = { id: string; reviewStatus: ReviewStatus };
 
 function auditRecords(file: string, records: readonly AnyRecord[], errors: string[]): FileAudit {
@@ -124,11 +144,15 @@ export function auditContent(raw: Readonly<Record<string, unknown>>): AuditRepor
       }
     }
 
-    // Aliases must be unique across ingredients (case-insensitive), including the INCI name.
+    // Names must be unique across ingredients: the INCI name, the Ukrainian name and every
+    // alias, compared the way the search compares them (no case, diacritics, apostrophes).
     const owners = new Map<string, string>();
     for (const ingredient of bundle.ingredients) {
-      for (const name of [ingredient.inci, ...ingredient.aliases]) {
-        const key = name.trim().toLowerCase();
+      const names = [ingredient.inci, ingredient.nameUk, ...ingredient.aliases];
+      for (const name of names) {
+        if (name === null) continue;
+        const key = normalizeName(name);
+        if (key === '') continue;
         const owner = owners.get(key);
         if (owner !== undefined && owner !== ingredient.id) {
           errors.push(
@@ -136,6 +160,30 @@ export function auditContent(raw: Readonly<Record<string, unknown>>): AuditRepor
           );
         }
         owners.set(key, ingredient.id);
+      }
+    }
+    const groupNames = new Map<string, string>();
+    for (const group of bundle.ingredientGroups) {
+      if (group.nameUk === null) continue;
+      const key = normalizeName(group.nameUk);
+      const owner = groupNames.get(key);
+      if (owner !== undefined) {
+        errors.push(
+          `ingredient-groups.json: name "${group.nameUk}" is used by "${owner}" and "${group.id}"`,
+        );
+      }
+      groupNames.set(key, group.id);
+    }
+
+    // Fatty alcohols are not the group of denatured alcohol (plan, stage 6).
+    for (const ingredient of bundle.ingredients) {
+      if (
+        FATTY_ALCOHOLS.has(normalizeName(ingredient.inci)) &&
+        ingredient.groups.includes(DENATURED_ALCOHOL_GROUP)
+      ) {
+        errors.push(
+          `ingredients.json: "${ingredient.id}" is a fatty alcohol and must not be in the group "${DENATURED_ALCOHOL_GROUP}"`,
+        );
       }
     }
   }

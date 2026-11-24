@@ -23,6 +23,29 @@
 - **Питання про невідкладні ознаки** (утруднене дихання, набряк губ чи язика): у тесті їх немає, бо в ТЗ немає ні формулювання, ні варіантів. Код уже вміє їх обробляти за id `breathing_difficulty` і `lip_or_tongue_swelling`. Потрібне рішення, чи додавати такі варіанти до блоку безпеки.
 - **Службові примітки на екрані результату** (`uk.ts`, ключі `profile.note*`, `profile.minorNote`, `profile.contradictionNote`): нейтральні тимчасові формулювання про дії застосунку, не косметологічні поради. Перевірити тон.
 
+## Етап 5: рутина догляду (заповнює вручну авторка / косметолог)
+
+Файл `src/content/routine-steps.json`. Поки він містить лише три заглушки (очищення, зволоження, сонцезахист), на екрані «Мій догляд» кожен крок каже «Інформація готується».
+
+- Для кожного базового кроку (очищення, зволоження, сонцезахист): що це за крок і для чого він (`purpose`), на які групи компонентів звернути увагу (`lookFor`: id груп із `ingredient-groups.json`).
+- Кандидати на необов'язковий крок (`kind: optional`): назва, для чого, коли в день (`slots`), як часто (`frequency`), для яких цілей (`goals`), чи це антивіковий крок (`antiAging`), до яких груп реакцій належить (`reactionGroups`) і які побажання «уникати» порушує (`avoidTags`). Поки немає жодного перевіреного кандидата, необов'язкових кроків у схемі немає: це правильна поведінка.
+- Питання до косметолога: чи є порядок кроків, коли необов'язковий крок стоїть у вечірній схемі (зараз він іде в кінці, вранці перед сонцезахистом), і чи потрібні додаткові обмеження для вагітності (зараз будь-яка медична примітка прибирає необов'язкові кроки).
+- Тексти приміток на екрані догляду («У тебе є призначення лікаря…», «Додаткових кроків зараз не пропонуємо.») і назви категорій засобів («Очищення», «Зволоження», «Сонцезахист»…) це інтерфейсні рядки в `src/i18n/uk.ts`, не косметологічний зміст; перевірити тон і формулювання.
+
+## Етап 6: довідник компонентів (заповнює вручну авторка / косметолог)
+
+Матеріали в `content/source/message.txt` це ТЗ: у ньому є лише назви груп компонентів (розділ 19), список уподобань «уникати» (питання 5) і опис картки. Фактів про окремі компоненти там немає, тому окремих записів у `ingredients.json` немає (лишились дві технічні заглушки), а групи в `ingredient-groups.json` мають назву й `description: null`.
+
+- **Картки компонентів.** Для кожного компонента потрібні: назва українською, назва INCI, синоніми (українські й англійські), категорія, пояснення простими словами, властивості, застереження (із станами шкіри, до яких вони стосуються), особливості застосування, відомі взаємодії, джерело. Без цього пошук за назвою «ніацинамід» чи «niacinamide» не знайде картку (знайде лише групу «Ніацинамід»). Закриває: косметолог, передає список із полями або таблицю.
+- **Описи груп** (27 записів, `description: null`). Що це за група простими словами. Закриває: косметолог.
+- **Перелік комедогенних олій** (`comedogenic_oils`): група `placeholder`, у довіднику не показується. Потрібен список олій від косметолога (план, етап 6, п. 1).
+- **Лексичні шаблони груп** (`patterns`, `draft`): силікони (`*cone`, `*siloxane`), сульфати (`sodium lauryl sulfate`, `sodium laureth sulfate`), парабени (`*paraben`), ароматизатори (`parfum`, `fragrance`, `aroma`), жирні спирти (`cetyl`, `cetearyl`, `stearyl`, `behenyl alcohol`). Взято з тексту плану, не з матеріалів косметолога: перевірити. Запис `*x` означає «закінчується на x»; точне правило зіставлення визначить розбір складу (етап 7). Для `alcohol_denat` шаблонів немає.
+- **Поділ «Спирти».** У ТЗ одна група «Спирти», у плані «окремо денатурований спирт і жирні спирти». Зроблено дві групи: `alcohol_denat` («Денатурований спирт») і `fatty_alcohols` («Жирні спирти»). Підтвердити назви.
+- **Зв'язок «уникати» з групами.** Питання 5 має значення `fragrance_essential_oils` і `alcohol`, а груп дві (`fragrance` і `essential_oils`) та `alcohol_denat`. Як вони відповідають одне одному, визначить етап 7.
+- **Категорії компонентів** (поле `category`, на екрані фільтр): списку категорій немає, фільтр з'явиться, коли в картках будуть категорії.
+- **Освітні матеріали.** Вкладка порожня. Потрібні матеріали (ТЗ, розділ 19: гормональні коливання, цикл, гоління та інші чинники) або рішення, що показувати.
+- **Службові тексти довідника** (`uk.ts`, блок `reference.*`): підписи екрана й нейтральне речення про те, що компоненти не бувають «хорошими» чи «поганими» (з ТЗ, розділ 19). Перевірити тон.
+
 <!-- content-audit:start -->
 ## Записи, що чекають наповнення або затвердження (створено автоматично)
 
@@ -31,8 +54,7 @@
 ### placeholder
 
 - recommendations.json: placeholder-recommendation-1
-- ingredient-groups.json: placeholder-group-1
-- ingredient-groups.json: placeholder-group-2
+- ingredient-groups.json: comedogenic_oils
 - ingredients.json: placeholder-ingredient-1
 - ingredients.json: placeholder-ingredient-2
 - compat-rules.json: placeholder-rule-1
@@ -70,6 +92,33 @@
 - conditions.json: condition-pigmentation
 - conditions.json: condition-aging_signs
 - conditions.json: condition-stable
+- ingredient-groups.json: aha
+- ingredient-groups.json: bha
+- ingredient-groups.json: pha
+- ingredient-groups.json: retinoids
+- ingredient-groups.json: niacinamide
+- ingredient-groups.json: azelaic_acid
+- ingredient-groups.json: vitamin_c
+- ingredient-groups.json: hyaluronic_acid
+- ingredient-groups.json: glycerin
+- ingredient-groups.json: ceramides
+- ingredient-groups.json: panthenol
+- ingredient-groups.json: squalane
+- ingredient-groups.json: peptides
+- ingredient-groups.json: zinc
+- ingredient-groups.json: allantoin
+- ingredient-groups.json: beta_glucan
+- ingredient-groups.json: antioxidants
+- ingredient-groups.json: surfactants
+- ingredient-groups.json: fragrance
+- ingredient-groups.json: essential_oils
+- ingredient-groups.json: alcohol_denat
+- ingredient-groups.json: fatty_alcohols
+- ingredient-groups.json: preservatives
+- ingredient-groups.json: sunscreen_filters
+- ingredient-groups.json: silicones
+- ingredient-groups.json: sulfates
+- ingredient-groups.json: parabens
 - safety-messages.json: safety-emergency
 - safety-messages.json: safety-see_doctor
 - disclaimer.json: medical-disclaimer

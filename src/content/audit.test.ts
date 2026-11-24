@@ -52,6 +52,67 @@ describe('auditContent', () => {
     expect(report.errors.some((e) => e.includes('"TEST ALIAS" is used by'))).toBe(true);
   });
 
+  it('compares names without case, diacritics and apostrophes, and includes the Ukrainian name', () => {
+    const broken = clone();
+    broken['ingredients.json']!.items[0]!.aliases = ["Пом'якшувач"];
+    broken['ingredients.json']!.items[1]!.aliases = ['ПОМ\u2019ЯКШУВАЧ'];
+    expect(auditContent(broken).errors.some((e) => e.includes('is used by'))).toBe(true);
+
+    const byUkName = clone();
+    byUkName['ingredients.json']!.items[0]!.nameUk = 'Спирт';
+    byUkName['ingredients.json']!.items[1]!.nameUk = 'спирт';
+    expect(auditContent(byUkName).errors.some((e) => e.includes('"спирт" is used by'))).toBe(true);
+
+    const clash = clone();
+    clash['ingredients.json']!.items[1]!.nameUk = 'TEST-ALIAS';
+    expect(auditContent(clash).errors.some((e) => e.includes('is used by'))).toBe(true);
+  });
+
+  it('does not complain when one ingredient repeats its own name', () => {
+    const fine = clone();
+    fine['ingredients.json']!.items[0]!.aliases = ['TEST VERIFIED', 'test alias'];
+    expect(auditContent(fine).errors).toEqual([]);
+  });
+
+  it('reports two groups with the same name', () => {
+    const broken = clone();
+    broken['ingredient-groups.json']!.items[0]!.nameUk = 'Спирти';
+    broken['ingredient-groups.json']!.items[1]!.nameUk = 'спирти';
+    const report = auditContent(broken);
+    expect(
+      report.errors.some((e) => e.includes('ingredient-groups.json: name "спирти" is used by')),
+    ).toBe(true);
+  });
+
+  it('reports a fatty alcohol in the group of denatured alcohol, and accepts it among fatty alcohols', () => {
+    const broken = clone();
+    broken['ingredient-groups.json']!.items.push(
+      {
+        id: 'alcohol_denat',
+        source: 'test',
+        reviewStatus: 'draft',
+        nameUk: null,
+        description: null,
+        patterns: [],
+      },
+      {
+        id: 'fatty_alcohols',
+        source: 'test',
+        reviewStatus: 'draft',
+        nameUk: null,
+        description: null,
+        patterns: [],
+      },
+    );
+    broken['ingredients.json']!.items[0]!.inci = 'Cetearyl Alcohol';
+    broken['ingredients.json']!.items[0]!.groups = ['alcohol_denat'];
+    const report = auditContent(broken);
+    expect(report.errors.some((e) => e.includes('is a fatty alcohol'))).toBe(true);
+
+    broken['ingredients.json']!.items[0]!.groups = ['fatty_alcohols'];
+    expect(auditContent(broken).errors).toEqual([]);
+  });
+
   it('reports a schema error with file and field', () => {
     const broken = clone();
     broken['ingredients.json']!.items[0]!.reviewStatus = 'maybe';

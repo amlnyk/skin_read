@@ -27,4 +27,72 @@ describe('bundled content', () => {
     expect(demo.value.bundle.questionnaire.map((q) => q.id)).toEqual(Object.values(QUESTION_IDS));
     expect(publicMode.value.bundle.questionnaire).toEqual([]);
   });
+
+  it('has the 23 groups of the spec, the preference groups and no invented ingredients', () => {
+    const demo = loadBundledContent('demo');
+    const publicMode = loadBundledContent('public');
+    if (!demo.ok || !publicMode.ok) throw new Error('content must load');
+    const ids = demo.value.bundle.ingredientGroups.map((group) => group.id);
+    // 24 groups: "alcohols" of the spec are two groups (denatured and fatty), plus 3 preference groups
+    expect(ids).toEqual([
+      'aha',
+      'bha',
+      'pha',
+      'retinoids',
+      'niacinamide',
+      'azelaic_acid',
+      'vitamin_c',
+      'hyaluronic_acid',
+      'glycerin',
+      'ceramides',
+      'panthenol',
+      'squalane',
+      'peptides',
+      'zinc',
+      'allantoin',
+      'beta_glucan',
+      'antioxidants',
+      'surfactants',
+      'fragrance',
+      'essential_oils',
+      'alcohol_denat',
+      'fatty_alcohols',
+      'preservatives',
+      'sunscreen_filters',
+      'silicones',
+      'sulfates',
+      'parabens',
+    ]);
+    // the list of comedogenic oils is not given: the group is a placeholder and is hidden
+    expect(ids).not.toContain('comedogenic_oils');
+    // the cosmetologist has given no ingredient records yet: nothing is shown, nothing is invented
+    expect(demo.value.bundle.ingredients).toEqual([]);
+    expect(publicMode.value.bundle.ingredientGroups).toEqual([]);
+  });
+
+  it('every group has a source and a Ukrainian name, and the recognition patterns are drafts', () => {
+    const demo = loadBundledContent('demo');
+    if (!demo.ok) throw new Error('content must load');
+    const groups = demo.value.bundle.ingredientGroups;
+    for (const group of groups) {
+      expect(group.source.length).toBeGreaterThan(0);
+      expect(group.nameUk).not.toBeNull();
+      // descriptions come from the cosmetologist: none is invented
+      expect(group.description).toBeNull();
+      if (group.patterns.length > 0) expect(group.reviewStatus).toBe('draft');
+    }
+    const patterns = (id: string) => groups.find((group) => group.id === id)?.patterns;
+    expect(patterns('silicones')).toEqual(['*cone', '*siloxane']);
+    expect(patterns('sulfates')).toEqual(['sodium lauryl sulfate', 'sodium laureth sulfate']);
+    expect(patterns('parabens')).toEqual(['*paraben']);
+    expect(patterns('fragrance')).toEqual(['parfum', 'fragrance', 'aroma']);
+    // fatty alcohols are their own group and never match the denatured alcohol
+    expect(patterns('fatty_alcohols')).toEqual([
+      'cetyl alcohol',
+      'cetearyl alcohol',
+      'stearyl alcohol',
+      'behenyl alcohol',
+    ]);
+    expect(patterns('alcohol_denat')).toEqual([]);
+  });
 });

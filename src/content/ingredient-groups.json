@@ -1,18 +1,226 @@
 {
   "items": [
     {
-      "id": "placeholder-group-1",
-      "source": "технічна заглушка, етап 2",
-      "reviewStatus": "placeholder",
-      "nameUk": null,
+      "id": "aha",
+      "source": "ТЗ v1.1, розділ 19 «Освітня база компонентів» (content/source/message.txt)",
+      "reviewStatus": "draft",
+      "nameUk": "AHA-кислоти",
       "description": null,
       "patterns": []
     },
     {
-      "id": "placeholder-group-2",
-      "source": "технічна заглушка, етап 2",
+      "id": "bha",
+      "source": "ТЗ v1.1, розділ 19 «Освітня база компонентів» (content/source/message.txt)",
+      "reviewStatus": "draft",
+      "nameUk": "BHA-кислоти",
+      "description": null,
+      "patterns": []
+    },
+    {
+      "id": "pha",
+      "source": "ТЗ v1.1, розділ 19 «Освітня база компонентів» (content/source/message.txt)",
+      "reviewStatus": "draft",
+      "nameUk": "PHA-кислоти",
+      "description": null,
+      "patterns": []
+    },
+    {
+      "id": "retinoids",
+      "source": "ТЗ v1.1, розділ 19 «Освітня база компонентів» (content/source/message.txt)",
+      "reviewStatus": "draft",
+      "nameUk": "Ретиноїди",
+      "description": null,
+      "patterns": []
+    },
+    {
+      "id": "niacinamide",
+      "source": "ТЗ v1.1, розділ 19 «Освітня база компонентів» (content/source/message.txt)",
+      "reviewStatus": "draft",
+      "nameUk": "Ніацинамід",
+      "description": null,
+      "patterns": []
+    },
+    {
+      "id": "azelaic_acid",
+      "source": "ТЗ v1.1, розділ 19 «Освітня база компонентів» (content/source/message.txt)",
+      "reviewStatus": "draft",
+      "nameUk": "Азелаїнова кислота",
+      "description": null,
+      "patterns": []
+    },
+    {
+      "id": "vitamin_c",
+      "source": "ТЗ v1.1, розділ 19 «Освітня база компонентів» (content/source/message.txt)",
+      "reviewStatus": "draft",
+      "nameUk": "Вітамін C",
+      "description": null,
+      "patterns": []
+    },
+    {
+      "id": "hyaluronic_acid",
+      "source": "ТЗ v1.1, розділ 19 «Освітня база компонентів» (content/source/message.txt)",
+      "reviewStatus": "draft",
+      "nameUk": "Гіалуронова кислота",
+      "description": null,
+      "patterns": []
+    },
+    {
+      "id": "glycerin",
+      "source": "ТЗ v1.1, розділ 19 «Освітня база компонентів» (content/source/message.txt)",
+      "reviewStatus": "draft",
+      "nameUk": "Гліцерин",
+      "description": null,
+      "patterns": []
+    },
+    {
+      "id": "ceramides",
+      "source": "ТЗ v1.1, розділ 19 «Освітня база компонентів» (content/source/message.txt)",
+      "reviewStatus": "draft",
+      "nameUk": "Цераміди",
+      "description": null,
+      "patterns": []
+    },
+    {
+      "id": "panthenol",
+      "source": "ТЗ v1.1, розділ 19 «Освітня база компонентів» (content/source/message.txt)",
+      "reviewStatus": "draft",
+      "nameUk": "Пантенол",
+      "description": null,
+      "patterns": []
+    },
+    {
+      "id": "squalane",
+      "source": "ТЗ v1.1, розділ 19 «Освітня база компонентів» (content/source/message.txt)",
+      "reviewStatus": "draft",
+      "nameUk": "Сквалан",
+      "description": null,
+      "patterns": []
+    },
+    {
+      "id": "peptides",
+      "source": "ТЗ v1.1, розділ 19 «Освітня база компонентів» (content/source/message.txt)",
+      "reviewStatus": "draft",
+      "nameUk": "Пептиди",
+      "description": null,
+      "patterns": []
+    },
+    {
+      "id": "zinc",
+      "source": "ТЗ v1.1, розділ 19 «Освітня база компонентів» (content/source/message.txt)",
+      "reviewStatus": "draft",
+      "nameUk": "Цинк",
+      "description": null,
+      "patterns": []
+    },
+    {
+      "id": "allantoin",
+      "source": "ТЗ v1.1, розділ 19 «Освітня база компонентів» (content/source/message.txt)",
+      "reviewStatus": "draft",
+      "nameUk": "Алантоїн",
+      "description": null,
+      "patterns": []
+    },
+    {
+      "id": "beta_glucan",
+      "source": "ТЗ v1.1, розділ 19 «Освітня база компонентів» (content/source/message.txt)",
+      "reviewStatus": "draft",
+      "nameUk": "Бета-глюкан",
+      "description": null,
+      "patterns": []
+    },
+    {
+      "id": "antioxidants",
+      "source": "ТЗ v1.1, розділ 19 «Освітня база компонентів» (content/source/message.txt)",
+      "reviewStatus": "draft",
+      "nameUk": "Антиоксиданти",
+      "description": null,
+      "patterns": []
+    },
+    {
+      "id": "surfactants",
+      "source": "ТЗ v1.1, розділ 19 «Освітня база компонентів» (content/source/message.txt)",
+      "reviewStatus": "draft",
+      "nameUk": "Поверхнево-активні речовини",
+      "description": null,
+      "patterns": []
+    },
+    {
+      "id": "fragrance",
+      "source": "ТЗ v1.1, розділ 19 «Освітня база компонентів» (content/source/message.txt); patterns: план розробки, етап 6, п. 3 (лексичні шаблони)",
+      "reviewStatus": "draft",
+      "nameUk": "Ароматизатори",
+      "description": null,
+      "patterns": ["parfum", "fragrance", "aroma"]
+    },
+    {
+      "id": "essential_oils",
+      "source": "ТЗ v1.1, розділ 19 «Освітня база компонентів» (content/source/message.txt)",
+      "reviewStatus": "draft",
+      "nameUk": "Ефірні олії",
+      "description": null,
+      "patterns": []
+    },
+    {
+      "id": "alcohol_denat",
+      "source": "ТЗ v1.1, розділ 19 «Освітня база компонентів» (content/source/message.txt)",
+      "reviewStatus": "draft",
+      "nameUk": "Денатурований спирт",
+      "description": null,
+      "patterns": []
+    },
+    {
+      "id": "fatty_alcohols",
+      "source": "ТЗ v1.1, розділ 19 «Освітня база компонентів» (content/source/message.txt); patterns: план розробки, етап 6, п. 3 (лексичні шаблони)",
+      "reviewStatus": "draft",
+      "nameUk": "Жирні спирти",
+      "description": null,
+      "patterns": ["cetyl alcohol", "cetearyl alcohol", "stearyl alcohol", "behenyl alcohol"]
+    },
+    {
+      "id": "preservatives",
+      "source": "ТЗ v1.1, розділ 19 «Освітня база компонентів» (content/source/message.txt)",
+      "reviewStatus": "draft",
+      "nameUk": "Консерванти",
+      "description": null,
+      "patterns": []
+    },
+    {
+      "id": "sunscreen_filters",
+      "source": "ТЗ v1.1, розділ 19 «Освітня база компонентів» (content/source/message.txt)",
+      "reviewStatus": "draft",
+      "nameUk": "Сонцезахисні фільтри",
+      "description": null,
+      "patterns": []
+    },
+    {
+      "id": "silicones",
+      "source": "ТЗ v1.1, питання 5 анкети «Яких компонентів уникаєш у догляді?» (content/source/message.txt); patterns: план розробки, етап 6, п. 3 (лексичні шаблони)",
+      "reviewStatus": "draft",
+      "nameUk": "Силікони",
+      "description": null,
+      "patterns": ["*cone", "*siloxane"]
+    },
+    {
+      "id": "sulfates",
+      "source": "ТЗ v1.1, питання 5 анкети «Яких компонентів уникаєш у догляді?» (content/source/message.txt); patterns: план розробки, етап 6, п. 3 (лексичні шаблони)",
+      "reviewStatus": "draft",
+      "nameUk": "Сульфати SLS/SLES",
+      "description": null,
+      "patterns": ["sodium lauryl sulfate", "sodium laureth sulfate"]
+    },
+    {
+      "id": "parabens",
+      "source": "ТЗ v1.1, питання 5 анкети «Яких компонентів уникаєш у догляді?» (content/source/message.txt); patterns: план розробки, етап 6, п. 3 (лексичні шаблони)",
+      "reviewStatus": "draft",
+      "nameUk": "Парабени",
+      "description": null,
+      "patterns": ["*paraben"]
+    },
+    {
+      "id": "comedogenic_oils",
+      "source": "ТЗ v1.1, питання 5 анкети «Яких компонентів уникаєш у догляді?» (content/source/message.txt); перелік олій чекає на косметолога",
       "reviewStatus": "placeholder",
-      "nameUk": null,
+      "nameUk": "Комедогенні олії",
       "description": null,
       "patterns": []
     }
