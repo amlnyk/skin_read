@@ -1,0 +1,36 @@
+{
+  "items": [
+    {
+      "id": "placeholder-ingredient-1",
+      "source": "технічна заглушка, етап 2",
+      "reviewStatus": "placeholder",
+      "inci": "PLACEHOLDER-INGREDIENT-1",
+      "nameUk": null,
+      "aliases": [],
+      "groups": [],
+      "category": null,
+      "purpose": null,
+      "properties": [],
+      "cautions": [],
+      "usage": null,
+      "knownInteractions": [],
+      "supports": []
+    },
+    {
+      "id": "placeholder-ingredient-2",
+      "source": "технічна заглушка, етап 2",
+      "reviewStatus": "placeholder",
+      "inci": "PLACEHOLDER-INGREDIENT-2",
+      "nameUk": null,
+      "aliases": [],
+      "groups": [],
+      "category": null,
+      "purpose": null,
+      "properties": [],
+      "cautions": [],
+      "usage": null,
+      "knownInteractions": [],
+      "supports": []
+    }
+  ]
+}

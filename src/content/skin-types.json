@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "id": "placeholder-skin-type-1",
+      "source": "технічна заглушка, етап 2",
+      "reviewStatus": "placeholder",
+      "baseType": null,
+      "nameUk": null,
+      "description": null
+    },
+    {
+      "id": "placeholder-skin-type-2",
+      "source": "технічна заглушка, етап 2",
+      "reviewStatus": "placeholder",
+      "baseType": null,
+      "nameUk": null,
+      "description": null
+    }
+  ]
+}

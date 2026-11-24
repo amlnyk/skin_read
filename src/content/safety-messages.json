@@ -1,0 +1,18 @@
+{
+  "items": [
+    {
+      "id": "placeholder-safety-1",
+      "source": "технічна заглушка, етап 2",
+      "reviewStatus": "placeholder",
+      "level": "note",
+      "text": null
+    },
+    {
+      "id": "placeholder-safety-2",
+      "source": "технічна заглушка, етап 2",
+      "reviewStatus": "placeholder",
+      "level": "see_doctor",
+      "text": null
+    }
+  ]
+}

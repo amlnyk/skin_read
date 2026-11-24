@@ -1,9 +1,9 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { useOnboardingStore } from '@/store';
+import { useAppStore } from '@/store';
 
 // Sends the user to /onboarding until onboarding is completed.
 export function OnboardingGuard() {
-  const completed = useOnboardingStore((state) => state.completed);
+  const completed = useAppStore((state) => state.onboarding.completed);
   if (!completed) {
     return <Navigate to="/onboarding" replace />;
   }

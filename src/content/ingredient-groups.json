@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "id": "placeholder-group-1",
+      "source": "технічна заглушка, етап 2",
+      "reviewStatus": "placeholder",
+      "nameUk": null,
+      "description": null,
+      "patterns": []
+    },
+    {
+      "id": "placeholder-group-2",
+      "source": "технічна заглушка, етап 2",
+      "reviewStatus": "placeholder",
+      "nameUk": null,
+      "description": null,
+      "patterns": []
+    }
+  ]
+}

@@ -15,9 +15,10 @@
     "skipLibCheck": true,
     "noEmit": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@fixtures/*": ["./tests/fixtures/*"]
     },
     "types": ["node"]
   },
-  "include": ["src", "vite.config.ts"]
+  "include": ["src", "scripts/**/*.ts", "vite.config.ts"]
 }

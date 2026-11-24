@@ -1,0 +1,120 @@
+{
+  "questionnaire.json": {
+    "items": []
+  },
+  "skin-types.json": {
+    "items": []
+  },
+  "conditions.json": {
+    "items": []
+  },
+  "recommendations.json": {
+    "items": []
+  },
+  "safety-messages.json": {
+    "items": []
+  },
+  "product-categories.json": {
+    "items": []
+  },
+  "ingredient-groups.json": {
+    "items": [
+      {
+        "id": "group-v",
+        "source": "test fixture",
+        "reviewStatus": "verified",
+        "nameUk": null,
+        "description": null,
+        "patterns": []
+      },
+      {
+        "id": "group-d",
+        "source": "test fixture",
+        "reviewStatus": "draft",
+        "nameUk": null,
+        "description": null,
+        "patterns": []
+      }
+    ]
+  },
+  "ingredients.json": {
+    "items": [
+      {
+        "id": "ing-v",
+        "source": "test fixture",
+        "reviewStatus": "verified",
+        "inci": "TEST VERIFIED",
+        "nameUk": null,
+        "aliases": ["test alias"],
+        "groups": ["group-v"],
+        "category": null,
+        "purpose": null,
+        "properties": [],
+        "cautions": [],
+        "usage": null,
+        "knownInteractions": [],
+        "supports": []
+      },
+      {
+        "id": "ing-d",
+        "source": "test fixture",
+        "reviewStatus": "draft",
+        "inci": "TEST DRAFT",
+        "nameUk": null,
+        "aliases": [],
+        "groups": ["group-d"],
+        "category": null,
+        "purpose": null,
+        "properties": [],
+        "cautions": [],
+        "usage": null,
+        "knownInteractions": ["ing-v"],
+        "supports": []
+      },
+      {
+        "id": "ing-p",
+        "source": "test fixture",
+        "reviewStatus": "placeholder",
+        "inci": "TEST PLACEHOLDER",
+        "nameUk": null,
+        "aliases": [],
+        "groups": [],
+        "category": null,
+        "purpose": null,
+        "properties": [],
+        "cautions": [],
+        "usage": null,
+        "knownInteractions": [],
+        "supports": []
+      }
+    ]
+  },
+  "compat-rules.json": {
+    "items": [
+      {
+        "id": "rule-v",
+        "source": "test fixture",
+        "reviewStatus": "verified",
+        "a": {
+          "kind": "ingredient",
+          "id": "ing-v"
+        },
+        "b": {
+          "kind": "group",
+          "id": "group-d"
+        },
+        "level": "info",
+        "sameSlotOnly": false,
+        "explanation": null,
+        "timingAdvice": null,
+        "priority": 0
+      }
+    ]
+  },
+  "disclaimer.json": {
+    "id": "medical-disclaimer",
+    "source": "test fixture",
+    "reviewStatus": "verified",
+    "text": "Test disclaimer"
+  }
+}

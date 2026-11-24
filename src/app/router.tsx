@@ -1,5 +1,6 @@
-import { lazy } from 'react';
+import { lazy, Suspense } from 'react';
 import { createBrowserRouter, type RouteObject } from 'react-router-dom';
+import { t } from '@/i18n';
 import { CarePage } from '@/features/care';
 import { HomePage } from '@/features/home';
 import { OnboardingPage } from '@/features/onboarding';
@@ -14,8 +15,28 @@ const ReferencePage = lazy(() =>
   import('@/features/reference').then((m) => ({ default: m.ReferencePage })),
 );
 
+// Developer screens exist only in the dev build. In production `import.meta.env.DEV` is
+// replaced with `false`, so the route and the whole dev feature are dropped from the bundle.
+const DevStatePage = import.meta.env.DEV
+  ? lazy(() => import('@/features/dev').then((m) => ({ default: m.DevStatePage })))
+  : null;
+
+const devRoutes: RouteObject[] = DevStatePage
+  ? [
+      {
+        path: '/dev/state',
+        element: (
+          <Suspense fallback={<p>{t('common.loading')}</p>}>
+            <DevStatePage />
+          </Suspense>
+        ),
+      },
+    ]
+  : [];
+
 export const appRoutes: RouteObject[] = [
   { path: '/onboarding', element: <OnboardingPage /> },
+  ...devRoutes,
   {
     element: <OnboardingGuard />,
     children: [

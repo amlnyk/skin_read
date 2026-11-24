@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { t } from '@/i18n';
-import { useOnboardingStore } from '@/store';
+import { useAppStore } from '@/store';
 
 // STUB: the real onboarding arrives at a later stage.
 export function OnboardingPage() {
   const navigate = useNavigate();
-  const complete = useOnboardingStore((state) => state.complete);
+  const complete = useAppStore((state) => state.actions.onboarding.complete);
 
   const skip = () => {
     complete();

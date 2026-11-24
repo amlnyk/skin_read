@@ -1,4 +1,4 @@
-import type { ContentPolicy } from '@/schemas';
+import type { ContentProvider } from '@/types';
 import type { Result } from './result';
 
 // Ports: everything that leaves pure logic (storage, time, randomness, network, logging)
@@ -38,11 +38,9 @@ export interface Logger {
 }
 
 // ---- Content ----
-// Minimal for now. Stage 2 extends it with typed access to components, groups and templates.
-export interface ContentProvider {
-  readonly policy: ContentPolicy;
-  readonly version: string;
-}
+// The shape lives in @/types (it is built from the zod schemas); re-exported here so that
+// all ports can be found in one place.
+export type { ContentProvider };
 
 // ---- Label reader (photo -> ingredients text, server side AI) ----
 // Codes are refined at the photo-scan stage according to docs/API.md.

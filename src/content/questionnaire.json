@@ -1,0 +1,24 @@
+{
+  "items": [
+    {
+      "id": "placeholder-question-1",
+      "source": "технічна заглушка, етап 2",
+      "reviewStatus": "placeholder",
+      "type": "single",
+      "text": null,
+      "description": null,
+      "required": false,
+      "options": [
+        {
+          "id": "placeholder-option-1",
+          "label": null,
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        }
+      ],
+      "showIf": null
+    }
+  ]
+}

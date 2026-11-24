@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "id": "placeholder-rule-1",
+      "source": "технічна заглушка, етап 2",
+      "reviewStatus": "placeholder",
+      "a": {
+        "kind": "ingredient",
+        "id": "placeholder-ingredient-1"
+      },
+      "b": {
+        "kind": "ingredient",
+        "id": "placeholder-ingredient-2"
+      },
+      "level": "info",
+      "sameSlotOnly": false,
+      "explanation": null,
+      "timingAdvice": null,
+      "priority": 0
+    }
+  ]
+}

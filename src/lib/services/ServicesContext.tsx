@@ -1,5 +1,5 @@
 import { createContext, useContext, type ReactNode } from 'react';
-import type { Clock, IdGenerator, Logger, StorageAdapter } from '../ports';
+import type { Clock, ContentProvider, IdGenerator, Logger, StorageAdapter } from '../ports';
 
 // Everything that touches the outside world, in one object.
 // Built in app/compositionRoot.ts, replaced by fakes in tests.
@@ -8,6 +8,8 @@ export type Services = {
   readonly clock: Clock;
   readonly ids: IdGenerator;
   readonly logger: Logger;
+  /** Content after CONTENT_POLICY is applied. */
+  readonly content: ContentProvider;
 };
 
 const ServicesContext = createContext<Services | null>(null);

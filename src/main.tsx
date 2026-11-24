@@ -2,12 +2,14 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './app/App';
 import { createAppConfig } from './app/app.config';
-import { createServices } from './app/compositionRoot';
+import { createComposition } from './app/compositionRoot';
 import { createAppRouter } from './app/router';
+import { describeContentError, loadBundledContent } from '@/content';
 import { t } from '@/i18n';
 import { parseEnv } from '@/lib/env';
 import { createConsoleLogger } from '@/lib/logger';
 import { ServicesProvider } from '@/lib/services';
+import { StoreProvider } from '@/store';
 import './styles/tokens.css';
 import './styles/reset.css';
 
@@ -28,11 +30,29 @@ if (!env.ok) {
   const config = createAppConfig(env.value);
   document.title = config.appName;
 
-  createRoot(container).render(
-    <StrictMode>
-      <ServicesProvider services={createServices(env.value)}>
-        <App router={createAppRouter()} />
-      </ServicesProvider>
-    </StrictMode>,
-  );
+  const content = loadBundledContent(config.CONTENT_POLICY);
+  if (!content.ok) {
+    const message = describeContentError(content.error);
+    if (import.meta.env.DEV) {
+      // The developer must see exactly which file and field is broken.
+      throw new Error(message);
+    }
+    // Production: a plain message for the user; the file and field go to the log only.
+    createConsoleLogger('error').error('Content failed validation', {
+      file: content.error.file,
+      path: content.error.path,
+    });
+    container.textContent = t('errors.content');
+  } else {
+    const { services, store } = createComposition(env.value, content.value);
+    createRoot(container).render(
+      <StrictMode>
+        <ServicesProvider services={services}>
+          <StoreProvider store={store}>
+            <App router={createAppRouter()} />
+          </StoreProvider>
+        </ServicesProvider>
+      </StrictMode>,
+    );
+  }
 }

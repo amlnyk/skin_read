@@ -38,7 +38,7 @@ boundaries або no-restricted-imports; Claude обирає те, що прац
 версією ESLint, і пояснює вибір), Prettier, EditorConfig.
 - Git-гаки: husky і lint-staged (на pre-commit: eslint, prettier, gitleaks).
 
-Встановлено на етапі 1B (точні версії): @vitest/coverage-v8 5.1.1, eslint-plugin-jsx-a11y 6.10.2, husky 9.1.7, lint-staged 17.6.2, @types/node 26.6.6. Prettier 3.10.1. Межі модулів: вбудований `no-restricted-imports` (плагін boundaries не потрібен, див. docs/decisions.md). Пакети `@testing-library/user-event`, `tsx`, `depcheck` поки не встановлені: додамо, коли знадобляться.
+Встановлено на етапі 1B (точні версії): @vitest/coverage-v8 5.1.1, eslint-plugin-jsx-a11y 6.10.2, husky 9.1.7, lint-staged 17.6.2, @types/node 26.6.6. Prettier 3.10.1. Межі модулів: вбудований `no-restricted-imports` (плагін boundaries не потрібен, див. docs/decisions.md). Пакети `@testing-library/user-event`, `depcheck` поки не встановлені: додамо, коли знадобляться. `tsx` встановлено на етапі 2 (скрипт `scripts/content-audit.ts`).
 CI: actions/checkout v7, actions/setup-node v7, gitleaks/gitleaks-action v3.
 - Скрипти TypeScript: tsx (для scripts/content-audit.ts).
 - CI: GitHub Actions. Залежності: Dependabot, npm audit, depcheck. Секрети:

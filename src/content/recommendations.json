@@ -1,0 +1,15 @@
+{
+  "items": [
+    {
+      "id": "placeholder-recommendation-1",
+      "source": "технічна заглушка, етап 2",
+      "reviewStatus": "placeholder",
+      "target": {
+        "baseTypes": [],
+        "conditions": []
+      },
+      "title": null,
+      "text": null
+    }
+  ]
+}
