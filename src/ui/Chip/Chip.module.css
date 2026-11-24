@@ -1,0 +1,38 @@
+.chip {
+  position: relative;
+  display: grid;
+  gap: var(--space-1);
+  min-height: var(--tap-target);
+  padding: var(--space-3) var(--space-4);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  cursor: pointer;
+}
+
+.selected {
+  border-color: var(--color-primary);
+  background: var(--color-notice-bg);
+}
+
+/* The real input stays in the page (keyboard, screen reader) but is not drawn. */
+.input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.chip:has(.input:focus-visible) {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.label {
+  font-weight: 600;
+}
+
+.description {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}

@@ -81,6 +81,40 @@ export function auditContent(raw: Readonly<Record<string, unknown>>): AuditRepor
       }
     }
 
+    // Questionnaire: option ids are unique inside a question; showIf points to a real
+    // earlier question and to real option ids of it.
+    const questionIndex = new Map(bundle.questionnaire.map((q, i) => [q.id, i]));
+    for (const [index, question] of bundle.questionnaire.entries()) {
+      const optionIds = new Set<string>();
+      for (const option of question.options) {
+        if (optionIds.has(option.id)) {
+          errors.push(`questionnaire.json: "${question.id}" has duplicate option "${option.id}"`);
+        }
+        optionIds.add(option.id);
+      }
+      if (question.showIf) {
+        const parentIndex = questionIndex.get(question.showIf.questionId);
+        const parent = bundle.questionnaire.find((q) => q.id === question.showIf?.questionId);
+        if (parentIndex === undefined || parent === undefined) {
+          errors.push(
+            `questionnaire.json: "${question.id}" is shown by unknown question "${question.showIf.questionId}"`,
+          );
+        } else {
+          if (parentIndex >= index) {
+            errors.push(`questionnaire.json: "${question.id}" must come after "${parent.id}"`);
+          }
+          const parentOptions = new Set(parent.options.map((o) => o.id));
+          for (const optionId of question.showIf.anyOf) {
+            if (!parentOptions.has(optionId)) {
+              errors.push(
+                `questionnaire.json: "${question.id}" is shown by unknown option "${optionId}" of "${parent.id}"`,
+              );
+            }
+          }
+        }
+      }
+    }
+
     // Aliases must be unique across ingredients (case-insensitive), including the INCI name.
     const owners = new Map<string, string>();
     for (const ingredient of bundle.ingredients) {

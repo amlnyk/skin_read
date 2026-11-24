@@ -14,6 +14,15 @@ const ScanPage = lazy(() => import('@/features/scan').then((m) => ({ default: m.
 const ReferencePage = lazy(() =>
   import('@/features/reference').then((m) => ({ default: m.ReferencePage })),
 );
+// The test has its own full-screen layout (no bottom navigation) and loads on demand.
+const TestPage = lazy(() => import('@/features/test').then((m) => ({ default: m.TestPage })));
+const TestResultPage = lazy(() =>
+  import('@/features/test').then((m) => ({ default: m.TestResultPage })),
+);
+
+function Loading() {
+  return <p role="status">{t('common.loading')}</p>;
+}
 
 // Developer screens exist only in the dev build. In production `import.meta.env.DEV` is
 // replaced with `false`, so the route and the whole dev feature are dropped from the bundle.
@@ -26,7 +35,7 @@ const devRoutes: RouteObject[] = DevStatePage
       {
         path: '/dev/state',
         element: (
-          <Suspense fallback={<p>{t('common.loading')}</p>}>
+          <Suspense fallback={<Loading />}>
             <DevStatePage />
           </Suspense>
         ),
@@ -40,6 +49,22 @@ export const appRoutes: RouteObject[] = [
   {
     element: <OnboardingGuard />,
     children: [
+      {
+        path: '/test',
+        element: (
+          <Suspense fallback={<Loading />}>
+            <TestPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: '/test/result',
+        element: (
+          <Suspense fallback={<Loading />}>
+            <TestResultPage />
+          </Suspense>
+        ),
+      },
       {
         path: '/',
         element: <Layout />,

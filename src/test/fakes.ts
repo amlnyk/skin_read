@@ -1,3 +1,4 @@
+import { loadBundledContent } from '@/content';
 import type { ContentBundle } from '@/schemas';
 import type {
   Clock,
@@ -72,6 +73,13 @@ export function createWriteFailingAdapter(code: StorageErrorCode = 'quota'): Sto
     setItem: () => err({ code }),
     removeItem: (key) => inner.removeItem(key),
   };
+}
+
+/** The real questionnaire and content files, filtered by the policy (demo by default). */
+export function createRealContent(policy: ContentProvider['policy'] = 'demo'): ContentProvider {
+  const loaded = loadBundledContent(policy);
+  if (!loaded.ok) throw new Error('the bundled content must load in tests');
+  return loaded.value;
 }
 
 export function createTestServices(overrides: Partial<Services> = {}): Services {

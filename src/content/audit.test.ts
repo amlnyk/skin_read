@@ -74,6 +74,79 @@ describe('auditContent', () => {
   });
 });
 
+describe('questionnaire references', () => {
+  const question = (id: string, extra: Record<string, unknown> = {}) => ({
+    id,
+    source: 'test',
+    reviewStatus: 'draft',
+    type: 'single',
+    text: null,
+    description: null,
+    required: false,
+    options: [
+      {
+        id: 'a',
+        label: null,
+        description: null,
+        exclusive: false,
+        proposed: false,
+        hasText: false,
+      },
+    ],
+    showIf: null,
+    ...extra,
+  });
+  const withQuestions = (items: unknown[]) => {
+    const files = clone();
+    files['questionnaire.json'] = { items: items as Record<string, unknown>[] };
+    return auditContent(files);
+  };
+
+  it('accepts a question shown by an earlier question and a real option', () => {
+    const report = withQuestions([
+      question('q1'),
+      question('q2', { showIf: { questionId: 'q1', anyOf: ['a'] } }),
+    ]);
+    expect(report.errors).toEqual([]);
+  });
+
+  it('reports a showIf that points to an unknown question', () => {
+    const report = withQuestions([
+      question('q2', { showIf: { questionId: 'ghost', anyOf: ['a'] } }),
+    ]);
+    expect(report.errors.some((e) => e.includes('unknown question "ghost"'))).toBe(true);
+  });
+
+  it('reports a showIf that points to an unknown option', () => {
+    const report = withQuestions([
+      question('q1'),
+      question('q2', { showIf: { questionId: 'q1', anyOf: ['zzz'] } }),
+    ]);
+    expect(report.errors.some((e) => e.includes('unknown option "zzz"'))).toBe(true);
+  });
+
+  it('reports a question shown by a question that comes later', () => {
+    const report = withQuestions([
+      question('q2', { showIf: { questionId: 'q1', anyOf: ['a'] } }),
+      question('q1'),
+    ]);
+    expect(report.errors.some((e) => e.includes('must come after'))).toBe(true);
+  });
+
+  it('reports a duplicate option id inside a question', () => {
+    const option = {
+      id: 'a',
+      label: null,
+      description: null,
+      exclusive: false,
+      proposed: false,
+      hasText: false,
+    };
+    const report = withQuestions([question('q1', { options: [option, option] })]);
+    expect(report.errors.some((e) => e.includes('duplicate option "a"'))).toBe(true);
+  });
+});
+
 describe('formatReport', () => {
   it('prints the totals line in the agreed format', () => {
     const text = formatReport(auditContent(raw as Record<string, unknown>));

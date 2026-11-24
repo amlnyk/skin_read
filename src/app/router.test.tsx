@@ -3,7 +3,7 @@ import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
 import { t, type MessageKey } from '@/i18n';
 import { TestProviders } from '@/test/TestProviders';
-import { createTestStore } from '@/test/fakes';
+import { createRealContent, createTestServices, createTestStore } from '@/test/fakes';
 import { appRoutes } from './router';
 
 function renderAt(path: string, completed = true) {
@@ -11,7 +11,7 @@ function renderAt(path: string, completed = true) {
   if (completed) store.getState().actions.onboarding.complete();
   const router = createMemoryRouter(appRoutes, { initialEntries: [path] });
   render(
-    <TestProviders store={store}>
+    <TestProviders store={store} services={createTestServices({ content: createRealContent() })}>
       <RouterProvider router={router} />
     </TestProviders>,
   );
@@ -37,12 +37,27 @@ describe('app routes', () => {
     expect(await screen.findByRole('note', { name: t('disclaimer.label') })).toBeInTheDocument();
   });
 
-  it('onboarding stub can be skipped, leads home and remembers it in the store', async () => {
+  it('onboarding leads through three steps to the test and is remembered in the store', async () => {
     const { router, store } = renderAt('/', false);
-    fireEvent.click(await screen.findByRole('button', { name: t('onboarding.skip') }));
-    expect(await screen.findByRole('heading', { name: t('nav.home') })).toBeInTheDocument();
-    expect(router.state.location.pathname).toBe('/');
+    expect(
+      await screen.findByRole('heading', { name: t('onboarding.welcomeTitle') }),
+    ).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: t('onboarding.next') }));
+    fireEvent.click(screen.getByRole('button', { name: t('onboarding.next') }));
+    fireEvent.click(screen.getByRole('button', { name: t('onboarding.start') }));
+    expect(
+      await screen.findByRole('heading', { name: 'Визнач свій тип шкіри' }),
+    ).toBeInTheDocument();
+    expect(router.state.location.pathname).toBe('/test');
     expect(store.getState().onboarding.completed).toBe(true);
+  });
+
+  it('the home page links to the test', async () => {
+    renderAt('/');
+    fireEvent.click(await screen.findByRole('link', { name: t('home.startTest') }));
+    expect(
+      await screen.findByRole('heading', { name: 'Визнач свій тип шкіри' }),
+    ).toBeInTheDocument();
   });
 
   it('the developer state screen exists in the dev build (tests run as dev)', async () => {

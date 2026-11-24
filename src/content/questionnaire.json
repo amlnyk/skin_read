@@ -1,20 +1,683 @@
 {
   "items": [
     {
-      "id": "placeholder-question-1",
-      "source": "технічна заглушка, етап 2",
-      "reviewStatus": "placeholder",
+      "id": "q1_base_type",
+      "source": "content/source/message.txt, розділ 09",
+      "reviewStatus": "draft",
       "type": "single",
+      "text": "Визнач свій тип шкіри",
+      "description": null,
+      "required": true,
+      "options": [
+        {
+          "id": "oily",
+          "label": "Жирна або схильна до жирності",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "dry",
+          "label": "Суха або схильна до сухості",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "normal",
+          "label": "Нормальна / резистентна",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "unsure",
+          "label": "Не впевнена(-ий)",
+          "description": null,
+          "exclusive": false,
+          "proposed": true,
+          "hasText": false
+        }
+      ],
+      "showIf": null
+    },
+    {
+      "id": "q2_conditions",
+      "source": "content/source/message.txt, розділ 09",
+      "reviewStatus": "draft",
+      "type": "multi",
+      "text": "Опиши стан своєї шкіри зараз",
+      "description": null,
+      "required": true,
+      "options": [
+        {
+          "id": "dehydrated",
+          "label": "Зневоднена",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "sensitive",
+          "label": "Чутлива",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "reactive",
+          "label": "Реактивна",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "combination",
+          "label": "Комбінована",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "breakouts",
+          "label": "З висипаннями / запаленнями",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "pigmentation",
+          "label": "З пігментацією",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "aging_signs",
+          "label": "З ознаками вікових змін",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "stable",
+          "label": "Стабільна",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        }
+      ],
+      "showIf": null
+    },
+    {
+      "id": "q3_goals",
+      "source": "content/source/message.txt, розділ 09",
+      "reviewStatus": "draft",
+      "type": "multi",
+      "text": "Яка твоя головна мета у догляді?",
+      "description": null,
+      "required": true,
+      "options": [
+        {
+          "id": "reduce_breakouts",
+          "label": "Зменшити запалення, висипання або комедони",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "hydrate",
+          "label": "Зволожити шкіру, зменшити стягнутість і лущення",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "reduce_oiliness",
+          "label": "Зменшити жирність і блиск",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "even_tone",
+          "label": "Вирівняти тон, освітлити пігментацію або постакне",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "anti_aging",
+          "label": "Антивіковий догляд",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "maintain_healthy",
+          "label": "Підтримка здорової, стабільної шкіри",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "other",
+          "label": "Інше",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": true
+        }
+      ],
+      "showIf": null
+    },
+    {
+      "id": "q4_reactions",
+      "source": "content/source/message.txt, розділ 09",
+      "reviewStatus": "draft",
+      "type": "multi",
+      "text": "Чи є у тебе алергії або реакції на певні групи активів?",
+      "description": null,
+      "required": true,
+      "options": [
+        {
+          "id": "acids",
+          "label": "Кислоти AHA, BHA, PHA",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "retinoids",
+          "label": "Ретиноїди",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "fragrance_essential_oils",
+          "label": "Ефірні олії / ароматизатори",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "preservatives_alcohol",
+          "label": "Консерванти або спирт",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "other",
+          "label": "Інші компоненти",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": true
+        },
+        {
+          "id": "none_noticed",
+          "label": "Ні, не помічала(-в)",
+          "description": null,
+          "exclusive": true,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "unknown",
+          "label": "Не знаю / не перевіряла(-в)",
+          "description": null,
+          "exclusive": true,
+          "proposed": false,
+          "hasText": false
+        }
+      ],
+      "showIf": null
+    },
+    {
+      "id": "q5_avoid",
+      "source": "content/source/message.txt, розділ 09",
+      "reviewStatus": "draft",
+      "type": "multi",
+      "text": "Яких компонентів уникаєш у догляді?",
+      "description": null,
+      "required": true,
+      "options": [
+        {
+          "id": "silicones",
+          "label": "Силікони",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "sulfates",
+          "label": "Сульфати SLS/SLES",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "parabens",
+          "label": "Парабени",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "fragrance_essential_oils",
+          "label": "Аромати / ефірні олії",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "alcohol",
+          "label": "Спирт",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "comedogenic_oils",
+          "label": "Комедогенні олії",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "none",
+          "label": "Не уникаю нічого, орієнтуюсь на загальну формулу",
+          "description": null,
+          "exclusive": true,
+          "proposed": false,
+          "hasText": false
+        }
+      ],
+      "showIf": null
+    },
+    {
+      "id": "q6_sex",
+      "source": "content/source/message.txt, розділ 09",
+      "reviewStatus": "draft",
+      "type": "single",
+      "text": "Стать",
+      "description": null,
+      "required": false,
+      "options": [
+        {
+          "id": "female",
+          "label": "Жіноча",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "male",
+          "label": "Чоловіча",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "other_or_undisclosed",
+          "label": "Інше / не хочу зазначати",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        }
+      ],
+      "showIf": null
+    },
+    {
+      "id": "q6_1_cycle",
+      "source": "content/source/message.txt, розділ 09",
+      "reviewStatus": "draft",
+      "type": "multi",
+      "text": "Чи помічаєш ти зміни стану шкіри, пов'язані з менструальним циклом?",
+      "description": null,
+      "required": false,
+      "options": [
+        {
+          "id": "pre_menstrual",
+          "label": "Так, перед менструацією",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "during_menstrual",
+          "label": "Так, під час менструації",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "other_phase",
+          "label": "Так, в інші періоди циклу",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "not_noticed",
+          "label": "Ні, не помічаю",
+          "description": null,
+          "exclusive": true,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "unsure",
+          "label": "Не впевнена(-ий)",
+          "description": null,
+          "exclusive": true,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "not_relevant",
+          "label": "Не актуально для мене",
+          "description": null,
+          "exclusive": true,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "declined",
+          "label": "Не хочу відповідати",
+          "description": null,
+          "exclusive": true,
+          "proposed": false,
+          "hasText": false
+        }
+      ],
+      "showIf": null
+    },
+    {
+      "id": "q6_1_effects",
+      "source": "content/source/message.txt, розділ 09",
+      "reviewStatus": "draft",
+      "type": "multi",
       "text": null,
       "description": null,
       "required": false,
       "options": [
         {
-          "id": "placeholder-option-1",
-          "label": null,
+          "id": "more_breakouts",
+          "label": "Поява або посилення висипань",
           "description": null,
           "exclusive": false,
           "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "oilier",
+          "label": "Підвищена жирність",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "more_sensitive",
+          "label": "Підвищена чутливість",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "dry_tight",
+          "label": "Сухість або стягнутість",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "redness",
+          "label": "Почервоніння",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "other",
+          "label": "Інше",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": true
+        }
+      ],
+      "showIf": {
+        "questionId": "q6_1_cycle",
+        "anyOf": ["pre_menstrual", "during_menstrual", "other_phase"]
+      }
+    },
+    {
+      "id": "q7_products_count",
+      "source": "content/source/message.txt, розділ 09",
+      "reviewStatus": "draft",
+      "type": "single",
+      "text": "Скільки засобів ти зазвичай використовуєш у догляді?",
+      "description": null,
+      "required": true,
+      "options": [
+        {
+          "id": "1_2",
+          "label": "1–2",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "3_4",
+          "label": "3–4",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "5_plus",
+          "label": "5 і більше",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "none",
+          "label": "Не користуюся доглядовими засобами",
+          "description": null,
+          "exclusive": false,
+          "proposed": true,
+          "hasText": false
+        }
+      ],
+      "showIf": null
+    },
+    {
+      "id": "q8_care_time",
+      "source": "content/source/message.txt, розділ 09",
+      "reviewStatus": "draft",
+      "type": "single",
+      "text": "Коли ти зазвичай робиш догляд?",
+      "description": null,
+      "required": true,
+      "options": [
+        {
+          "id": "evening_only",
+          "label": "Лише ввечері",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "morning_evening",
+          "label": "Вранці та ввечері",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "occasionally",
+          "label": "Час від часу",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "morning_only",
+          "label": "Лише вранці",
+          "description": null,
+          "exclusive": false,
+          "proposed": true,
+          "hasText": false
+        },
+        {
+          "id": "none",
+          "label": "Не маю доглядової рутини",
+          "description": null,
+          "exclusive": false,
+          "proposed": true,
+          "hasText": false
+        }
+      ],
+      "showIf": null
+    },
+    {
+      "id": "q9_safety_flags",
+      "source": "content/source/message.txt, розділ 09, «Додаткові питання безпеки»",
+      "reviewStatus": "draft",
+      "type": "multi",
+      "text": null,
+      "description": "Ці відповіді роблять рекомендації безпечнішими; їх можна пропустити",
+      "required": false,
+      "options": [
+        {
+          "id": "strong_or_prolonged_reaction",
+          "label": "Сильна або тривала реакція на косметику",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "painful_swelling_or_burning",
+          "label": "Болісні запалення, значний набряк, виражене печіння",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "prescribed_derm_treatment",
+          "label": "Використання призначених лікарем дерматологічних препаратів",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "pregnancy_or_planning",
+          "label": "Вагітність або планування вагітності",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        },
+        {
+          "id": "other_limits",
+          "label": "Інші обставини, які можуть обмежувати використання активів",
+          "description": null,
+          "exclusive": false,
+          "proposed": false,
+          "hasText": false
+        }
+      ],
+      "showIf": null
+    },
+    {
+      "id": "q10_age_band",
+      "source": "content/source/message.txt, розділ 09, «Додаткові питання безпеки»",
+      "reviewStatus": "draft",
+      "type": "single",
+      "text": null,
+      "description": "Ці відповіді роблять рекомендації безпечнішими; їх можна пропустити",
+      "required": false,
+      "options": [
+        {
+          "id": "under_18",
+          "label": "до 18",
+          "description": null,
+          "exclusive": false,
+          "proposed": true,
+          "hasText": false
+        },
+        {
+          "id": "18_24",
+          "label": "18–24",
+          "description": null,
+          "exclusive": false,
+          "proposed": true,
+          "hasText": false
+        },
+        {
+          "id": "25_34",
+          "label": "25–34",
+          "description": null,
+          "exclusive": false,
+          "proposed": true,
+          "hasText": false
+        },
+        {
+          "id": "35_plus",
+          "label": "35+",
+          "description": null,
+          "exclusive": false,
+          "proposed": true,
           "hasText": false
         }
       ],

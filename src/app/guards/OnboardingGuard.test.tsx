@@ -26,7 +26,9 @@ describe('OnboardingGuard', () => {
 
   it('redirects to /onboarding when onboarding is not completed', async () => {
     const router = renderAt('/care', false);
-    expect(await screen.findByRole('heading', { name: t('onboarding.title') })).toBeInTheDocument();
+    expect(
+      await screen.findByRole('heading', { name: t('onboarding.welcomeTitle') }),
+    ).toBeInTheDocument();
     expect(router.state.location.pathname).toBe('/onboarding');
   });
 });
