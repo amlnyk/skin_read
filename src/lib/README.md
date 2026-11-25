@@ -12,3 +12,4 @@
 - `image/`: стиснення фото на пристрої (`resizeImage`: довша сторона ≤1600 px, JPEG 0,8, ≤1,5 МБ). Браузерні частини (декодування, canvas) лише в `browserImage.ts`, решта працює в тестах через `ImageDeps`.
 - `idb/`: `PhotoStore` над IndexedDB (`idb-keyval`), ключ це id засобу. Фото не входять в експорт.
 - `services/usePhoto.ts`: фото засобу як адреса для `<img>` (звільняється при виході з екрана).
+- `pwa/`: `createUpdateNotifier`, стор «нова версія готова» для банера оновлення. Сама реєстрація service worker лише в `main.tsx` (`virtual:pwa-register`).

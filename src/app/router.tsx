@@ -7,6 +7,7 @@ import { ProfilePage, ResultPage } from '@/features/profile';
 import { AnalysisPage, RoutinePage } from '@/features/routine';
 import { OnboardingGuard } from './guards/OnboardingGuard';
 import { Layout } from './Layout';
+import { NotFoundPage } from './NotFoundPage';
 
 // Heavy features are loaded on demand (separate chunks): scan, reference, compat.
 // The journal, the compare screen and the settings load on demand too.
@@ -52,6 +53,13 @@ const ConsentsPage = lazy(() =>
   import('@/features/settings').then((m) => ({ default: m.ConsentsPage })),
 );
 const DataPage = lazy(() => import('@/features/settings').then((m) => ({ default: m.DataPage })));
+const AboutPage = lazy(() => import('@/features/about').then((m) => ({ default: m.AboutPage })));
+const PrivacyPage = lazy(() =>
+  import('@/features/about').then((m) => ({ default: m.PrivacyPage })),
+);
+const DisclaimerPage = lazy(() =>
+  import('@/features/about').then((m) => ({ default: m.DisclaimerPage })),
+);
 // The test has its own full-screen layout (no bottom navigation) and loads on demand.
 const TestPage = lazy(() => import('@/features/test').then((m) => ({ default: m.TestPage })));
 
@@ -122,6 +130,10 @@ export const appRoutes: RouteObject[] = [
           { path: 'profile/settings/reminders', element: <RemindersPage /> },
           { path: 'profile/settings/consents', element: <ConsentsPage /> },
           { path: 'profile/settings/data', element: <DataPage /> },
+          { path: 'profile/about', element: <AboutPage /> },
+          { path: 'profile/privacy', element: <PrivacyPage /> },
+          { path: 'profile/disclaimer', element: <DisclaimerPage /> },
+          { path: '*', element: <NotFoundPage /> },
         ],
       },
     ],

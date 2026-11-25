@@ -12,3 +12,4 @@
 - `observation-templates.json` (етап 9): тексти спостережень про всю рутину (`text`: що знайдено, `why`: чому), по запису на кожен id з `OBSERVATION_TEMPLATE_IDS`; без тексту `placeholder`, на екрані «Інформація готується»;
 - можна імпортувати: `@/schemas`, `@/types`; не можна: решту шарів;
 - зовні імпортується через `@/content` (файл `index.ts`).
+- `version.json` (етап 13): `appVersion` (дорівнює `version` у `package.json`), `contentVersion` і `updatedAt`; не контент і не входить до аудиту. `contentVersion` піднімається при кожній зміні контенту; читається через `@/content` (`APP_VERSION`, `CONTENT_VERSION`, `CONTENT_UPDATED_AT`).

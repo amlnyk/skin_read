@@ -38,7 +38,8 @@
   align-items: center;
   justify-content: center;
   min-height: var(--tap-target);
-  padding: var(--space-2) var(--space-1);
+  padding: var(--space-2) 2px;
+  overflow-wrap: anywhere;
   border-top: 4px solid transparent;
   color: var(--color-text-muted);
   font-size: var(--font-size-sm);

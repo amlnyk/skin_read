@@ -1,9 +1,52 @@
 import { fileURLToPath } from 'node:url';
 import react from '@vitejs/plugin-react';
+import { VitePWA } from 'vite-plugin-pwa';
 import { defineConfig } from 'vitest/config';
 
+// The PWA plugin builds the manifest and the service worker. Rules (stage 13):
+// - static files (js, css, html, icons) are precached, so the app opens offline;
+//   the content files (src/content/*.json) are compiled into the js chunks, so they are cached with them;
+// - requests to /api/ are NEVER cached and never answered by the navigation fallback;
+// - a new version waits for the person's choice (registerType 'prompt'), it is not applied silently.
+const pwa = VitePWA({
+  registerType: 'prompt',
+  // The registration is bundled from src/main.tsx: the CSP forbids inline scripts.
+  injectRegister: false,
+  includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
+  manifest: {
+    name: 'Skin Barrier',
+    short_name: 'Skin Barrier',
+    description: 'Освітній помічник із догляду за шкірою та аналізу складу засобів',
+    lang: 'uk',
+    start_url: '/',
+    scope: '/',
+    display: 'standalone',
+    // Keep in sync with --color-surface and --color-bg in src/styles/tokens.css.
+    theme_color: '#ffffff',
+    background_color: '#f7f7f5',
+    icons: [
+      { src: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { src: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+      { src: '/icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+    ],
+  },
+  workbox: {
+    globPatterns: ['**/*.{js,css,html,svg,png,webmanifest,json}'],
+    navigateFallback: '/index.html',
+    navigateFallbackDenylist: [/^\/api\//],
+    cleanupOutdatedCaches: true,
+    runtimeCaching: [
+      {
+        urlPattern: ({ url }) => url.pathname.startsWith('/api/'),
+        handler: 'NetworkOnly',
+      },
+    ],
+  },
+});
+
 export default defineConfig({
-  plugins: [react()],
+  // Tests do not need the PWA plugin.
+  plugins: [react(), ...(process.env['VITEST'] ? [] : [pwa])],
   resolve: {
     alias: {
       '@fixtures': fileURLToPath(new URL('./tests/fixtures', import.meta.url)),

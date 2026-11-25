@@ -1,7 +1,7 @@
 {
   "name": "skin-barrier",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.0.0-rc.1",
   "type": "module",
   "engines": {
     "node": ">=22"
@@ -53,10 +53,11 @@
     "jsdom": "^31.0.1",
     "lint-staged": "^17.6.2",
     "prettier": "^3.10.1",
-    "tsx": "^4.23.15",
+    "tsx": "^4.20.0",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.74.0",
     "vite": "^8.3.8",
+    "vite-plugin-pwa": "^2.0.0",
     "vitest": "^5.1.1"
   }
 }

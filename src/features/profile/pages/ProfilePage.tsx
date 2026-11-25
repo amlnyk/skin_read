@@ -29,6 +29,12 @@ export function ProfilePage() {
         <h1>{t('nav.profile')}</h1>
         <p>{t('profile.empty')}</p>
         <Link to="/test">{t('profile.startTest')}</Link>
+        <nav className={styles.links} aria-label={t('profile.moreLabel')}>
+          <Link to="/profile/settings">{t('profile.settingsLink')}</Link>
+          <Link to="/profile/about">{t('profile.aboutLink')}</Link>
+          <Link to="/profile/privacy">{t('profile.privacyLink')}</Link>
+          <Link to="/profile/disclaimer">{t('profile.disclaimerLink')}</Link>
+        </nav>
       </section>
     );
   }
@@ -94,6 +100,9 @@ export function ProfilePage() {
         <Link to="/profile/journal">{t('profile.journalLink')}</Link>
         <Link to="/profile/history">{t('scan.history')}</Link>
         <Link to="/profile/settings">{t('profile.settingsLink')}</Link>
+        <Link to="/profile/about">{t('profile.aboutLink')}</Link>
+        <Link to="/profile/privacy">{t('profile.privacyLink')}</Link>
+        <Link to="/profile/disclaimer">{t('profile.disclaimerLink')}</Link>
       </nav>
 
       <div className={styles.actions}>

@@ -4,6 +4,7 @@ import type { ContentBundle, ContentPolicy } from '@/schemas';
 import type { ContentProvider } from '@/types';
 import { CONTENT_FILES } from './files';
 import { applyContentPolicy } from './policy';
+import { CONTENT_VERSION } from './version';
 
 // Results are values, not exceptions (see the Result type in lib). The content layer may not
 // import lib, so this tiny local shape is used instead.
@@ -22,9 +23,6 @@ export type ContentLoadResult =
 export type ParseResult =
   | { readonly ok: true; readonly value: ContentBundle }
   | { readonly ok: false; readonly error: ContentLoadError };
-
-// Placeholder until content gets its own version file (a later content stage).
-export const CONTENT_VERSION = '0.0.0';
 
 const containerSchema = <T extends z.ZodType>(item: T) => z.object({ items: z.array(item) });
 

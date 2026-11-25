@@ -1,5 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { registerSW } from 'virtual:pwa-register';
 import { App } from './app/App';
 import { createAppConfig } from './app/app.config';
 import { createComposition } from './app/compositionRoot';
@@ -8,6 +9,7 @@ import { describeContentError, loadBundledContent } from '@/content';
 import { t } from '@/i18n';
 import { parseEnv } from '@/lib/env';
 import { createConsoleLogger } from '@/lib/logger';
+import { createUpdateNotifier } from '@/lib/pwa';
 import { ServicesProvider } from '@/lib/services';
 import { StoreProvider } from '@/store';
 import './styles/tokens.css';
@@ -45,11 +47,23 @@ if (!env.ok) {
     container.textContent = t('errors.content');
   } else {
     const { services, store } = createComposition(env.value, content.value);
+    const updates = createUpdateNotifier();
+    // The service worker exists only in the production build (it would hide changes in dev).
+    // A new version is never applied silently: the person decides in the banner.
+    if (import.meta.env.PROD) {
+      const updateServiceWorker = registerSW({
+        onNeedRefresh() {
+          updates.markReady(() => {
+            void updateServiceWorker(true);
+          });
+        },
+      });
+    }
     createRoot(container).render(
       <StrictMode>
         <ServicesProvider services={services}>
           <StoreProvider store={store}>
-            <App router={createAppRouter()} />
+            <App router={createAppRouter()} updates={updates} />
           </StoreProvider>
         </ServicesProvider>
       </StrictMode>,

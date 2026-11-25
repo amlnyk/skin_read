@@ -28,7 +28,8 @@ export const browserImageDeps: ImageDeps = {
     canvas.height = height;
     const context = canvas.getContext('2d');
     if (!context) return null;
-    // a white background: a PNG with transparency would otherwise turn black in a JPEG
+    // a white background: a PNG with transparency would otherwise turn black in a JPEG.
+    // Documented exception to the tokens rule: this is image data, not interface color.
     context.fillStyle = '#ffffff';
     context.fillRect(0, 0, width, height);
     context.drawImage(bitmap, 0, 0, width, height);

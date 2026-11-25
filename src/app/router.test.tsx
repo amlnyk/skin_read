@@ -37,12 +37,22 @@ describe('app routes', () => {
     ['/profile/settings/reminders', 'settings.remindersTitle'], // lazy chunk
     ['/profile/settings/consents', 'settings.consentsTitle'], // lazy chunk
     ['/profile/settings/data', 'settings.dataTitle'], // lazy chunk
+    ['/profile/about', 'about.title'], // lazy chunk
+    ['/profile/privacy', 'privacy.title'], // lazy chunk
+    ['/profile/disclaimer', 'disclaimerPage.title'], // lazy chunk
     ['/profile', 'nav.profile'],
   ];
 
   it.each(pages)('opens %s', async (path, titleKey) => {
     renderAt(path);
     expect(await screen.findByRole('heading', { name: t(titleKey) })).toBeInTheDocument();
+  });
+
+  it('shows a not-found screen with a way home for an unknown address', async () => {
+    renderAt('/no/such/page');
+    expect(await screen.findByRole('heading', { name: t('notFound.title') })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('link', { name: t('notFound.toHome') }));
+    expect(await screen.findByRole('heading', { name: t('nav.home') })).toBeInTheDocument();
   });
 
   it('shows the medical disclaimer on the home page', async () => {
