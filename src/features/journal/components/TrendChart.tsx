@@ -12,7 +12,7 @@ import {
 } from '@/logic/journal';
 import type { JournalEntry, Product } from '@/types';
 import { Select } from '@/ui';
-import { formatDate, shortDate } from '../today';
+import { formatDate, shortDate } from '../utils/today';
 import styles from './dynamics.module.css';
 
 // The chart is drawn by hand in SVG (no library). Geometry in the units of the viewBox.

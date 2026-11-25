@@ -16,7 +16,7 @@ import type {
 } from '@/types';
 import { Button, Chip, Select, TextInput } from '@/ui';
 import { CompositionBuilder } from '../components/CompositionBuilder';
-import styles from '../products.module.css';
+import styles from '../styles/products.module.css';
 
 type Mode = 'paste' | 'manual' | 'name';
 

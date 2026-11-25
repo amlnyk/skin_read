@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { t } from '@/i18n';
 import { useAppStore } from '@/store';
-import styles from '../scan.module.css';
+import styles from '../styles/scan.module.css';
 
 // Профіль → «Історія перевірок»: the saved results, the newest first. A result made for an
 // older profile is marked; the result screen explains it and offers "Перевірити знову".

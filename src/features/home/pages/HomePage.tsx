@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import disclaimer from '@/content/disclaimer.json';
+import { disclaimer } from '@/content';
 import { t } from '@/i18n';
 import { DoctorBanner, MedicalDisclaimer } from '@/ui';
-import styles from '../home.module.css';
-import { useHomeSummary } from '../useHomeSummary';
+import styles from '../styles/home.module.css';
+import { useHomeSummary } from '../hooks/useHomeSummary';
 
 // The home screen (ТЗ, розділ 27): the state of the profile, the routine for now, what to look
 // for, quick access to the scanner. It only summarises; the details live on their own screens.

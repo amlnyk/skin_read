@@ -3,8 +3,8 @@ import { t } from '@/i18n';
 import { useAppStore, useAppStoreApi } from '@/store';
 import { Chip } from '@/ui';
 import { TimeField } from '../components/TimeField';
-import { REMINDERS, type ReminderId } from '../reminders';
-import styles from '../settings.module.css';
+import { REMINDERS, type ReminderId } from '../utils/reminders';
+import styles from '../styles/settings.module.css';
 
 const TIME_PATTERN = /^([01]\d|2[0-3]):[0-5]\d$/;
 

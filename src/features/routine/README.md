@@ -14,8 +14,8 @@
 - `components/StepCard.tsx`, `RoutineTab.tsx`: картка кроку, переміщення й видалення кнопками, додавання, позначка «виконано сьогодні»;
 - `components/ShoppingNeeds.tsx`: групи потреб, «готово», «прибрати», перехід у сканер;
 - `hooks/useCare.ts`: збирає все з store й `logic/routine`;
-- `pages/AnalysisPage.tsx` (`/care/analysis`): «Аналіз мого догляду», список спостережень про весь набір засобів; `components/ObservationCard.tsx`, `SeverityIcon.tsx`; `hooks/useRoutineAnalysis.ts`; `describeObservation.ts` перетворює спостереження на слова з контенту й словника (немає тексту, то «Інформація готується»);
-- `describe.ts`: id з логіки в тексти. Немає тексту в контенті, тоді «Інформація готується»;
-- `today.ts`: сьогоднішня дата користувача.
+- `pages/AnalysisPage.tsx` (`/care/analysis`): «Аналіз мого догляду», список спостережень про весь набір засобів; `components/ObservationCard.tsx`, `SeverityIcon.tsx`; `hooks/useRoutineAnalysis.ts`; `utils/describeObservation.ts` перетворює спостереження на слова з контенту й словника (немає тексту, то «Інформація готується»);
+- `utils/describe.ts`: id з логіки в тексти. Немає тексту в контенті, тоді «Інформація готується»;
+- `utils/today.ts`: сьогоднішня дата користувача.
 
 У store зберігається лише те, що змінив користувач: кроки, позначки, стан потреб. Призначення, застереження й потреби рахуються щоразу.

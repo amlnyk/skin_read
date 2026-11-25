@@ -17,7 +17,7 @@ import type { VisionProvider } from './visionProvider.js';
 // outside (environment, AI service, limiter, clock, logger) passed in. The host entry file
 // api/analyze-label.ts only wires the real parts; the tests wire fakes.
 //
-// Order (docs/API.md): method, Origin, limits, size of the body, JSON, schema, the bytes of the
+// Order (docs/architecture/API.md): method, Origin, limits, size of the body, JSON, schema, the bytes of the
 // photo, the AI, the schema of the answer. The limits are checked before anything is read or sent.
 
 // A photo of MAX_IMAGE_BYTES is about 2.0 million base64 characters; the rest is the JSON frame.

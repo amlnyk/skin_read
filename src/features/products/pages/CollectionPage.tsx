@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { t } from '@/i18n';
 import { needsComposition } from '@/logic/analyze';
 import { useAppStore } from '@/store';
-import styles from '../products.module.css';
+import styles from '../styles/products.module.css';
 
 // "Мої засоби": the collection. A product with only a name has the status "Потрібен склад".
 export function CollectionPage() {

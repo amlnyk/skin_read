@@ -1,7 +1,7 @@
 /* Temporary design tokens in the spirit of iOS (light, grouped lists, system font).
    They will be replaced by the author's design from Figma: change the values here, not in modules.
    This is the only file allowed to contain raw color values.
-   Contrast is checked by src/styles/tokens.test.ts (text 4.5:1, controls 3:1). */
+   Contrast is checked by src/styles/__tests__/tokens.test.ts (text 4.5:1, controls 3:1). */
 :root {
   color-scheme: light;
 

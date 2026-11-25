@@ -3,7 +3,7 @@ import { t } from '@/i18n';
 import { ADDABLE_CATEGORIES } from '@/logic/routine';
 import { Button, Chip } from '@/ui';
 import type { ProductCategory, Scenario } from '@/types';
-import { categoryName } from '../describe';
+import { categoryName } from '../utils/describe';
 import styles from './ScenarioChoice.module.css';
 
 type Props = {

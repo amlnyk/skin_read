@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import disclaimer from '@/content/disclaimer.json';
+import { disclaimer } from '@/content';
 import { t } from '@/i18n';
 import { usePhoto, useServices } from '@/lib/services';
 import { ingredientName } from '@/logic/analyze';
@@ -11,10 +11,10 @@ import type { Frequency, ParsedIngredient, Product, ScanResult, Slot } from '@/t
 import { Button, MedicalDisclaimer, Modal, PhotoPreview, Select } from '@/ui';
 import { ObservationList } from '../components/ObservationList';
 import { ScanStatusIcon } from '../components/ScanStatusIcon';
-import type { DescribeContext } from '../describe';
+import type { DescribeContext } from '../utils/describe';
 import { useChecks } from '../hooks/useChecks';
-import { goalLabel, namesOf } from '../labels';
-import styles from '../scan.module.css';
+import { goalLabel, namesOf } from '../utils/labels';
+import styles from '../styles/scan.module.css';
 
 const MAX_KEY_COMPONENTS = 8;
 

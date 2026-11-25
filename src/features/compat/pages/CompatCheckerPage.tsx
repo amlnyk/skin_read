@@ -8,7 +8,7 @@ import { useAppStore } from '@/store';
 import { Chip } from '@/ui';
 import { CompatResultCard } from '../components/CompatResultCard';
 import { IngredientPicker } from '../components/IngredientPicker';
-import { subjectName } from '../labels';
+import { subjectName } from '../utils/labels';
 import styles from './CompatCheckerPage.module.css';
 
 /** How many components can be checked at once (15 pairs at 6 components, 28 at 8). */

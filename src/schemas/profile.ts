@@ -56,7 +56,7 @@ export const skinProfileSchema = z.object({
     productsCount: productsCountSchema.nullable(),
     careTime: careTimeSchema.nullable(),
   }),
-  // Ids of contradictions the user was asked about (provisional, see docs/decisions.md).
+  // Ids of contradictions the user was asked about (provisional, see docs/architecture/decisions.md).
   contradictions: z.array(z.string().max(LIMITS.id)),
   createdAt: isoDateTimeSchema,
   updatedAt: isoDateTimeSchema,

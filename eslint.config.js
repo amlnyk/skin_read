@@ -4,7 +4,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import tseslint from 'typescript-eslint';
 
 // ---------------------------------------------------------------------------
-// Architecture boundaries (docs/ARCHITECTURE.md, section 2) are enforced with the built-in
+// Architecture boundaries (docs/architecture/ARCHITECTURE.md, section 2) are enforced with the built-in
 // `no-restricted-imports` rule: no extra plugin, works with ESLint 9 flat config.
 // Cross-layer imports must use the `@/` alias (src/), so they can be recognised by name.
 // ---------------------------------------------------------------------------
@@ -60,18 +60,19 @@ const COMMON_PATTERNS = [
   },
 ];
 
-function importRule(layer) {
+function importRule(layer, { testFiles = false } = {}) {
   const allowed = new Set(ALLOWED[layer] ?? LAYERS);
   const partial = PARTIAL_LIB[layer];
   if (partial) allowed.add('lib');
 
-  const patterns = [...COMMON_PATTERNS];
+  // Tests sit one folder deeper (__tests__), so their way to a sibling module is ../../x.
+  const patterns = COMMON_PATTERNS.filter((p) => !(testFiles && p.group[0] === '../../*'));
 
   for (const other of LAYERS) {
     if (allowed.has(other)) continue;
     patterns.push({
       group: [`@/${other}`],
-      message: `Шар «${layer}» не може імпортувати з «${other}». Дивись docs/ARCHITECTURE.md, розділ 2.`,
+      message: `Шар «${layer}» не може імпортувати з «${other}». Дивись docs/architecture/ARCHITECTURE.md, розділ 2.`,
     });
   }
   if (partial) {
@@ -127,6 +128,11 @@ export default tseslint.config(
   ...LAYERS.filter((layer) => layer !== 'app').map((layer) => ({
     files: [`src/${layer}/**/*.{ts,tsx}`],
     rules: importRule(layer),
+  })),
+  // Tests (src/<layer>/**/__tests__): the same layer rules, but ../../module is allowed.
+  ...LAYERS.filter((layer) => layer !== 'app').map((layer) => ({
+    files: [`src/${layer}/**/__tests__/**/*.{ts,tsx}`],
+    rules: importRule(layer, { testFiles: true }),
   })),
 
   // Server functions (api/): own code, only the shared contract of src/schemas/api may be imported.

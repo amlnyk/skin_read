@@ -6,7 +6,7 @@ import { createMemoryRateLimiter } from './_lib/rateLimit.js';
 import { createAnthropicProvider } from './_lib/visionProvider.js';
 
 // POST /api/analyze-label: a photo of a label in, the text of the composition out.
-// The contract is in docs/API.md. Everything that can be tested lives in ./_lib; this file only
+// The contract is in docs/architecture/API.md. Everything that can be tested lives in ./_lib; this file only
 // connects the real parts (environment variables, the AI service, the clock).
 
 // The host may run this function for 20 seconds (vercel.json, "functions"). The function waits

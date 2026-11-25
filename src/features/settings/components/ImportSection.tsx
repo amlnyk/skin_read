@@ -12,9 +12,9 @@ import {
 import { migrate, pickPersisted, STORE_VERSION, useAppStoreApi } from '@/store';
 import type { ExportFile } from '@/types';
 import { Button, Chip } from '@/ui';
-import { photoIdsAfterImport } from '../dataCategories';
-import { formatDate } from '../format';
-import styles from '../settings.module.css';
+import { photoIdsAfterImport } from '../utils/dataCategories';
+import { formatDate } from '../utils/format';
+import styles from '../styles/settings.module.css';
 
 type ImportState =
   | { kind: 'idle' }

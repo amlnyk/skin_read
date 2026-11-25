@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import disclaimer from '@/content/disclaimer.json';
+import { disclaimer } from '@/content';
 import { t, type MessageKey } from '@/i18n';
 import { useServices } from '@/lib/services';
 import type { ProfileNote } from '@/logic/profile';
@@ -10,9 +10,9 @@ import { Button, DoctorBanner, MedicalDisclaimer } from '@/ui';
 import { EmergencyScreen } from '../components/EmergencyScreen';
 import { TextBlocks } from '../components/TextBlocks';
 import { ValueGroup } from '../components/ValueGroup';
-import { groupValues, restrictionValues } from '../describeProfile';
+import { groupValues, restrictionValues } from '../utils/describeProfile';
 import { useProfileBuilder } from '../hooks/useProfileBuilder';
-import { optionLabel } from '../labels';
+import { optionLabel } from '../utils/labels';
 import styles from './ResultPage.module.css';
 
 // Service notes: the ids come from the algorithm, the interface texts from i18n.

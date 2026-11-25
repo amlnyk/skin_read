@@ -7,7 +7,7 @@ import { QUESTION_IDS } from '@/schemas';
 import { useAppStore, useAppStoreApi } from '@/store';
 import { Button, Modal } from '@/ui';
 import { ValueGroup } from '../components/ValueGroup';
-import { groupValues, PROFILE_GROUPS, type ProfileGroup } from '../describeProfile';
+import { groupValues, PROFILE_GROUPS, type ProfileGroup } from '../utils/describeProfile';
 import styles from './ProfilePage.module.css';
 
 const SENSITIVE_QUESTIONS: string[] = [

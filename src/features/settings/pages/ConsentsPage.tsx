@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 import { t } from '@/i18n';
 import { useAppStore, useAppStoreApi } from '@/store';
 import { Button } from '@/ui';
-import { formatDate } from '../format';
-import styles from '../settings.module.css';
+import { formatDate } from '../utils/format';
+import styles from '../styles/settings.module.css';
 
 // What the user has allowed. Nothing is switched on by default. The photo reader itself comes
 // later; here the consent can already be seen and taken back.

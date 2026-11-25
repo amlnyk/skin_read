@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { t } from '@/i18n';
 import { useAppStore, useAppStoreApi } from '@/store';
 import { Chip } from '@/ui';
-import styles from '../settings.module.css';
+import styles from '../styles/settings.module.css';
 
 // The start of the settings: which optional journal fields are shown, and the three subpages.
 export function SettingsPage() {

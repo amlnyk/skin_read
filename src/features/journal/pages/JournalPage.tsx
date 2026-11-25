@@ -13,7 +13,7 @@ import { EntryList } from '../components/EntryList';
 import { SuggestionBanner } from '../components/SuggestionBanner';
 import { TrendChart } from '../components/TrendChart';
 import { useJournal } from '../hooks/useJournal';
-import { localDate } from '../today';
+import { localDate } from '../utils/today';
 import styles from './JournalPage.module.css';
 
 export function JournalPage() {

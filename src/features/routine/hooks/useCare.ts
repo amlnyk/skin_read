@@ -13,7 +13,7 @@ import {
 } from '@/logic/routine';
 import { useAppStore, useAppStoreApi } from '@/store';
 import type { ProductCategory, Routine, Scenario, Slot } from '@/types';
-import { localDate } from '../today';
+import { localDate } from '../utils/today';
 
 /**
  * Everything the care screens need: the saved profile and its analysis, the routine, the list

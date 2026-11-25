@@ -1,7 +1,7 @@
 import { t } from '@/i18n';
 import type { PersistedState } from '@/types';
-import { summarizeData } from '../dataCategories';
-import styles from '../settings.module.css';
+import { summarizeData } from '../utils/dataCategories';
+import styles from '../styles/settings.module.css';
 
 // "What is stored", in plain words, with how much of each. Only numbers, never the data itself.
 export function StoredList({

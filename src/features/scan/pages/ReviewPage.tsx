@@ -15,7 +15,7 @@ import { productCategorySchema } from '@/schemas';
 import type { ParsedIngredient, Product, ProductCategory } from '@/types';
 import { Button, Chip, CompositionEditor, Select, TextInput } from '@/ui';
 import { useChecks } from '../hooks/useChecks';
-import styles from '../scan.module.css';
+import styles from '../styles/scan.module.css';
 
 // Below this the photo is called unclear on the review screen. It is a prompt to look closer,
 // not a verdict: the service judges how legible the list was.

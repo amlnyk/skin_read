@@ -18,7 +18,7 @@ export type SymptomKey = (typeof SYMPTOM_KEYS)[number];
  * the user can change it, and nothing is saved until they confirm. `null` means the profile has
  * no such state (oiliness is the base type, not a state), so the symptom never starts a question.
  *
- * PROPOSED, not from the spec: the pairs are waiting for the cosmetologist (docs/decisions.md).
+ * PROPOSED, not from the spec: the pairs are waiting for the cosmetologist (docs/architecture/decisions.md).
  */
 export const SYMPTOM_CONDITION: Readonly<Record<SymptomKey, Condition | null>> = {
   dryness: 'dehydrated',

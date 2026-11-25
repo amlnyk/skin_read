@@ -5,7 +5,7 @@ import { createExport, exportFileName, serializeExport } from '@/lib/exportImpor
 import { useServices } from '@/lib/services';
 import { pickPersisted, STORE_VERSION, useAppStoreApi } from '@/store';
 import { Button } from '@/ui';
-import styles from '../settings.module.css';
+import styles from '../styles/settings.module.css';
 
 // Everything the app saves goes into one JSON file on the user's own device. Nothing is sent anywhere.
 export function ExportSection() {

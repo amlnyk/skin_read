@@ -3,7 +3,7 @@ import { CONTENT_FILES, SINGLE_RECORD_FILES } from './files';
 import { parseContentFiles } from './loader';
 import { normalizeName } from './normalizeName';
 
-// Pure functions of the content audit. The script scripts/content-audit.ts only reads files,
+// Pure functions of the content audit. The script scripts/content/audit.ts only reads files,
 // prints the report, writes CONTENT_TODO.md and sets the exit code.
 
 export type StatusCounts = Record<ReviewStatus, number>;

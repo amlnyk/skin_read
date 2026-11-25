@@ -6,7 +6,7 @@
 - `see_doctor`: сильна чи тривала реакція, болісний набряк чи печіння;
 - прапорці лікарського призначення, вагітності й інших обмежень дають лише `medicalNotes`, режим не змінюють.
 
-Тексти повідомлень тут не живуть: вони в `src/content/safety-messages.json`
+Тексти повідомлень тут не живуть: вони в `src/content/data/safety-messages.json`
 (id в `@/schemas`: `SAFETY_MESSAGE_IDS`, `safetyNoteId`).
 
 Правила: чисті функції.

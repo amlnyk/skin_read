@@ -1,11 +1,11 @@
 import { t } from '@/i18n';
 import { useServices } from '@/lib/services';
 import { useAppStore } from '@/store';
-import { createExampleData } from '../exampleData';
+import { createExampleData } from '../utils/exampleData';
 
 // Developer screen: shows the whole app state and lets you write a sample / reset.
 // The route exists only in the dev build (see app/router.tsx); the marker below must not
-// appear in the production bundle (scripts/setup-stage2.ps1 and the CI build check it).
+// appear in the production bundle (scripts/setup/setup-stage2.ps1 and the CI build check it).
 export function DevStatePage() {
   const state = useAppStore((s) => s);
   const { clock } = useServices();

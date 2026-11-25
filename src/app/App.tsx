@@ -1,9 +1,9 @@
 import { RouterProvider } from 'react-router-dom';
 import type { UpdateNotifier } from '@/lib/pwa';
-import { ErrorBoundary } from './ErrorBoundary';
-import { PersistenceGate } from './PersistenceGate';
+import { ErrorBoundary } from './components/ErrorBoundary';
+import { PersistenceGate } from './components/PersistenceGate';
 import type { AppRouter } from './router';
-import { UpdateBanner } from './UpdateBanner';
+import { UpdateBanner } from './components/UpdateBanner';
 
 type Props = { router: AppRouter; updates?: UpdateNotifier };
 

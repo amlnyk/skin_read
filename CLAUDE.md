@@ -21,7 +21,7 @@ Skin Barrier: некомерційний освітній студентськи
 обґрунтування рішень, а не статистика для всього населення. Повне ТЗ лежить у
 content/source/. Якщо ТЗ і ці інструкції розходяться, став мені одне питання.
 Технології, архітектура, структура репозиторію і контракти API описані в
-docs/STACK.md, docs/ARCHITECTURE.md і docs/API.md: це обов'язковий
+docs/architecture/STACK.md, docs/architecture/ARCHITECTURE.md і docs/architecture/API.md: це обов'язковий
 production-стандарт. Перед кожним етапом перечитуй їх і дотримуйся буквально;
 якщо промпт етапу суперечить їм, зупинись і скажи мені.
 
@@ -60,13 +60,13 @@ CONTENT_TODO.md і спитай мене. Не заповнюй правдопо
 - Жодних числових оцінок на кшталт «догляд правильний на 87%». Жодного поділу
 компонентів на «хороші» і «погані».
 
-## Архітектура (скорочено; повна версія в docs/ARCHITECTURE.md, і вона головніша)
+## Архітектура (скорочено; повна версія в docs/architecture/ARCHITECTURE.md, і вона головніша)
 skin-barrier/
    CLAUDE.md, README.md, CONTENT_TODO.md
-   docs/decisions.md, docs/content-inventory.md
+   docs/architecture/decisions.md, docs/content/content-inventory.md
    content/source/ (оригінали моїх матеріалів, не редагувати)
    api/analyze-label.ts (серверна функція, етап 11)
-   scripts/content-audit.ts
+   scripts/content/audit.ts
    src/app (маршрути, layout), src/features (onboarding, test, profile,
 routine, products, scan, reference, compat, journal, settings), src/logic
 (чисті функції: safety, profile, routine, inci, compat, analyze, journal),
@@ -75,11 +75,14 @@ src/content (JSON + zod-схеми + loader), src/store, src/types, src/ui
    tests/fixtures (синтетичні дані для тестів)
 
 Правила:
+- Файли не лежать впереміш: тести в __tests__ поруч із кодом, у корені фічі лише
+index.ts і README.md (решта в pages/, components/, hooks/, utils/, styles/), дані
+контенту в src/content/data/. Повні правила: docs/architecture/ARCHITECTURE.md, розділ 3.
 - src/logic без React, DOM, fetch, Date.now() і Math.random(). Час і
 випадковість передаються параметрами. Усе покрито юніт-тестами.
 - Доменні тексти (рекомендації, пояснення, застереження, медичні
 
-попередження) лише в src/content/*.json. У .tsx лише службові написи
+попередження) лише в src/content/data/*.json. У .tsx лише службові написи
 інтерфейсу.
 - Кольори, відступи, радіуси, шрифти лише через CSS-змінні з
 src/styles/tokens.css. Візуальний дизайн ще не затверджено, тож токени
@@ -185,19 +188,19 @@ localStorage, камера чи ШІ не ламають застосунок: �
 lint, test, build і виправ помилки. Не чіпай код попередніх етапів без
 причини. Якщо базове не працює, не переходь далі. Якщо чогось бракує (дизайн,
 дані, рішення), став одне уточнювальне питання замість вигадування. Важливі
-рішення записуй у docs/decisions.md.
+рішення записуй у docs/architecture/decisions.md.
 
 ## Звіт після етапу (завжди в такому вигляді)
 1) Що зроблено (3–5 пунктів). 2) Нові й змінені файли. 3) Результат
 typecheck, lint, test, build. 4) Як мені запустити і перевірити вручну, крок
-за кроком. 5) Рішення, які ти ухвалила (додано в docs/decisions.md). 6) Три
+за кроком. 5) Рішення, які ти ухвалила (додано в docs/architecture/decisions.md). 6) Три
 
 №         Пункт                                          Статус   Як у Skin Barrier              Етап
 
 27        Тест захисту і звіт                            Так      Атаки з A.6 виконуються        14
                                                                   реально, результат
-                                                                  записується в docs/security-
-                                                                  report.md
+                                                                  записується в docs/quality/
+                                                                  security-report.md
 
 A.2 Ризики поза чеклистом
      Prompt injection з етикетки. На упаковці може бути текст на кшталт «ignore

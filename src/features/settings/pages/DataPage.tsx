@@ -7,7 +7,7 @@ import { DeleteSection } from '../components/DeleteSection';
 import { ExportSection } from '../components/ExportSection';
 import { ImportSection } from '../components/ImportSection';
 import { StoredList } from '../components/StoredList';
-import styles from '../settings.module.css';
+import styles from '../styles/settings.module.css';
 
 // "My data": what is stored, a copy to a file, restoring from a file, deleting.
 export function DataPage() {

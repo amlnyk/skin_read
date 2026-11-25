@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { t } from '@/i18n';
-import type { ObservationView } from '../describeObservation';
+import type { ObservationView } from '../utils/describeObservation';
 import styles from '../pages/AnalysisPage.module.css';
 import { SeverityIcon } from './SeverityIcon';
 

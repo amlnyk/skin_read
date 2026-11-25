@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import disclaimer from '@/content/disclaimer.json';
+import { disclaimer } from '@/content';
 import { t } from '@/i18n';
 import { MedicalDisclaimer } from '@/ui';
-import styles from '../about.module.css';
+import styles from '../styles/about.module.css';
 
 export function DisclaimerPage() {
   return (

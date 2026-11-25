@@ -3,7 +3,7 @@ import { t } from '@/i18n';
 import { groupName, ingredientName } from '@/logic/analyze';
 import type { ContentBundle } from '@/schemas';
 import type { Product, ScanResult } from '@/types';
-import styles from '../compare.module.css';
+import styles from '../styles/compare.module.css';
 
 type Props = {
   product: Product;

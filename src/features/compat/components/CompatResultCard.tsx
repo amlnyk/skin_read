@@ -1,6 +1,6 @@
 import { t } from '@/i18n';
 import type { CompatResult } from '@/logic/compat';
-import { noteLabel, subjectName, unknownNames, type CompatLabelContent } from '../labels';
+import { noteLabel, subjectName, unknownNames, type CompatLabelContent } from '../utils/labels';
 import { StatusIcon } from './StatusIcon';
 import styles from './CompatResultCard.module.css';
 

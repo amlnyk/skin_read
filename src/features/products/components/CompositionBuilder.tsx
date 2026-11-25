@@ -12,7 +12,7 @@ import { searchIngredients } from '@/logic/inci';
 import { LIMITS } from '@/schemas';
 import type { ContentBundle, DeclaredConcentration, ParsedIngredient } from '@/types';
 import { Button, CompositionEditor, Field, TextInput } from '@/ui';
-import styles from '../products.module.css';
+import styles from '../styles/products.module.css';
 
 type Props = {
   mode: 'paste' | 'manual';

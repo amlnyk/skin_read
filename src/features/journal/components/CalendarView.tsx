@@ -3,8 +3,8 @@ import { t, type MessageKey } from '@/i18n';
 import { entriesByDate, monthGrid, monthOf, shiftMonth, type YearMonth } from '@/logic/journal';
 import type { JournalEntry, Product } from '@/types';
 import { Button } from '@/ui';
-import { describeEntry } from '../describeEntry';
-import { formatDate } from '../today';
+import { describeEntry } from '../utils/describeEntry';
+import { formatDate } from '../utils/today';
 import styles from './dynamics.module.css';
 
 const WEEKDAYS: readonly MessageKey[] = [

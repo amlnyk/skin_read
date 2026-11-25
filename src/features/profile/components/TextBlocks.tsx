@@ -2,7 +2,7 @@ import { t } from '@/i18n';
 import type { TextBlockRef } from '@/logic/profile';
 import { QUESTION_IDS } from '@/schemas';
 import type { ContentBundle } from '@/types';
-import { optionLabel } from '../labels';
+import { optionLabel } from '../utils/labels';
 import styles from './TextBlocks.module.css';
 
 type Props = {

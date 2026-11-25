@@ -195,7 +195,7 @@ export const feelingSchema = z.enum(['good', 'so_so', 'bad']);
 export type Feeling = z.infer<typeof feelingSchema>;
 
 // Proposed: the CLAUDE.md dictionary has only three cycle phases; the journal task also lists
-// "after" and "don't know / don't track". Pending confirmation (see docs/decisions.md).
+// "after" and "don't know / don't track". Pending confirmation (see docs/architecture/decisions.md).
 export const journalCyclePeriodSchema = z.enum([
   'pre_menstrual',
   'during_menstrual',

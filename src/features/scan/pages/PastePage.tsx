@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { t } from '@/i18n';
 import { LIMITS } from '@/schemas';
 import { Button, Field } from '@/ui';
-import styles from '../scan.module.css';
+import styles from '../styles/scan.module.css';
 
 // "Перевірка складу": a text field and "Розібрати". The text goes to the review screen.
 export function PastePage() {

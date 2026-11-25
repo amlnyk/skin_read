@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import disclaimer from '@/content/disclaimer.json';
+import { disclaimer } from '@/content';
 import { t } from '@/i18n';
 import { MedicalDisclaimer } from '@/ui';
 import { ObservationCard } from '../components/ObservationCard';
-import { describeRoutineObservation } from '../describeObservation';
+import { describeRoutineObservation } from '../utils/describeObservation';
 import { useRoutineAnalysis } from '../hooks/useRoutineAnalysis';
 import styles from './AnalysisPage.module.css';
 

@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { t } from '@/i18n';
 import type { JournalEntry, Product } from '@/types';
 import { Button, Modal } from '@/ui';
-import { describeEntry } from '../describeEntry';
+import { describeEntry } from '../utils/describeEntry';
 import styles from '../pages/JournalPage.module.css';
-import { formatDate } from '../today';
+import { formatDate } from '../utils/today';
 
 type Props = {
   entries: readonly JournalEntry[];

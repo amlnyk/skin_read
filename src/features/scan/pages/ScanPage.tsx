@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { t } from '@/i18n';
 import { useServices } from '@/lib/services';
 import { useAppStore } from '@/store';
-import styles from '../scan.module.css';
+import styles from '../styles/scan.module.css';
 
 // "Сканер": the entrance. Pasting or typing a composition always works. The label photo is a
 // third way, offered only where the build has it switched on (VITE_FEATURE_PHOTO_SCAN).

@@ -1,6 +1,6 @@
 import type { Observation } from '@/types';
-import { describeObservation, type DescribeContext } from '../describe';
-import styles from '../scan.module.css';
+import { describeObservation, type DescribeContext } from '../utils/describe';
+import styles from '../styles/scan.module.css';
 
 type Props = {
   title: string;

@@ -5,7 +5,13 @@ import { ADDABLE_CATEGORIES, canAddCategory, explainStep } from '@/logic/routine
 import type { ProfileAnalysis } from '@/logic/profile';
 import { Button, Modal } from '@/ui';
 import type { ProductCategory, Routine } from '@/types';
-import { categoryName, componentNames, purposeText, stepName, warningText } from '../describe';
+import {
+  categoryName,
+  componentNames,
+  purposeText,
+  stepName,
+  warningText,
+} from '../utils/describe';
 import { StepCard } from './StepCard';
 import styles from './RoutineTab.module.css';
 

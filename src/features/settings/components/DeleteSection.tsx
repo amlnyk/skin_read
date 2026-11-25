@@ -8,8 +8,8 @@ import {
   deleteCategory,
   photoIdsToKeep,
   type DataCategory,
-} from '../dataCategories';
-import styles from '../settings.module.css';
+} from '../utils/dataCategories';
+import styles from '../styles/settings.module.css';
 
 type Pending = DataCategory | 'all' | null;
 

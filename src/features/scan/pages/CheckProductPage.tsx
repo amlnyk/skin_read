@@ -4,7 +4,7 @@ import { t } from '@/i18n';
 import { needsComposition } from '@/logic/analyze';
 import { useAppStore } from '@/store';
 import { useChecks } from '../hooks/useChecks';
-import styles from '../scan.module.css';
+import styles from '../styles/scan.module.css';
 
 // /scan/check/:productId: checks a product of the collection and opens the result.
 // The check runs once (the guard keeps a second render from saving a second result).

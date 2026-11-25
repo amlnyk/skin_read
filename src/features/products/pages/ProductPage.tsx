@@ -7,7 +7,7 @@ import { useAppStore, useAppStoreApi } from '@/store';
 import type { DeclaredConcentration, ParsedIngredient, Product } from '@/types';
 import { Button, Chip, Modal, PhotoPreview } from '@/ui';
 import { CompositionBuilder } from '../components/CompositionBuilder';
-import styles from '../products.module.css';
+import styles from '../styles/products.module.css';
 
 export function ProductPage() {
   const { id } = useParams();

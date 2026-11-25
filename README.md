@@ -19,7 +19,7 @@
 
 ## Стек
 
-React 19, TypeScript, Vite, React Router, Zustand (сховище в `localStorage`), zod, `idb-keyval` (фото на пристрої), `vite-plugin-pwa` (manifest і service worker), Vitest і Testing Library. Серверна частина: одна функція `api/analyze-label.ts` (Vercel Functions, звичайний `fetch` до API ШІ). Деталі: `docs/STACK.md`.
+React 19, TypeScript, Vite, React Router, Zustand (сховище в `localStorage`), zod, `idb-keyval` (фото на пристрої), `vite-plugin-pwa` (manifest і service worker), Vitest і Testing Library. Серверна частина: одна функція `api/analyze-label.ts` (Vercel Functions, звичайний `fetch` до API ШІ). Деталі: `docs/architecture/STACK.md`.
 
 ## Структура
 
@@ -28,18 +28,22 @@ src/
   app/        застосунок: навігація, маршрути, ErrorBoundary, банер оновлення
   features/   екрани (about, care, compare, journal, products, profile, reference, scan, settings, test ...)
   logic/      чиста логіка без React: профіль, рутина, аналіз, сумісність, щоденник
-  content/    контент у JSON (довідка, анкета, правила), version.json, завантажувач
+  content/    завантажувач контенту; самі JSON (довідка, анкета, правила, version.json) у content/data/
   schemas/    zod-схеми й типи
   store/      Zustand-сховище з версіями формату
   lib/        порти й адаптери: сховище, час, фото, клієнт ШІ, PWA
   ui/         спільні компоненти
   styles/     tokens.css (єдине місце з кольорами й розмірами)
   i18n/       усі тексти інтерфейсу (uk.ts)
+  test/       налаштування тестів і спільні помічники
 api/          серверні функції
-docs/         документація
+content/      таблиці косметолога (cosmetologist/) і оригінали матеріалів (source/)
+docs/         документація за темами: architecture/, quality/, content/, setup/
+scripts/      content/ (імпорт і аудит контенту), setup/ (журнали етапів)
+tests/        JSON-фікстури для тестів
 ```
 
-Правила шарів, що саме кому можна імпортувати: `docs/ARCHITECTURE.md` (перевіряє ESLint).
+Правила шарів, що саме кому можна імпортувати: `docs/architecture/ARCHITECTURE.md` (перевіряє ESLint). Там же, у розділі 3, правила розкладки файлів: тести в `__tests__` поруч із кодом, у корені фічі лише `index.ts` і `README.md`.
 
 ## Запуск
 
@@ -55,7 +59,7 @@ npm run build && npm run preview   # продакшен-збірка зі servic
 
 Інші команди: `npm run content:import`, `npm run typecheck`, `npm run lint`, `npm run format` (автоформат), `npm run test`, `npm run test:coverage`, `npm run content:audit`.
 
-Service worker є лише в продакшен-збірці. Щоб перевірити встановлення й роботу без інтернету, див. `docs/pwa.md`.
+Service worker є лише в продакшен-збірці. Щоб перевірити встановлення й роботу без інтернету, див. `docs/architecture/pwa.md`.
 
 Коміти робляться з Windows PowerShell: перед комітом husky запускає eslint, prettier і gitleaks.
 
@@ -64,13 +68,13 @@ Service worker є лише в продакшен-збірці. Щоб перев
 Лише імена, без значень: `.env.example`. Копія для локальної роботи `.env.local` ігнорується git.
 
 - `VITE_*`: публічні, потрапляють у клієнтський код, секретів у них немає й бути не може;
-- решта (`ANTHROPIC_API_KEY`, ліміти, `ALLOWED_ORIGINS`...): лише в налаштуваннях хоста, окремо для Production, Preview, Development. Опис кожної: `docs/API.md`.
+- решта (`ANTHROPIC_API_KEY`, ліміти, `ALLOWED_ORIGINS`...): лише в налаштуваннях хоста, окремо для Production, Preview, Development. Опис кожної: `docs/architecture/API.md`.
 
 Без `ANTHROPIC_API_KEY` функція розпізнавання відповідає 503, а застосунок пропонує ввести склад вручну; решта працює.
 
 ## Як додати контент і що означають статуси
 
-Компоненти, правила сумісності й групи заповнюються в таблицях `content/cosmetologist/*.csv` (Excel або Google Sheets) і переносяться командою `npm run content:import`: інструкція для косметолога в `docs/content-guide.md`. Решта контенту лежить у `src/content/*.json` (кожен файл `{ "items": [...] }`). Кожен запис має `id`, `source` (звідки взято) і `reviewStatus`:
+Компоненти, правила сумісності й групи заповнюються в таблицях `content/cosmetologist/*.csv` (Excel або Google Sheets) і переносяться командою `npm run content:import`: інструкція для косметолога в `docs/content/content-guide.md`. Решта контенту лежить у `src/content/data/*.json` (кожен файл `{ "items": [...] }`). Кожен запис має `id`, `source` (звідки взято) і `reviewStatus`:
 
 - `verified`: текст перевірила фахівчиня;
 - `draft`: чернетка, чекає перевірки;
@@ -81,7 +85,7 @@ Service worker є лише в продакшен-збірці. Щоб перев
 Режим показу задає `VITE_CONTENT_POLICY`: `demo` показує `verified` і `draft`, `public` лише `verified` (тоді порожні екрани це правильна поведінка, поки не затверджено тексти). Після зміни будь-якого файлу контенту:
 
 1. запусти `npm run content:audit` (перевіряє схеми, посилання між файлами, дублікати; оновлює `CONTENT_TODO.md`);
-2. підніми `contentVersion` у `src/content/version.json`.
+2. підніми `contentVersion` у `src/content/data/version.json`.
 
 Після повного затвердження контенту: `npm run content:audit -- --strict` має пройти.
 
@@ -100,20 +104,20 @@ Service worker є лише в продакшен-збірці. Щоб перев
 1. Імпортувати репозиторій у Vercel; Build Command `npm run build`, Output `dist`.
 2. У Settings → Environment Variables задати змінні з `.env.example` окремо для Production і Preview.
 3. Задати `ALLOWED_ORIGINS` (адреса Production і шаблон preview) та ліміти.
-4. Після розгортання виконати перевірки з `docs/API.md` і `docs/pwa.md`.
+4. Після розгортання виконати перевірки з `docs/architecture/API.md` і `docs/architecture/pwa.md`.
 
 Заголовки безпеки й кешування `sw.js` лежать у `vercel.json`.
 
 ## Документація
 
 - `CLAUDE.md`: постійні інструкції проєкту.
-- `docs/STACK.md`, `docs/ARCHITECTURE.md`, `docs/API.md`: технології, архітектура, контракти.
-- `docs/decisions.md`: журнал рішень.
-- `docs/states.md`: стани екранів (завантаження, порожньо, помилка).
-- `docs/accessibility.md`: доступність і токени.
-- `docs/pwa.md`: встановлення, офлайн, оновлення.
-- `docs/test-report.md`: звіт перевірок за сценаріями ТЗ.
-- `docs/content-guide.md`: як наповнювати базу компонентів (для косметолога).
-- `docs/content-inventory.md`, `CONTENT_TODO.md`: який контент є, а якого бракує.
-- `docs/ci-setup.md`, `docs/setup-security.md`: CI і налаштування GitHub, безпека.
+- `docs/architecture/STACK.md`, `docs/architecture/ARCHITECTURE.md`, `docs/architecture/API.md`: технології, архітектура, контракти.
+- `docs/architecture/decisions.md`: журнал рішень.
+- `docs/architecture/states.md`: стани екранів (завантаження, порожньо, помилка).
+- `docs/quality/accessibility.md`: доступність і токени.
+- `docs/architecture/pwa.md`: встановлення, офлайн, оновлення.
+- `docs/quality/test-report.md`: звіт перевірок за сценаріями ТЗ.
+- `docs/content/content-guide.md`: як наповнювати базу компонентів (для косметолога).
+- `docs/content/content-inventory.md`, `CONTENT_TODO.md`: який контент є, а якого бракує.
+- `docs/setup/ci-setup.md`, `docs/setup/setup-security.md`: CI і налаштування GitHub, безпека.
 - `CHANGELOG.md`: що змінювалося.

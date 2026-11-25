@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-// Contracts of the serverless functions (docs/API.md). The client and the server use the same
+// Contracts of the serverless functions (docs/architecture/API.md). The client and the server use the same
 // schemas. This file imports only `zod`: the server functions import it by a relative path.
 
 export const API_VERSION = 1;

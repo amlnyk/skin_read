@@ -11,7 +11,7 @@ import { createLocalStorageAdapter } from '@/lib/storage';
 import { createAppStore, type AppStore } from '@/store';
 
 // The only place where concrete adapters are chosen.
-// Tests build their own Services from fakes (src/test/fakes.ts).
+// Tests build their own Services from fakes (src/test/helpers/fakes.ts).
 export function createServices(env: Env, content: ContentProvider): Services {
   return {
     storage: createLocalStorageAdapter(),

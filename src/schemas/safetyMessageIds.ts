@@ -1,6 +1,6 @@
 import type { SafetyFlag } from './enums';
 
-// Stable ids of the records in src/content/safety-messages.json.
+// Stable ids of the records in src/content/data/safety-messages.json.
 // Logic and screens find a message by these ids; the content test checks that they exist.
 export const SAFETY_MESSAGE_IDS = {
   emergency: 'safety-emergency',

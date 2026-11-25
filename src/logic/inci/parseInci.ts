@@ -4,7 +4,7 @@ import type { ParsedItem, ParseResult, ParseWarningCode } from './types';
 
 // Splits a pasted composition into positions. Pure text work, no content needed.
 //
-// What it does (see docs/decisions.md, Stage 7):
+// What it does (see docs/architecture/decisions.md, Stage 7):
 // - cuts the label prefix ("Ingredients:", "INCI:", "Composition:", Ukrainian and Russian "Склад:");
 // - splits on commas, semicolons, new lines and bullets; commas inside brackets do not split;
 // - drops footnotes ("*з органічного землеробства"), asterisks and the final period;

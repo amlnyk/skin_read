@@ -5,7 +5,7 @@ import { defineConfig } from 'vitest/config';
 
 // The PWA plugin builds the manifest and the service worker. Rules (stage 13):
 // - static files (js, css, html, icons) are precached, so the app opens offline;
-//   the content files (src/content/*.json) are compiled into the js chunks, so they are cached with them;
+//   the content files (src/content/data/*.json) are compiled into the js chunks, so they are cached with them;
 // - requests to /api/ are NEVER cached and never answered by the navigation fallback;
 // - a new version waits for the person's choice (registerType 'prompt'), it is not applied silently.
 const pwa = VitePWA({
@@ -64,9 +64,8 @@ export default defineConfig({
       provider: 'v8',
       include: ['src/**/*.{ts,tsx}', 'api/**/*.ts'],
       exclude: [
-        'src/**/*.test.{ts,tsx}',
-        'api/**/*.test.ts',
-        'api/_lib/testKit.ts',
+        // tests and their helpers live in __tests__ folders (docs/architecture/ARCHITECTURE.md, 3)
+        '**/__tests__/**',
         'src/test/**',
         'src/**/index.ts',
         'src/**/*.d.ts',

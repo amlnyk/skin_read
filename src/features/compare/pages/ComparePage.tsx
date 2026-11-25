@@ -7,9 +7,9 @@ import { compareProducts, MAX_CURRENCY_LENGTH } from '@/logic/compare';
 import { Select, TextInput } from '@/ui';
 import { useAppStore } from '@/store';
 import { ProductColumn } from '../components/ProductColumn';
-import styles from '../compare.module.css';
-import { parsePrice } from '../parsePrice';
-import { useCompareSources, useProfileAnalysis } from '../useCompareSources';
+import styles from '../styles/compare.module.css';
+import { parsePrice } from '../utils/parsePrice';
+import { useCompareSources, useProfileAnalysis } from '../hooks/useCompareSources';
 
 const NONE = '';
 

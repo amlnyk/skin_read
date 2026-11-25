@@ -6,7 +6,7 @@ import { useServices } from '@/lib/services';
 import { useAppStore, useAppStoreApi } from '@/store';
 import { Button, PhotoPreview } from '@/ui';
 import { ConsentDialog } from '../components/ConsentDialog';
-import styles from '../scan.module.css';
+import styles from '../styles/scan.module.css';
 
 type Photo = { blob: Blob; url: string };
 type Status = 'idle' | 'preparing' | 'reading';

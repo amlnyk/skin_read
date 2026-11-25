@@ -43,7 +43,7 @@ export interface Logger {
 export type { ContentProvider };
 
 // ---- Label reader (photo -> text of the composition, by an AI service on the server) ----
-// The codes are the ones the screen can explain; see docs/API.md for how the server codes map.
+// The codes are the ones the screen can explain; see docs/architecture/API.md for how the server codes map.
 export type LabelReaderErrorCode =
   | 'NETWORK' // no connection
   | 'TIMEOUT' // no answer in time

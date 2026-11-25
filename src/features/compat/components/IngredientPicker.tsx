@@ -3,7 +3,7 @@ import { t } from '@/i18n';
 import { searchGroups, searchIngredients } from '@/logic/inci';
 import type { CompatSubject } from '@/logic/compat';
 import { LIMITS } from '@/schemas';
-import { subjectName, type CompatLabelContent } from '../labels';
+import { subjectName, type CompatLabelContent } from '../utils/labels';
 import styles from './IngredientPicker.module.css';
 
 type Props = {

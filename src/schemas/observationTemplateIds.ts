@@ -1,4 +1,4 @@
-// Stable ids of the records in src/content/observation-templates.json.
+// Stable ids of the records in src/content/data/observation-templates.json.
 // The routine analysis names a template by these ids; the content audit checks that every id
 // has a record (a placeholder at least), so a missing text is always on the list for the
 // cosmetologist (CONTENT_TODO.md) and never a silent gap.

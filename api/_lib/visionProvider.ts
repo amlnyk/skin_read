@@ -5,7 +5,7 @@ import { ApiError } from './errors.js';
 // the VisionProvider interface, so the service can be replaced (or faked in tests) in one file.
 //
 // The instruction below is in English on purpose (more reliable) and is part of the contract:
-// it does not change without a note in docs/decisions.md.
+// it does not change without a note in docs/architecture/decisions.md.
 
 export const SYSTEM_INSTRUCTION =
   'You read cosmetic product labels. From the photo, extract ONLY text that is visibly printed on the label. ' +

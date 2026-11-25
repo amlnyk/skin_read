@@ -6,8 +6,8 @@ import { OnboardingPage } from '@/features/onboarding';
 import { ProfilePage, ResultPage } from '@/features/profile';
 import { AnalysisPage, RoutinePage } from '@/features/routine';
 import { OnboardingGuard } from './guards/OnboardingGuard';
-import { Layout } from './Layout';
-import { NotFoundPage } from './NotFoundPage';
+import { Layout } from './components/Layout';
+import { NotFoundPage } from './pages/NotFoundPage';
 
 // Heavy features are loaded on demand (separate chunks): scan, reference, compat.
 // The journal, the compare screen and the settings load on demand too.

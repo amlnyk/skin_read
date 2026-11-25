@@ -1,4 +1,4 @@
-// Stable ids of the questionnaire questions (src/content/questionnaire.json).
+// Stable ids of the questionnaire questions (src/content/data/questionnaire.json).
 // Logic (contradictions, profile scoring at stage 4) refers to questions by these ids.
 export const QUESTION_IDS = {
   baseType: 'q1_base_type',

@@ -4,7 +4,7 @@ import { useServices } from '@/lib/services';
 import type { OptionalRejection, ShoppingNeedItem } from '@/logic/routine';
 import { Button } from '@/ui';
 import type { NeedPriority, ShoppingNeed } from '@/types';
-import { categoryName, componentNames, purposeText, warningText } from '../describe';
+import { categoryName, componentNames, purposeText, warningText } from '../utils/describe';
 import styles from './ShoppingNeeds.module.css';
 
 const GROUPS: readonly { priority: NeedPriority; titleKey: MessageKey }[] = [

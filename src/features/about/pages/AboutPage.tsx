@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { APP_VERSION, CONTENT_UPDATED_AT } from '@/content';
 import { t } from '@/i18n';
 import { useServices } from '@/lib/services';
-import styles from '../about.module.css';
-import { summarizeContent } from '../summarizeContent';
+import styles from '../styles/about.module.css';
+import { summarizeContent } from '../utils/summarizeContent';
 
 export function AboutPage() {
   const { content } = useServices();

@@ -1,5 +1,5 @@
 // The same comparison as normalizeText in src/logic/inci (the content layer must not import
-// logic). src/test/normalizeParity.test.ts keeps the two functions equal.
+// logic). src/test/__tests__/normalizeParity.test.ts keeps the two functions equal.
 export function normalizeName(text: string): string {
   return text
     .normalize('NFD')

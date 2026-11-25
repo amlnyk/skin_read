@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { t } from '@/i18n';
-import styles from '../about.module.css';
+import styles from '../styles/about.module.css';
 
 export function PrivacyPage() {
   return (
