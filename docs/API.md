@@ -57,7 +57,7 @@ confidence: число від 0 до 1 }
 |---|---|---|
 | ANTHROPIC_API_KEY | ключ ШІ; без нього функція відповідає 503 AI_UNAVAILABLE | немає |
 | ANTHROPIC_MODEL | назва моделі; без неї 503 | немає |
-| ALLOWED_ORIGINS | дозволені origin через кому, напр. `https://my-app.example`, `https://*.vercel.app` | порожньо: усі запити 403 |
+| ALLOWED_ORIGINS | дозволені origin через кому, напр. `https://my-app.example`. У Production лише точна адреса сайту. Шаблон `https://*.vercel.app` не став у Production: він пускає будь-який сайт на vercel.app, зокрема чужий (аудит етапу 14). Для Preview краще точні адреси гілок | порожньо: усі запити 403 |
 | RATE_LIMIT_PER_HOUR | запитів на IP за годину | 10 |
 | DAILY_LIMIT | запитів на добу всього | 200 |
 | MODEL_TIMEOUT_MS | таймаут виклику моделі | 15000 |

@@ -1,6 +1,7 @@
 // Only the site itself (production and the preview addresses) may call the function.
 // ALLOWED_ORIGINS is a comma-separated list. An entry is either an exact origin
-// ("https://skin-barrier.example") or one subdomain wildcard ("https://*.vercel.app").
+// ("https://skin-barrier.example") or one subdomain wildcard ("https://*.example.com").
+// Never put "https://*.vercel.app" in Production: anyone can host a page on vercel.app (stage 14 audit).
 // A bare "*" is never accepted. The function never sends Access-Control-Allow-Origin.
 
 function parse(value: string): URL | null {

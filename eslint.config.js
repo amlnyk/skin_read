@@ -104,6 +104,8 @@ export default tseslint.config(
     rules: {
       // Security: user, ingredient, AI and content text is rendered as text only.
       'react/no-danger': 'error',
+      // stage 14: a javascript: address in a link would run code; React only warns about it
+      'react/jsx-no-script-url': 'error',
       'no-eval': 'error',
       'no-implied-eval': 'error',
       'no-new-func': 'error',
