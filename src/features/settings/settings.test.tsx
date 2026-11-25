@@ -6,6 +6,7 @@ import { t } from '@/i18n';
 import { dateAfter } from '@/logic/journal';
 import { migrate, pickPersisted, STORE_VERSION } from '@/store';
 import { APP_NOW, productOf, renderApp } from '@/test/appHarness';
+import { createMemoryPhotoStore } from '@/test/fakes';
 import { PERSONAS } from '@/test/personas';
 import type { JournalEntry, PersistedState } from '@/types';
 
@@ -598,5 +599,99 @@ describe('the whole way: export, "Delete all", import: everything is back and id
 
     await waitFor(() => expect(store.getState().journal).toHaveLength(2));
     expect(pickPersisted(store.getState())).toEqual(original);
+  });
+});
+
+describe('photos on the device follow the data', () => {
+  const blob = () => new Blob(['x'], { type: 'image/jpeg' });
+  const press = (name: string) => fireEvent.click(screen.getByRole('button', { name }));
+
+  async function withPhotos(ids: string[], options: Parameters<typeof renderApp>[1] = {}) {
+    const photos = createMemoryPhotoStore();
+    for (const id of ids) await photos.put(id, blob());
+    const view = open('/profile/settings/data', { ...options, services: { photos } });
+    await screen.findByRole('heading', { name: t('settings.deletePartTitle') });
+    return { ...view, photos };
+  }
+  const keysOf = async (photos: ReturnType<typeof createMemoryPhotoStore>) => {
+    const result = await photos.keys();
+    return result.ok ? [...result.value].sort() : null;
+  };
+
+  it('"What is stored" counts the photos, and the export says they are not in the file', async () => {
+    await withPhotos(['p-1', 'other']);
+    expect(await screen.findByText(t('settings.storedPhotos', { count: 2 }))).toBeInTheDocument();
+    expect(screen.getByText(t('settings.exportPhotosNote'))).toBeInTheDocument();
+  });
+
+  it('"Delete all" removes every photo', async () => {
+    const { photos } = await withPhotos(['p-1', 'other'], { products: [PRODUCT] });
+    press(t('settings.deleteAllButton'));
+    press(t('settings.deleteAllConfirm'));
+    await waitFor(async () => expect(await keysOf(photos)).toEqual([]));
+  });
+
+  it('deleting the collection removes the photos of its products and keeps those of checked ones', async () => {
+    const scan = {
+      id: 'scan-1',
+      productSnapshot: { id: 'checked-only' },
+    } as unknown as PersistedState['scans'][number];
+    const { photos } = await withPhotos(['p-1', 'checked-only'], {
+      products: [PRODUCT],
+      scans: [scan],
+    });
+    press(t('settings.categoryButton', { name: t('settings.category.collection') }));
+    press(t('settings.deleteConfirm'));
+    await waitFor(async () => expect(await keysOf(photos)).toEqual(['checked-only']));
+  });
+
+  it('deleting the history keeps the photos of products in the collection', async () => {
+    const scan = {
+      id: 'scan-1',
+      productSnapshot: { id: 'checked-only' },
+    } as unknown as PersistedState['scans'][number];
+    const { photos } = await withPhotos(['p-1', 'checked-only'], {
+      products: [PRODUCT],
+      scans: [scan],
+    });
+    press(t('settings.categoryButton', { name: t('settings.category.scans') }));
+    press(t('settings.deleteConfirm'));
+    await waitFor(async () => expect(await keysOf(photos)).toEqual(['p-1']));
+  });
+
+  it('deleting the journal does not touch photos', async () => {
+    const { photos } = await withPhotos(['p-1', 'whatever'], {
+      journal: [journalEntry('a', ago(1), 'note')],
+    });
+    press(t('settings.categoryButton', { name: t('settings.category.journal') }));
+    press(t('settings.deleteConfirm'));
+    await waitFor(() => expect(screen.getByText(t('settings.deleteDone'))).toBeInTheDocument());
+    expect(await keysOf(photos)).toEqual(['p-1', 'whatever']);
+  });
+
+  it('after an import the photos of products that are not in the data are removed', async () => {
+    const source = open('/profile/settings/data', { products: [PRODUCT] });
+    await screen.findByRole('button', { name: t('settings.exportButton') });
+    const text = exportText();
+    source.store.getState().actions.resetAll();
+    cleanup();
+
+    const { photos } = await withPhotos(['p-1', 'gone']);
+    choose(jsonFile(text));
+    fireEvent.click(await screen.findByRole('button', { name: t('settings.importConfirm') }));
+    await waitFor(async () => expect(await keysOf(photos)).toEqual(['p-1']));
+  });
+
+  it('a photo that cannot be deleted is reported, not hidden', async () => {
+    const photos = createMemoryPhotoStore();
+    const broken = {
+      ...photos,
+      clear: () => Promise.resolve({ ok: false as const, error: { code: 'unknown' as const } }),
+    };
+    open('/profile/settings/data', { services: { photos: broken } });
+    await screen.findByRole('heading', { name: t('settings.deletePartTitle') });
+    press(t('settings.deleteAllButton'));
+    press(t('settings.deleteAllConfirm'));
+    expect(await screen.findByText(t('settings.photosNotDeleted'))).toBeInTheDocument();
   });
 });

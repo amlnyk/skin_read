@@ -2,7 +2,14 @@ import { describe, expect, it } from 'vitest';
 import valid from '@fixtures/persisted-valid.json';
 import { persistedStateSchema } from '@/schemas';
 import type { PersistedState } from '@/types';
-import { DATA_CATEGORIES, deleteCategory, hasCycleData, summarizeData } from './dataCategories';
+import {
+  DATA_CATEGORIES,
+  deleteCategory,
+  hasCycleData,
+  photoIdsAfterImport,
+  photoIdsToKeep,
+  summarizeData,
+} from './dataCategories';
 
 const NOW_ISO = '2026-01-15T12:00:00.000Z';
 const base = persistedStateSchema.parse(valid);
@@ -186,5 +193,51 @@ describe('what is stored', () => {
     const onlyJournal = deleteCategory(full, 'cycle', NOW_ISO);
     expect(hasCycleData({ ...onlyJournal, journal: full.journal })).toBe(true);
     expect(hasCycleData(base)).toBe(false);
+  });
+});
+
+// Only the ids matter for photos: a product in the collection and a snapshot in a check.
+const withIds = (productIds: string[], scanProductIds: string[]): PersistedState => ({
+  ...base,
+  products: productIds.map((id) => ({ id })) as unknown as PersistedState['products'],
+  scans: scanProductIds.map((id) => ({
+    productSnapshot: { id },
+  })) as unknown as PersistedState['scans'],
+});
+
+describe('which photos stay after a deletion', () => {
+  const state = withIds(['a', 'b'], ['b', 'c']);
+
+  it('everything: no photo stays', () => {
+    expect(photoIdsToKeep(state, 'all')).toEqual([]);
+  });
+
+  it('history of checks: the photos of products in the collection stay', () => {
+    expect(photoIdsToKeep(state, 'scans')).toEqual(['a', 'b']);
+  });
+
+  it('collection: only the photos of checked products that were never in it stay', () => {
+    expect(photoIdsToKeep(state, 'collection')).toEqual(['c']);
+  });
+
+  it('journal and cycle have no photos: nothing to do', () => {
+    expect(photoIdsToKeep(state, 'journal')).toBeNull();
+    expect(photoIdsToKeep(state, 'cycle')).toBeNull();
+  });
+
+  it('every category is answered', () => {
+    for (const category of DATA_CATEGORIES) {
+      expect(() => photoIdsToKeep(state, category)).not.toThrow();
+    }
+  });
+});
+
+describe('which photos stay after an import', () => {
+  it('those of the products and of the checks, each once', () => {
+    expect(photoIdsAfterImport(withIds(['a', 'b'], ['b', 'c'])).sort()).toEqual(['a', 'b', 'c']);
+  });
+
+  it('none when the file has no products and no checks', () => {
+    expect(photoIdsAfterImport(withIds([], []))).toEqual([]);
   });
 });

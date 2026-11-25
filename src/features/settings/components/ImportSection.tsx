@@ -1,5 +1,6 @@
 import { useId, useState, type ChangeEvent } from 'react';
 import { t } from '@/i18n';
+import { useServices } from '@/lib/services';
 import {
   applyImport,
   checkImportFile,
@@ -11,6 +12,7 @@ import {
 import { migrate, pickPersisted, STORE_VERSION, useAppStoreApi } from '@/store';
 import type { ExportFile } from '@/types';
 import { Button, Chip } from '@/ui';
+import { photoIdsAfterImport } from '../dataCategories';
 import { formatDate } from '../format';
 import styles from '../settings.module.css';
 
@@ -24,6 +26,7 @@ type ImportState =
 // sees what is in it, and only then the data on this device is replaced. A bad file changes nothing.
 export function ImportSection() {
   const store = useAppStoreApi();
+  const { photos } = useServices();
   const inputId = useId();
   const [state, setState] = useState<ImportState>({ kind: 'idle' });
 
@@ -59,9 +62,10 @@ export function ImportSection() {
     if (state.kind !== 'preview') return;
     const { actions } = store.getState();
     const current = pickPersisted(store.getState());
-    actions.replaceAll(
-      applyImport(current, state.file, { replaceConsents: state.replaceConsents }),
-    );
+    const next = applyImport(current, state.file, { replaceConsents: state.replaceConsents });
+    actions.replaceAll(next);
+    // photos are not in the file: those of products that are no longer there would hang around forever
+    void photos.retainOnly(photoIdsAfterImport(next));
     setState({ kind: 'done' });
   };
 

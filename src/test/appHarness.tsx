@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 import { appRoutes } from '@/app/router';
+import type { Services } from '@/lib/services';
 import { prepareComposition } from '@/logic/analyze';
 import { buildProfile } from '@/logic/profile';
 import type {
@@ -68,6 +69,8 @@ type Options = {
   settings?: Partial<Settings>;
   /** The moment of the fake clock; without it the clock stands at 0 (as before stage 10). */
   now?: number;
+  /** Fakes that replace the default ones (a label reader, photos, the photo switch...). */
+  services?: Partial<Services>;
 };
 
 export function renderApp(path: string, options: Options = {}) {
@@ -98,6 +101,7 @@ export function renderApp(path: string, options: Options = {}) {
   const services = createTestServices({
     content: createTestContent({ bundle }),
     ...(options.now === undefined ? {} : { clock: createFixedClock(options.now) }),
+    ...options.services,
   });
   render(
     <TestProviders store={store} services={services}>

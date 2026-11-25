@@ -1,5 +1,8 @@
+import { createHttpLabelReader } from '@/lib/ai';
 import { systemClock } from '@/lib/clock';
 import type { Env } from '@/lib/env';
+import { browserImageDeps } from '@/lib/image';
+import { createIdbBackend, createPhotoStore } from '@/lib/idb';
 import { createCryptoIdGenerator } from '@/lib/ids';
 import { createConsoleLogger } from '@/lib/logger';
 import type { ContentProvider } from '@/lib/ports';
@@ -16,6 +19,10 @@ export function createServices(env: Env, content: ContentProvider): Services {
     ids: createCryptoIdGenerator(),
     logger: createConsoleLogger(env.appEnv === 'development' ? 'debug' : 'warn'),
     content,
+    labelReader: createHttpLabelReader(),
+    imageDeps: browserImageDeps,
+    photos: createPhotoStore(createIdbBackend()),
+    features: { photoScan: env.features.photoScan },
   };
 }
 

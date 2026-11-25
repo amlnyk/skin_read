@@ -25,6 +25,7 @@ export function ExportSection() {
     <section className={styles.card} aria-labelledby="export-title">
       <h2 id="export-title">{t('settings.exportTitle')}</h2>
       <p>{t('settings.exportText')}</p>
+      <p className={styles.hint}>{t('settings.exportPhotosNote')}</p>
       <Button fullWidth onClick={save}>
         {t('settings.exportButton')}
       </Button>

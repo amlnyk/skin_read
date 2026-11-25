@@ -1,14 +1,20 @@
 import { loadBundledContent } from '@/content';
 import type { ContentBundle } from '@/schemas';
+import { createMemoryBackend, createPhotoStore } from '@/lib/idb';
+import type { DecodedImage, ImageDeps } from '@/lib/image';
 import type {
   Clock,
   ContentProvider,
   IdGenerator,
+  LabelReader,
+  LabelReading,
+  LabelReaderError,
   Logger,
+  PhotoStore,
   StorageAdapter,
   StorageErrorCode,
 } from '@/lib/ports';
-import { err } from '@/lib/result';
+import { err, ok, type Result } from '@/lib/result';
 import type { Services } from '@/lib/services';
 import { createLocalStorageAdapter, createMemoryAdapter } from '@/lib/storage';
 import { createAppStore, type AppStore } from '@/store';
@@ -84,6 +90,74 @@ export function createRealContent(policy: ContentProvider['policy'] = 'demo'): C
   return loaded.value;
 }
 
+/** Photos kept in memory (the real store works over IndexedDB, which jsdom does not have). */
+export function createMemoryPhotoStore(): PhotoStore {
+  return createPhotoStore(createMemoryBackend());
+}
+
+export type FakeImageDeps = ImageDeps & {
+  readonly encoded: { width: number; height: number; quality: number }[];
+};
+
+/**
+ * Image handling without a browser: every file "decodes" to the given size and every encoding
+ * gives a JPEG blob of the given byte size (or one size per attempt).
+ */
+export function createFakeImageDeps(
+  options: { width?: number; height?: number; sizes?: number[]; unreadable?: boolean } = {},
+): FakeImageDeps {
+  const encoded: { width: number; height: number; quality: number }[] = [];
+  const sizes = options.sizes ?? [1_000];
+  return {
+    encoded,
+    decode: () => {
+      if (options.unreadable) return Promise.resolve(null);
+      const image: DecodedImage = {
+        width: options.width ?? 3000,
+        height: options.height ?? 2000,
+        release: () => undefined,
+      };
+      return Promise.resolve(image);
+    },
+    encode: (_image, width, height, quality) => {
+      encoded.push({ width, height, quality });
+      const size = sizes[Math.min(encoded.length - 1, sizes.length - 1)] ?? 1_000;
+      return Promise.resolve(new Blob([new Uint8Array(size)], { type: 'image/jpeg' }));
+    },
+  };
+}
+
+export type FakeLabelReader = LabelReader & { readonly calls: Blob[] };
+
+/** A label reader that answers with a fixed result (or what a function returns) and counts calls. */
+export function createFakeLabelReader(
+  answer:
+    | Result<LabelReading, LabelReaderError>
+    | ((image: Blob) => Promise<Result<LabelReading, LabelReaderError>>) = err({
+    code: 'UNAVAILABLE',
+  }),
+): FakeLabelReader {
+  const calls: Blob[] = [];
+  return {
+    calls,
+    analyze: (image) => {
+      calls.push(image);
+      return typeof answer === 'function' ? answer(image) : Promise.resolve(answer);
+    },
+  };
+}
+
+export const sampleReading: LabelReading = {
+  ingredientsText: 'Aqua, Glycerin, Panthenol',
+  productName: 'Calm cream',
+  brand: 'Test brand',
+  categoryGuess: 'moisturizer',
+  language: 'en',
+  confidence: 0.9,
+};
+
+export const readingOk = (patch: Partial<LabelReading> = {}) => ok({ ...sampleReading, ...patch });
+
 export function createTestServices(overrides: Partial<Services> = {}): Services {
   return {
     storage: createMemoryAdapter(),
@@ -91,6 +165,10 @@ export function createTestServices(overrides: Partial<Services> = {}): Services 
     ids: createSequentialIds(),
     logger: createSilentLogger(),
     content: createTestContent(),
+    labelReader: createFakeLabelReader(),
+    imageDeps: createFakeImageDeps(),
+    photos: createMemoryPhotoStore(),
+    features: { photoScan: false },
     ...overrides,
   };
 }

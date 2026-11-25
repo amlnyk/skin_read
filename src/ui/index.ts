@@ -5,6 +5,7 @@ export { DoctorBanner } from './DoctorBanner';
 export { Field } from './Field';
 export { MedicalDisclaimer } from './MedicalDisclaimer';
 export { Modal } from './Modal';
+export { PhotoPreview } from './PhotoPreview';
 export { ProgressBar } from './ProgressBar';
 export { Select } from './Select';
 export { TextInput } from './TextInput';

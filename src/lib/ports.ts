@@ -42,14 +42,46 @@ export interface Logger {
 // all ports can be found in one place.
 export type { ContentProvider };
 
-// ---- Label reader (photo -> ingredients text, server side AI) ----
-// Codes are refined at the photo-scan stage according to docs/API.md.
+// ---- Label reader (photo -> text of the composition, by an AI service on the server) ----
+// The codes are the ones the screen can explain; see docs/API.md for how the server codes map.
 export type LabelReaderErrorCode =
-  'NETWORK' | 'RATE_LIMITED' | 'NO_INGREDIENTS_FOUND' | 'UNAVAILABLE';
+  | 'NETWORK' // no connection
+  | 'TIMEOUT' // no answer in time
+  | 'RATE_LIMITED' // too many requests
+  | 'NO_INGREDIENTS_FOUND' // the photo has no readable composition
+  | 'IMAGE_TOO_LARGE'
+  | 'UNSUPPORTED_FORMAT'
+  | 'BAD_REQUEST'
+  | 'BAD_RESPONSE' // the service answered, but not in a usable way
+  | 'UNAVAILABLE'; // the service is off, not set up, or refuses
 export type LabelReaderError = { readonly code: LabelReaderErrorCode };
 
+/** What was read from the label. The composition text is always there; the rest may be null. */
+export type LabelReading = {
+  readonly ingredientsText: string;
+  readonly productName: string | null;
+  readonly brand: string | null;
+  readonly categoryGuess: string | null;
+  readonly language: string;
+  /** 0..1: how legible the list was, as the service judged it. */
+  readonly confidence: number;
+};
+
 export interface LabelReader {
-  readIngredients(
-    image: Blob,
-  ): Promise<Result<{ readonly ingredientsText: string }, LabelReaderError>>;
+  analyze(image: Blob): Promise<Result<LabelReading, LabelReaderError>>;
+}
+
+// ---- Photos kept on the device (only when the user chooses so) ----
+export type PhotoStoreErrorCode = 'unavailable' | 'quota' | 'unknown';
+export type PhotoStoreError = { readonly code: PhotoStoreErrorCode };
+
+/** Photos of products, by product id. They never leave the device and are not in the export. */
+export interface PhotoStore {
+  put(id: string, photo: Blob): Promise<Result<void, PhotoStoreError>>;
+  get(id: string): Promise<Result<Blob | null, PhotoStoreError>>;
+  remove(id: string): Promise<Result<void, PhotoStoreError>>;
+  keys(): Promise<Result<string[], PhotoStoreError>>;
+  /** Deletes every photo whose id is not in the list. */
+  retainOnly(ids: readonly string[]): Promise<Result<void, PhotoStoreError>>;
+  clear(): Promise<Result<void, PhotoStoreError>>;
 }

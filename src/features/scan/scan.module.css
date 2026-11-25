@@ -108,3 +108,38 @@
   cursor: pointer;
   font-weight: 700;
 }
+
+/* A file field drawn as a button: the input stays in the page for keyboard and screen readers. */
+.fileButton {
+  position: relative;
+  display: inline-flex;
+  min-height: var(--tap-target);
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-5);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-primary);
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+}
+
+.fileButton:has(.fileInput:focus-visible) {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.fileButton:has(.fileInput:disabled) {
+  border-color: var(--color-border);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+.fileInput {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}

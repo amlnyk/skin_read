@@ -3,21 +3,30 @@ import { t } from '@/i18n';
 import { useServices } from '@/lib/services';
 import { createInitialData, pickPersisted, useAppStoreApi } from '@/store';
 import { Button, Modal } from '@/ui';
-import { DATA_CATEGORIES, deleteCategory, type DataCategory } from '../dataCategories';
+import {
+  DATA_CATEGORIES,
+  deleteCategory,
+  photoIdsToKeep,
+  type DataCategory,
+} from '../dataCategories';
 import styles from '../settings.module.css';
 
 type Pending = DataCategory | 'all' | null;
 
 // Deleting one kind of data, or everything. Every deletion asks first and cannot be undone.
 export function DeleteSection() {
-  const { clock } = useServices();
+  const { clock, photos } = useServices();
   const store = useAppStoreApi();
   const [pending, setPending] = useState<Pending>(null);
   const [done, setDone] = useState(false);
+  const [photoError, setPhotoError] = useState(false);
 
   const confirm = () => {
     if (pending === null) return;
     const { actions } = store.getState();
+    // which photos stay is worked out from the state as it is now: afterwards nothing tells which
+    // ones belonged to the deleted part
+    const keep = photoIdsToKeep(pickPersisted(store.getState()), pending);
     if (pending === 'all') {
       // The welcome screens stay "seen": the app opens empty, and a copy can be restored right here.
       actions.replaceAll({ ...createInitialData(), onboarding: { completed: true } });
@@ -25,8 +34,15 @@ export function DeleteSection() {
       const nowIso = new Date(clock.now()).toISOString();
       actions.replaceAll(deleteCategory(pickPersisted(store.getState()), pending, nowIso));
     }
+    const everything = pending === 'all';
     setPending(null);
     setDone(true);
+    setPhotoError(false);
+    if (keep === null) return;
+    // a photo that cannot be deleted is not hidden: the screen says so
+    void (everything ? photos.clear() : photos.retainOnly(keep)).then((cleaned) => {
+      if (!cleaned.ok) setPhotoError(true);
+    });
   };
 
   const title =
@@ -69,6 +85,7 @@ export function DeleteSection() {
       </Button>
 
       {done ? <p role="status">{t('settings.deleteDone')}</p> : null}
+      {done && photoError ? <p role="alert">{t('settings.photosNotDeleted')}</p> : null}
 
       {pending !== null ? (
         <Modal

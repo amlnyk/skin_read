@@ -3,6 +3,9 @@ import type { ContentBundle, ContentPolicy } from '@/schemas';
 // Types are derived from zod schemas (src/schemas). Nothing is declared twice.
 export type {
   AgeBand,
+  AnalyzeLabelResponse,
+  ApiErrorCode,
+  ImageMediaType,
   AnswerValue,
   AvoidPref,
   BaseType,

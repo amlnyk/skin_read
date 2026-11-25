@@ -19,9 +19,11 @@ export default defineConfig({
     setupFiles: ['./src/test/setup.ts'],
     coverage: {
       provider: 'v8',
-      include: ['src/**/*.{ts,tsx}'],
+      include: ['src/**/*.{ts,tsx}', 'api/**/*.ts'],
       exclude: [
         'src/**/*.test.{ts,tsx}',
+        'api/**/*.test.ts',
+        'api/_lib/testKit.ts',
         'src/test/**',
         'src/**/index.ts',
         'src/**/*.d.ts',

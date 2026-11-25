@@ -127,6 +127,42 @@ export default tseslint.config(
     rules: importRule(layer),
   })),
 
+  // Server functions (api/): own code, only the shared contract of src/schemas/api may be imported.
+  {
+    files: ['api/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['@/*'],
+              message: 'У api/ немає аліасу @/. Спільний контракт: ../../src/schemas/api.js.',
+            },
+            {
+              // a regex, because a negated group does not work for relative paths
+              regex: '^(\\.\\./)+src/(?!schemas/api\\.js$)',
+              message: 'З src можна імпортувати лише контракт ../../src/schemas/api.js.',
+            },
+          ],
+          paths: ['react', 'react-dom', 'react-router-dom', 'zustand', 'idb-keyval'].map(
+            (name) => ({
+              name,
+              message: 'Сервер не імпортує клієнтські пакети.',
+            }),
+          ),
+        },
+      ],
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'Literal[value=/^VITE_/]',
+          message: 'Змінні VITE_* публічні й потрапляють у збірку: серверу їх не читати.',
+        },
+      ],
+    },
+  },
+
   // logic must be pure and deterministic: no DOM, network, clock or randomness.
   {
     files: ['src/logic/**/*.ts'],

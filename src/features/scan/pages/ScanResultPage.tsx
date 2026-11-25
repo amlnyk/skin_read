@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import disclaimer from '@/content/disclaimer.json';
 import { t } from '@/i18n';
-import { useServices } from '@/lib/services';
+import { usePhoto, useServices } from '@/lib/services';
 import { ingredientName } from '@/logic/analyze';
 import { attachProduct, canAttach } from '@/logic/routine';
 import { frequencySchema, slotSchema } from '@/schemas';
 import { useAppStore, useAppStoreApi } from '@/store';
 import type { Frequency, ParsedIngredient, Product, ScanResult, Slot } from '@/types';
-import { Button, MedicalDisclaimer, Modal, Select } from '@/ui';
+import { Button, MedicalDisclaimer, Modal, PhotoPreview, Select } from '@/ui';
 import { ObservationList } from '../components/ObservationList';
 import { ScanStatusIcon } from '../components/ScanStatusIcon';
 import type { DescribeContext } from '../describe';
@@ -55,6 +55,7 @@ function ResultView({ scan }: { scan: ScanResult }) {
 
   const old = profile !== null && scan.profileRevision !== profile.revision;
   const product = scan.productSnapshot;
+  const photo = usePhoto(product.id);
 
   const recheck = () => {
     const result = check(product);
@@ -77,6 +78,14 @@ function ResultView({ scan }: { scan: ScanResult }) {
       </Link>
       <h1>{product.name}</h1>
       <p className={styles.hint}>{t(`category.${product.category}`)}</p>
+      {photo.url ? (
+        <PhotoPreview
+          src={photo.url}
+          alt={t('photo.alt')}
+          removeLabel={t('photo.remove')}
+          onRemove={() => void photo.remove()}
+        />
+      ) : null}
 
       {old ? (
         <div className={styles.banner} role="status">

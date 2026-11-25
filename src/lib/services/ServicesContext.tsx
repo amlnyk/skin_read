@@ -1,5 +1,14 @@
 import { createContext, useContext, type ReactNode } from 'react';
-import type { Clock, ContentProvider, IdGenerator, Logger, StorageAdapter } from '../ports';
+import type {
+  Clock,
+  ContentProvider,
+  IdGenerator,
+  LabelReader,
+  Logger,
+  PhotoStore,
+  StorageAdapter,
+} from '../ports';
+import type { ImageDeps } from '../image';
 
 // Everything that touches the outside world, in one object.
 // Built in app/compositionRoot.ts, replaced by fakes in tests.
@@ -10,6 +19,14 @@ export type Services = {
   readonly logger: Logger;
   /** Content after CONTENT_POLICY is applied. */
   readonly content: ContentProvider;
+  /** Photo of a label -> text of the composition (needs the server function). */
+  readonly labelReader: LabelReader;
+  /** How a picked photo is opened and shrunk (the browser's canvas; a fake in tests). */
+  readonly imageDeps: ImageDeps;
+  /** Photos the user chose to keep on this device. */
+  readonly photos: PhotoStore;
+  /** Switches that come from the build settings (VITE_FEATURE_*). */
+  readonly features: { readonly photoScan: boolean };
 };
 
 const ServicesContext = createContext<Services | null>(null);

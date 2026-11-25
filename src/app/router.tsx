@@ -12,6 +12,7 @@ import { Layout } from './Layout';
 // The journal and the settings load on demand too; compare joins this list when it appears.
 const ScanPage = lazy(() => import('@/features/scan').then((m) => ({ default: m.ScanPage })));
 const PastePage = lazy(() => import('@/features/scan').then((m) => ({ default: m.PastePage })));
+const PhotoPage = lazy(() => import('@/features/scan').then((m) => ({ default: m.PhotoPage })));
 const ReviewPage = lazy(() => import('@/features/scan').then((m) => ({ default: m.ReviewPage })));
 const ScanResultPage = lazy(() =>
   import('@/features/scan').then((m) => ({ default: m.ScanResultPage })),
@@ -104,6 +105,7 @@ export const appRoutes: RouteObject[] = [
           { path: 'care/products/:id', element: <ProductPage /> },
           { path: 'scan', element: <ScanPage /> },
           { path: 'scan/paste', element: <PastePage /> },
+          { path: 'scan/photo', element: <PhotoPage /> },
           { path: 'scan/review', element: <ReviewPage /> },
           { path: 'scan/check/:productId', element: <CheckProductPage /> },
           { path: 'scan/result/:id', element: <ScanResultPage /> },

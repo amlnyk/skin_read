@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { t } from '@/i18n';
-import { useServices } from '@/lib/services';
+import { usePhoto, useServices } from '@/lib/services';
 import { compositionText, ingredientName, markReaction, needsComposition } from '@/logic/analyze';
 import { useAppStore, useAppStoreApi } from '@/store';
 import type { DeclaredConcentration, ParsedIngredient, Product } from '@/types';
-import { Button, Chip, Modal } from '@/ui';
+import { Button, Chip, Modal, PhotoPreview } from '@/ui';
 import { CompositionBuilder } from '../components/CompositionBuilder';
 import styles from '../products.module.css';
 
@@ -39,6 +39,7 @@ function Card({ product }: { product: Product }) {
   const [done, setDone] = useState(false);
   const [draft, setDraft] = useState<ParsedIngredient[]>([]);
   const [declared, setDeclared] = useState<DeclaredConcentration[]>([]);
+  const photo = usePhoto(product.id);
 
   const name = (id: string) => ingredientName(id, bundle.ingredients);
   const missing = needsComposition(product);
@@ -90,6 +91,14 @@ function Card({ product }: { product: Product }) {
       {product.brand ? <p>{product.brand}</p> : null}
       <p className={styles.hint}>{t(`category.${product.category}`)}</p>
       {missing ? <p className={styles.tag}>{t('products.needsComposition')}</p> : null}
+      {photo.url ? (
+        <PhotoPreview
+          src={photo.url}
+          alt={t('photo.alt')}
+          removeLabel={t('photo.remove')}
+          onRemove={() => void photo.remove()}
+        />
+      ) : null}
 
       <dl>
         <dt>{t('products.sourceLabel')}</dt>

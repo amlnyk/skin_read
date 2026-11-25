@@ -41,7 +41,7 @@ export function ConsentsPage() {
         ) : (
           <p>{t('settings.photoNotGranted')}</p>
         )}
-        <p className={styles.hint}>{t('settings.photoLater')}</p>
+        <p className={styles.hint}>{t('settings.photoExplain')}</p>
       </div>
     </section>
   );

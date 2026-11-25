@@ -26,6 +26,18 @@ describe('createServices', () => {
     services.storage.removeItem('skinbarrier:composition-test');
   });
 
+  it('has the photo services, and the photo switch follows the env', () => {
+    const off = createServices(envFor('development'), createTestContent());
+    expect(typeof off.labelReader.analyze).toBe('function');
+    expect(typeof off.photos.put).toBe('function');
+    expect(typeof off.imageDeps.decode).toBe('function');
+    expect(off.features.photoScan).toBe(false);
+
+    const parsed = parseEnv({ VITE_APP_ENV: 'development', VITE_FEATURE_PHOTO_SCAN: 'true' });
+    if (!parsed.ok) throw new Error('test env must be valid');
+    expect(createServices(parsed.value, createTestContent()).features.photoScan).toBe(true);
+  });
+
   it('passes the loaded content to the services', () => {
     const content = createTestContent({ version: 'from-test' });
     expect(createServices(envFor('development'), content).content).toBe(content);

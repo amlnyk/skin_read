@@ -118,3 +118,40 @@ export function summarizeData(state: PersistedState): DataSummary {
     journal: state.journal.length,
   };
 }
+
+/**
+ * Which photos on this device must stay after a deletion. A photo belongs to the product id, and
+ * the same id can be seen from two places: the collection and the history of checks.
+ * - `null`: nothing to do (journal and cycle have no photos);
+ * - a list: everything not in the list is deleted. Deleting everything gives an empty list;
+ *   deleting the history keeps the photos of products in the collection; deleting the collection
+ *   keeps the photos of checked products that were never in it.
+ */
+export function photoIdsToKeep(
+  state: PersistedState,
+  category: DataCategory | 'all',
+): string[] | null {
+  const inCollection = state.products.map((product) => product.id);
+  const checked = state.scans.map((scan) => scan.productSnapshot.id);
+  switch (category) {
+    case 'all':
+      return [];
+    case 'scans':
+      return inCollection;
+    case 'collection':
+      return checked.filter((id) => !inCollection.includes(id));
+    case 'journal':
+    case 'cycle':
+      return null;
+  }
+}
+
+/** The photos that may stay after the data was replaced from a file: those whose product is there. */
+export function photoIdsAfterImport(state: PersistedState): string[] {
+  return [
+    ...new Set([
+      ...state.products.map((product) => product.id),
+      ...state.scans.map((scan) => scan.productSnapshot.id),
+    ]),
+  ];
+}
