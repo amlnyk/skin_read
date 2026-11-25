@@ -9,7 +9,7 @@ import { OnboardingGuard } from './guards/OnboardingGuard';
 import { Layout } from './Layout';
 
 // Heavy features are loaded on demand (separate chunks): scan, reference, compat.
-// The journal and the settings load on demand too; compare joins this list when it appears.
+// The journal, the compare screen and the settings load on demand too.
 const ScanPage = lazy(() => import('@/features/scan').then((m) => ({ default: m.ScanPage })));
 const PastePage = lazy(() => import('@/features/scan').then((m) => ({ default: m.PastePage })));
 const PhotoPage = lazy(() => import('@/features/scan').then((m) => ({ default: m.PhotoPage })));
@@ -35,6 +35,9 @@ const ReferencePage = lazy(() =>
 );
 const CompatCheckerPage = lazy(() =>
   import('@/features/compat').then((m) => ({ default: m.CompatCheckerPage })),
+);
+const ComparePage = lazy(() =>
+  import('@/features/compare').then((m) => ({ default: m.ComparePage })),
 );
 const JournalPage = lazy(() =>
   import('@/features/journal').then((m) => ({ default: m.JournalPage })),
@@ -101,6 +104,7 @@ export const appRoutes: RouteObject[] = [
           { path: 'care', element: <RoutinePage /> },
           { path: 'care/analysis', element: <AnalysisPage /> },
           { path: 'care/products', element: <CollectionPage /> },
+          { path: 'care/compare', element: <ComparePage /> },
           { path: 'care/products/new', element: <AddProductPage /> },
           { path: 'care/products/:id', element: <ProductPage /> },
           { path: 'scan', element: <ScanPage /> },

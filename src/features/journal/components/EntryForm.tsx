@@ -10,7 +10,7 @@ import {
 } from '@/logic/journal';
 import { LIMITS } from '@/schemas';
 import type { Feeling, Intensity, JournalCyclePeriod, JournalEntry, Product } from '@/types';
-import { Button, Chip, Field, Select } from '@/ui';
+import { Button, Chip, Field, Select, TextInput } from '@/ui';
 import styles from '../pages/JournalPage.module.css';
 import { DateField } from './DateField';
 
@@ -178,6 +178,14 @@ export function EntryForm({ today, visibility, products, newId, onSave, onCancel
           ))}
         </fieldset>
       ) : null}
+
+      <TextInput
+        label={t('journal.routineChange')}
+        value={draft.routineChangeNote ?? ''}
+        maxLength={LIMITS.otherText}
+        hint={t('journal.routineChangeHint')}
+        onChange={(routineChangeNote) => setDraft((current) => ({ ...current, routineChangeNote }))}
+      />
 
       <Field
         label={t('journal.note')}

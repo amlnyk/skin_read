@@ -264,7 +264,9 @@ describe('the optional fields follow the profile and the settings', () => {
     ).toBeInTheDocument();
     // nothing in the screen explains or predicts: no banner (one entry) and no "because"
     expect(screen.queryByText(t('journal.bannerHint'))).not.toBeInTheDocument();
-    expect(document.body.textContent ?? '').not.toMatch(/через|причин|тому що|прогноз/i);
+    // the caption under the chart ("a coincidence in time is not a cause") is the plan's own words
+    const text = (document.body.textContent ?? '').replace(t('journal.trendCaption'), '');
+    expect(text).not.toMatch(/через|причин|тому що|прогноз/i);
   });
 });
 

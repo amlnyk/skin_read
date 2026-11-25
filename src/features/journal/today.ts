@@ -11,3 +11,9 @@ export function formatDate(isoDate: string): string {
   const [year, month, day] = isoDate.split('-');
   return `${day ?? ''}.${month ?? ''}.${year ?? ''}`;
 }
+
+/** 2026-01-15 -> 15.01 (for the labels of a chart, where the year takes too much room). */
+export function shortDate(isoDate: string): string {
+  const [, month, day] = isoDate.split('-');
+  return `${day ?? ''}.${month ?? ''}`;
+}

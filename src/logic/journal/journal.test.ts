@@ -235,6 +235,7 @@ describe('an entry', () => {
   it('the date alone is not a record', () => {
     expect(entryHasContent(EMPTY)).toBe(false);
     expect(entryHasContent({ ...EMPTY, note: '   ' })).toBe(false);
+    expect(entryHasContent({ ...EMPTY, routineChangeNote: '   ' })).toBe(false);
   });
 
   it.each<[string, Partial<EntryDraft>]>([
@@ -245,6 +246,7 @@ describe('an entry', () => {
     ['shaving irritation', { shavingIrritation: 2 }],
     ['the cycle period', { cyclePeriod: 'unknown' }],
     ['a note', { note: 'x' }],
+    ['a change in the routine', { routineChangeNote: 'x' }],
   ])('one filled field is enough: %s', (_name, patch) => {
     expect(entryHasContent({ ...EMPTY, ...patch })).toBe(true);
   });
@@ -262,6 +264,21 @@ describe('an entry', () => {
       newProductIds: [],
       note: 'hello',
     });
+  });
+
+  it('a change in the routine is saved trimmed, and left out when blank', () => {
+    const changed = buildEntry(
+      { ...EMPTY, note: 'x', routineChangeNote: '  new toner  ' },
+      'e-1',
+      NONE_VISIBLE,
+    );
+    expect(changed.routineChangeNote).toBe('new toner');
+    const blank = buildEntry(
+      { ...EMPTY, note: 'x', routineChangeNote: '   ' },
+      'e-2',
+      NONE_VISIBLE,
+    );
+    expect(blank).not.toHaveProperty('routineChangeNote');
   });
 
   it('a field that is not shown never reaches the journal', () => {

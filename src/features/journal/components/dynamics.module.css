@@ -1,0 +1,170 @@
+.block {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.hint {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.caption {
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--color-notice-bg);
+  font-weight: 700;
+}
+
+.lines {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding-left: var(--space-4);
+}
+
+/* ---- calendar ---- */
+
+.monthBar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
+.monthTitle {
+  padding: var(--space-2) 0;
+  font-weight: 700;
+  text-align: center;
+}
+
+.calendar {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  text-align: center;
+}
+
+.calendar th {
+  padding: var(--space-1) 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.calendar td {
+  padding: 2px;
+}
+
+.day,
+.dayButton {
+  display: flex;
+  min-height: var(--tap-target);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border-radius: var(--radius-md);
+}
+
+.day {
+  color: var(--color-text-muted);
+}
+
+.dayButton {
+  gap: 2px;
+  border: 2px solid var(--color-primary);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-weight: 700;
+}
+
+.dayButton[aria-pressed='true'] {
+  background: var(--color-notice-bg);
+}
+
+/* today: underlined, so it does not rest on colour alone */
+.day[aria-current='date'],
+.dayButton[aria-current='date'] {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.mark {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-primary);
+}
+
+.dayPanel {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+/* ---- chart ---- */
+
+.chart {
+  width: 100%;
+  height: auto;
+  color: var(--color-primary);
+}
+
+.grid {
+  stroke: var(--color-border);
+  stroke-width: 1;
+}
+
+.axis {
+  fill: var(--color-text-muted);
+  font-size: 10px;
+}
+
+.line {
+  fill: none;
+  stroke: var(--color-primary);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.point {
+  fill: var(--color-primary);
+}
+
+.event line {
+  stroke: var(--color-text);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+
+.event path {
+  fill: var(--color-surface);
+  stroke: var(--color-text);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--font-size-sm);
+}
+
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.legendIcon path {
+  fill: var(--color-surface);
+  stroke: var(--color-text);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}

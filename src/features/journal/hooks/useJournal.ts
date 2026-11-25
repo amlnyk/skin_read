@@ -25,5 +25,15 @@ export function useJournal() {
   const snoozed = isSuggestionSnoozed(settings.profileSuggestionSnoozedUntil, utcDate(now));
   const suggestion = snoozed ? null : suggestProfileUpdate(entries, profile, now);
 
-  return { entries: sorted, profile, products, visibility, suggestion, now };
+  // `chronological` keeps the order the entries were added in (the chart needs it: of two entries
+  // of one day the later one wins).
+  return {
+    entries: sorted,
+    chronological: entries,
+    profile,
+    products,
+    visibility,
+    suggestion,
+    now,
+  };
 }

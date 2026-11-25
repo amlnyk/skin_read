@@ -22,6 +22,8 @@ export function describeEntry(entry: JournalEntry, products: readonly Product[])
   if (entry.cyclePeriod !== undefined) {
     lines.push(t('journal.entryCycle', { value: t(`journal.cycleOption.${entry.cyclePeriod}`) }));
   }
+  const change = entry.routineChangeNote?.trim() ?? '';
+  if (change !== '') lines.push(t('journal.entryRoutineChange', { text: change }));
   const names = entry.newProductIds
     .map((id) => products.find((product) => product.id === id)?.name)
     .filter((name): name is string => name !== undefined);

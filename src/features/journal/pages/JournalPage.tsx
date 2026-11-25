@@ -7,9 +7,11 @@ import { answersFromProfile } from '@/logic/profile';
 import { QUESTION_IDS } from '@/schemas';
 import { useAppStoreApi } from '@/store';
 import { Button } from '@/ui';
+import { CalendarView } from '../components/CalendarView';
 import { EntryForm } from '../components/EntryForm';
 import { EntryList } from '../components/EntryList';
 import { SuggestionBanner } from '../components/SuggestionBanner';
+import { TrendChart } from '../components/TrendChart';
 import { useJournal } from '../hooks/useJournal';
 import { localDate } from '../today';
 import styles from './JournalPage.module.css';
@@ -18,7 +20,7 @@ export function JournalPage() {
   const { ids } = useServices();
   const store = useAppStoreApi();
   const navigate = useNavigate();
-  const { entries, profile, products, visibility, suggestion, now } = useJournal();
+  const { entries, chronological, profile, products, visibility, suggestion, now } = useJournal();
   const [adding, setAdding] = useState(false);
 
   // "Update the profile": the question about the state of the skin opens with the suggested state
@@ -77,6 +79,13 @@ export function JournalPage() {
           {t('journal.add')}
         </Button>
       )}
+
+      {entries.length > 0 ? (
+        <>
+          <CalendarView entries={entries} products={products} today={localDate(now)} />
+          <TrendChart entries={chronological} products={products} endDate={localDate(now)} />
+        </>
+      ) : null}
 
       <EntryList
         entries={entries}

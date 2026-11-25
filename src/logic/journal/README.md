@@ -11,6 +11,9 @@
 - `journalFieldVisibility(profile, settings)`: які необовʼязкові поля показує форма (цикл, гоління).
 - `entryHasContent`, `buildEntry`, `sortEntries`, `withoutCyclePeriod`: чернетка запису, збереження, порядок.
 - `dates.ts`: календар у UTC; час приходить аргументом.
+- `calendar.ts` (етап 12): `monthGrid` (тиждень з понеділка), `shiftMonth`, `monthOf`, `entriesByDate`.
+- `trend.ts` (етап 12): `trendSeries` (30 днів, день без запису це `null`, не 0), `runsOf` (відрізки лінії без
+  розривів), `trendEvents` (нові засоби й зміни в догляді), `mostRecordedSymptom`.
 
 Правила: чисті функції.
 - можна імпортувати: `@/schemas`, `@/types`, `@/lib/result`;

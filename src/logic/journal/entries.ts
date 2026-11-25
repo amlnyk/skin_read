@@ -11,6 +11,8 @@ export type EntryDraft = {
   shavingIrritation?: Intensity;
   cyclePeriod?: JournalCyclePeriod;
   note: string;
+  /** What the user changed in the routine that day (a marker on the chart). */
+  routineChangeNote?: string;
 };
 
 /** Is there anything to save? The date alone is not a record. */
@@ -21,7 +23,8 @@ export function entryHasContent(draft: EntryDraft): boolean {
     draft.newProductIds.length > 0 ||
     draft.shavingIrritation !== undefined ||
     draft.cyclePeriod !== undefined ||
-    draft.note.trim() !== ''
+    draft.note.trim() !== '' ||
+    (draft.routineChangeNote ?? '').trim() !== ''
   );
 }
 
@@ -52,6 +55,8 @@ export function buildEntry(
   }
   if (visibility.cyclePeriod && draft.cyclePeriod !== undefined)
     entry.cyclePeriod = draft.cyclePeriod;
+  const change = (draft.routineChangeNote ?? '').trim();
+  if (change !== '') entry.routineChangeNote = change;
   return entry;
 }
 
