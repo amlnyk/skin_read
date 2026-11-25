@@ -39,6 +39,9 @@ export function IngredientCard({ ingredient, all }: Props) {
       <h3>
         <Text value={ingredient.nameUk} />
       </h3>
+      {ingredient.reviewStatus === 'verified' ? null : (
+        <p className={styles.draft}>{t('reference.draftNote')}</p>
+      )}
       <dl className={styles.facts}>
         <div>
           <dt>{t('reference.inci')}</dt>

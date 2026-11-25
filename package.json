@@ -17,6 +17,7 @@
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "content:audit": "tsx scripts/content-audit.ts",
+    "content:import": "tsx scripts/content-import.ts",
     "check": "npm run typecheck && npm run lint && npm run format:check && npm run test:coverage && npm run content:audit -- --no-write && npm run build",
     "prepare": "husky"
   },

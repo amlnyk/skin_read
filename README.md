@@ -53,7 +53,7 @@ npm run check      # typecheck + lint + формат + тести з покри�
 npm run build && npm run preview   # продакшен-збірка зі service worker
 ```
 
-Інші команди: `npm run typecheck`, `npm run lint`, `npm run format` (автоформат), `npm run test`, `npm run test:coverage`, `npm run content:audit`.
+Інші команди: `npm run content:import`, `npm run typecheck`, `npm run lint`, `npm run format` (автоформат), `npm run test`, `npm run test:coverage`, `npm run content:audit`.
 
 Service worker є лише в продакшен-збірці. Щоб перевірити встановлення й роботу без інтернету, див. `docs/pwa.md`.
 
@@ -70,7 +70,7 @@ Service worker є лише в продакшен-збірці. Щоб перев
 
 ## Як додати контент і що означають статуси
 
-Контент лежить у `src/content/*.json` (кожен файл `{ "items": [...] }`). Кожен запис має `id`, `source` (звідки взято) і `reviewStatus`:
+Компоненти, правила сумісності й групи заповнюються в таблицях `content/cosmetologist/*.csv` (Excel або Google Sheets) і переносяться командою `npm run content:import`: інструкція для косметолога в `docs/content-guide.md`. Решта контенту лежить у `src/content/*.json` (кожен файл `{ "items": [...] }`). Кожен запис має `id`, `source` (звідки взято) і `reviewStatus`:
 
 - `verified`: текст перевірила фахівчиня;
 - `draft`: чернетка, чекає перевірки;
@@ -113,6 +113,7 @@ Service worker є лише в продакшен-збірці. Щоб перев
 - `docs/accessibility.md`: доступність і токени.
 - `docs/pwa.md`: встановлення, офлайн, оновлення.
 - `docs/test-report.md`: звіт перевірок за сценаріями ТЗ.
+- `docs/content-guide.md`: як наповнювати базу компонентів (для косметолога).
 - `docs/content-inventory.md`, `CONTENT_TODO.md`: який контент є, а якого бракує.
 - `docs/ci-setup.md`, `docs/setup-security.md`: CI і налаштування GitHub, безпека.
 - `CHANGELOG.md`: що змінювалося.

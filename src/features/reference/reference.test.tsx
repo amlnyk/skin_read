@@ -188,9 +188,10 @@ describe('ReferencePage: groups and cards', () => {
 });
 
 describe('ReferencePage: the real content', () => {
-  it('shows the groups from the spec and says that the cards are being prepared', () => {
+  it('shows the groups from the spec and the reference cards from the table', () => {
     setup(real.bundle);
-    expect(screen.getByText(t('reference.noIngredientsYet'))).toBeInTheDocument();
+    expect(real.bundle.ingredients.length).toBeGreaterThan(50);
+    expect(screen.queryByText(t('reference.noIngredientsYet'))).not.toBeInTheDocument();
     const names = screen
       .getAllByText(/./, { selector: 'summary span:first-child' })
       .map((node) => node.textContent);
@@ -198,25 +199,38 @@ describe('ReferencePage: the real content', () => {
     expect(names).toContain('Ніацинамід');
     expect(names).toContain('Жирні спирти');
     expect(names).toContain('Денатурований спирт');
+    // no category is filled in yet, so there is nothing to filter by
     expect(screen.queryByRole('combobox')).not.toBeInTheDocument();
   });
 
-  it('opening a group without cards or a description says so', () => {
-    setup(real.bundle);
-    const group = screen
-      .getByText('Ніацинамід', { selector: 'summary span' })
-      .closest('details') as HTMLElement;
-    expect(within(group).getByText(t('common.contentPending'))).toBeInTheDocument();
-    expect(within(group).getByText(t('reference.groupEmpty'))).toBeInTheDocument();
-  });
-
-  it('the search finds a group by name and has nothing else to find', () => {
+  it('a card from the table: empty explanations say they are being prepared, a draft says so', () => {
     setup(real.bundle);
     search('niacinamide');
-    expect(screen.getByText(t('reference.nothingFound'))).toBeInTheDocument();
+    const [card] = cards();
+    expect(card).toBeDefined();
+    expect(within(card!).getByRole('heading', { level: 3 })).toHaveTextContent('Ніацинамід');
+    expect(within(card!).getByText('Niacinamide')).toBeInTheDocument();
+    const item = real.bundle.ingredients.find((entry) => entry.inci === 'Niacinamide')!;
+    if (item.reviewStatus !== 'verified') {
+      expect(within(card!).getByText(t('reference.draftNote'))).toBeInTheDocument();
+    }
+    // every empty field says it is being prepared: nothing is filled in by the app
+    const empty =
+      [item.category, item.purpose, item.usage].filter((value) => value === null).length +
+      [item.properties, item.cautions, item.knownInteractions].filter((list) => list.length === 0)
+        .length;
+    expect(within(card!).queryAllByText(t('common.contentPending'))).toHaveLength(empty);
+  });
+
+  it('the search finds a component by INCI or synonym, and says when nothing is found', () => {
+    setup(real.bundle);
+    search('Cetearyl Alcohol');
+    expect(cards().length).toBeGreaterThan(0);
+    search('Ceramide 3');
+    expect(within(cards()[0]!).getByRole('heading', { level: 3 })).toHaveTextContent('Церамід NP');
     search('ніацинамід');
     expect(screen.getByText('Ніацинамід', { selector: 'summary span' })).toBeInTheDocument();
-    search('Cetearyl Alcohol');
+    search('no such component xyz');
     expect(screen.getByText(t('reference.nothingFound'))).toBeInTheDocument();
   });
 

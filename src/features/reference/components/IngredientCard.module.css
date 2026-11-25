@@ -20,3 +20,9 @@
 .facts ul {
   padding-left: var(--space-5);
 }
+
+/* not verified yet: said in words, not only by colour */
+.draft {
+  color: var(--color-text-muted);
+  font-style: italic;
+}

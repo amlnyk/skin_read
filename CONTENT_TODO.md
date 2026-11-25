@@ -133,6 +133,13 @@
 - **Тексти головного екрана** (`uk.ts`, блок `home.*`): мої формулювання, перевір тон.
 - **Ліміт витрат в обліковому записі Anthropic**: задати перед будь-яким розгортанням із ключем.
 
+## Таблиці для косметолога (заповнює косметолог; інструкція: docs/content-guide.md)
+
+- **`content/cosmetologist/ingredients.csv`**: 93 компоненти з назвами й групами (чернетки). Заповнити «Для чого», застереження, «Як застосовувати», джерело; перевірити групи; поставити «перевірено». Додати компоненти, яких бракує.
+- **`content/cosmetologist/compat-rules.csv`**: поки порожня. Перевірена матриця сумісності.
+- **`content/cosmetologist/groups.csv`**: опис груп, позначка «Активна група», перевірка шаблонів назв.
+- Після кожної зміни: `npm run content:import`, підняти `contentVersion`.
+
 <!-- content-audit:start -->
 ## Записи, що чекають наповнення або затвердження (створено автоматично)
 
@@ -142,9 +149,6 @@
 
 - recommendations.json: placeholder-recommendation-1
 - ingredient-groups.json: comedogenic_oils
-- ingredients.json: placeholder-ingredient-1
-- ingredients.json: placeholder-ingredient-2
-- compat-rules.json: placeholder-rule-1
 - safety-messages.json: safety-note-prescribed_derm_treatment
 - safety-messages.json: safety-note-pregnancy_or_planning
 - safety-messages.json: safety-note-other_limits
@@ -216,6 +220,99 @@
 - ingredient-groups.json: silicones
 - ingredient-groups.json: sulfates
 - ingredient-groups.json: parabens
+- ingredients.json: ing-aqua
+- ingredients.json: ing-butylene-glycol
+- ingredients.json: ing-propylene-glycol
+- ingredients.json: ing-propanediol
+- ingredients.json: ing-pentylene-glycol
+- ingredients.json: ing-caprylic-capric-triglyceride
+- ingredients.json: ing-xanthan-gum
+- ingredients.json: ing-carbomer
+- ingredients.json: ing-sodium-hydroxide
+- ingredients.json: ing-citric-acid
+- ingredients.json: ing-disodium-edta
+- ingredients.json: ing-butyrospermum-parkii-butter
+- ingredients.json: ing-dimethicone
+- ingredients.json: ing-cyclopentasiloxane
+- ingredients.json: ing-glycolic-acid
+- ingredients.json: ing-lactic-acid
+- ingredients.json: ing-mandelic-acid
+- ingredients.json: ing-salicylic-acid
+- ingredients.json: ing-betaine-salicylate
+- ingredients.json: ing-gluconolactone
+- ingredients.json: ing-lactobionic-acid
+- ingredients.json: ing-retinol
+- ingredients.json: ing-retinal
+- ingredients.json: ing-retinyl-palmitate
+- ingredients.json: ing-hydroxypinacolone-retinoate
+- ingredients.json: ing-niacinamide
+- ingredients.json: ing-azelaic-acid
+- ingredients.json: ing-ascorbic-acid
+- ingredients.json: ing-sodium-ascorbyl-phosphate
+- ingredients.json: ing-magnesium-ascorbyl-phosphate
+- ingredients.json: ing-ascorbyl-glucoside
+- ingredients.json: ing-ethyl-ascorbic-acid
+- ingredients.json: ing-tetrahexyldecyl-ascorbate
+- ingredients.json: ing-sodium-hyaluronate
+- ingredients.json: ing-hyaluronic-acid
+- ingredients.json: ing-hydrolyzed-hyaluronic-acid
+- ingredients.json: ing-glycerin
+- ingredients.json: ing-ceramide-np
+- ingredients.json: ing-ceramide-ap
+- ingredients.json: ing-ceramide-eop
+- ingredients.json: ing-ceramide-ns
+- ingredients.json: ing-panthenol
+- ingredients.json: ing-squalane
+- ingredients.json: ing-palmitoyl-tripeptide-1
+- ingredients.json: ing-palmitoyl-tetrapeptide-7
+- ingredients.json: ing-acetyl-hexapeptide-8
+- ingredients.json: ing-copper-tripeptide-1
+- ingredients.json: ing-zinc-pca
+- ingredients.json: ing-zinc-gluconate
+- ingredients.json: ing-zinc-oxide
+- ingredients.json: ing-allantoin
+- ingredients.json: ing-beta-glucan
+- ingredients.json: ing-tocopherol
+- ingredients.json: ing-tocopheryl-acetate
+- ingredients.json: ing-ferulic-acid
+- ingredients.json: ing-resveratrol
+- ingredients.json: ing-sodium-lauryl-sulfate
+- ingredients.json: ing-sodium-laureth-sulfate
+- ingredients.json: ing-cocamidopropyl-betaine
+- ingredients.json: ing-coco-glucoside
+- ingredients.json: ing-decyl-glucoside
+- ingredients.json: ing-sodium-cocoyl-isethionate
+- ingredients.json: ing-parfum
+- ingredients.json: ing-linalool
+- ingredients.json: ing-limonene
+- ingredients.json: ing-citronellol
+- ingredients.json: ing-geraniol
+- ingredients.json: ing-lavandula-angustifolia-oil
+- ingredients.json: ing-melaleuca-alternifolia-leaf-oil
+- ingredients.json: ing-citrus-limon-peel-oil
+- ingredients.json: ing-mentha-piperita-oil
+- ingredients.json: ing-alcohol-denat
+- ingredients.json: ing-cetearyl-alcohol
+- ingredients.json: ing-cetyl-alcohol
+- ingredients.json: ing-phenoxyethanol
+- ingredients.json: ing-sodium-benzoate
+- ingredients.json: ing-potassium-sorbate
+- ingredients.json: ing-benzyl-alcohol
+- ingredients.json: ing-methylparaben
+- ingredients.json: ing-propylparaben
+- ingredients.json: ing-titanium-dioxide
+- ingredients.json: ing-octocrylene
+- ingredients.json: ing-ethylhexyl-methoxycinnamate
+- ingredients.json: ing-butyl-methoxydibenzoylmethane
+- ingredients.json: ing-bis-ethylhexyloxyphenol-methoxyphenyl-triazine
+- ingredients.json: ing-ethylhexyl-triazone
+- ingredients.json: ing-cholesterol
+- ingredients.json: ing-phytosphingosine
+- ingredients.json: ing-ethylhexylglycerin
+- ingredients.json: ing-sodium-pca
+- ingredients.json: ing-urea
+- ingredients.json: ing-glyceryl-stearate
+- ingredients.json: ing-sodium-chloride
 - safety-messages.json: safety-emergency
 - safety-messages.json: safety-see_doctor
 - observation-templates.json: obs-missing-sunscreen

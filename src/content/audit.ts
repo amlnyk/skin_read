@@ -1,6 +1,7 @@
 import type { ReviewStatus } from '@/schemas';
 import { CONTENT_FILES, SINGLE_RECORD_FILES } from './files';
 import { parseContentFiles } from './loader';
+import { normalizeName } from './normalizeName';
 
 // Pure functions of the content audit. The script scripts/content-audit.ts only reads files,
 // prints the report, writes CONTENT_TODO.md and sets the exit code.
@@ -25,17 +26,8 @@ export type AuditReport = {
 
 const emptyCounts = (): StatusCounts => ({ placeholder: 0, draft: 0, verified: 0 });
 
-// The same comparison as normalizeText in src/logic/inci (the content layer must not import
-// logic). src/test/normalizeParity.test.ts keeps the two functions equal.
-export function normalizeName(text: string): string {
-  return text
-    .normalize('NFD')
-    .replace(/\p{M}/gu, '')
-    .toLowerCase()
-    .replace(/['\u2019\u02bc\u2018`\u00b4\u2032]/g, '')
-    .replace(/[^\p{L}\p{N}]+/gu, ' ')
-    .trim();
-}
+// normalizeName lives in its own file so the table import (content/import) can use it without zod.
+export { normalizeName };
 
 const DENATURED_ALCOHOL_GROUP = 'alcohol_denat';
 const FATTY_ALCOHOLS: ReadonlySet<string> = new Set([

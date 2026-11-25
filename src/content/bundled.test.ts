@@ -66,9 +66,42 @@ describe('bundled content', () => {
     ]);
     // the list of comedogenic oils is not given: the group is a placeholder and is hidden
     expect(ids).not.toContain('comedogenic_oils');
-    // the cosmetologist has given no ingredient records yet: nothing is shown, nothing is invented
-    expect(demo.value.bundle.ingredients).toEqual([]);
-    expect(publicMode.value.bundle.ingredientGroups).toEqual([]);
+    // the public mode shows only what a specialist has verified
+    for (const item of [
+      ...publicMode.value.bundle.ingredientGroups,
+      ...publicMode.value.bundle.ingredients,
+    ]) {
+      expect(item.reviewStatus).toBe('verified');
+    }
+  });
+
+  it('the components from the table are reference names only: no advice was invented', () => {
+    const demo = loadBundledContent('demo');
+    if (!demo.ok) throw new Error('content must load');
+    const ingredients = demo.value.bundle.ingredients;
+    expect(ingredients.length).toBeGreaterThan(50);
+    // rows that still carry the source of the prefill hold names and groups only;
+    // the cosmetologist writes her own source when she fills a row in
+    const prefilled = ingredients.filter((item) =>
+      item.source.startsWith('Довідкові дані для перевірки'),
+    );
+    for (const item of prefilled) {
+      expect(item.reviewStatus).toBe('draft');
+      expect(item.nameUk).not.toBeNull();
+      expect(item.purpose).toBeNull();
+      expect(item.usage).toBeNull();
+      expect(item.category).toBeNull();
+      expect(item.cautions).toEqual([]);
+      expect(item.properties).toEqual([]);
+      expect(item.knownInteractions).toEqual([]);
+      expect(item.supports).toEqual([]);
+    }
+    // a compatibility rule always comes from a named source
+    for (const rule of demo.value.bundle.compatRules) expect(rule.source.length).toBeGreaterThan(0);
+    const inci = (name: string) => ingredients.find((item) => item.inci === name);
+    expect(inci('Retinol')?.groups).toEqual(['retinoids']);
+    expect(inci('Cetearyl Alcohol')?.groups).toEqual(['fatty_alcohols']);
+    expect(inci('Alcohol Denat.')?.groups).toEqual(['alcohol_denat']);
   });
 
   it('every group has a source and a Ukrainian name, and the recognition patterns are drafts', () => {
