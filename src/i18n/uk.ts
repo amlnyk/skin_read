@@ -17,6 +17,28 @@ export const uk = {
   },
   home: {
     startTest: 'Пройти тест',
+    welcome:
+      'Пройди короткий тест, і тут зʼявиться твій профіль шкіри, схема догляду та що варто шукати в магазині.',
+    profileTitle: 'Мій профіль',
+    typeLabel: 'Тип шкіри: {name}',
+    typeUnsure: 'Тип шкіри ще не визначено.',
+    conditionsLabel: 'Стан зараз: {names}',
+    restrictionsCount:
+      'Обмежень і небажаних компонентів у профілі: {count}. Вони враховуються під час перевірок.',
+    profileLink: 'Відкрити профіль',
+    careTitleAm: 'Ранковий догляд',
+    careTitlePm: 'Вечірній догляд',
+    careSteps: 'Кроки: {names}',
+    careDone: 'Сьогодні виконано: {done} з {total}',
+    careEmpty: 'Схему догляду ще не складено.',
+    careBuild: 'Скласти схему догляду',
+    careLink: 'Мій догляд',
+    needsTitle: 'Що шукати',
+    needsList: 'Бракує: {names}',
+    needsNone: 'Базові потреби закриті або ще не визначені.',
+    quickTitle: 'Швидкі дії',
+    quickScan: 'Перевірити засіб',
+    quickJournal: 'Запис у щоденник',
   },
   notFound: {
     title: 'Сторінку не знайдено',
