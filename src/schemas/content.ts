@@ -6,6 +6,7 @@ import {
   conditionSchema,
   frequencySchema,
   goalSchema,
+  observationKindSchema,
   productCategorySchema,
   reactionGroupSchema,
   slotSchema,
@@ -164,6 +165,19 @@ export const routineStepInfoSchema = z.object({
 });
 export type RoutineStepInfo = z.infer<typeof routineStepInfoSchema>;
 
+// ---- Observation templates (the analysis of the whole routine, stage 9) ----
+// The analysis gives ids and keys only; the words come from here. `text` says what was found
+// ("there is no sunscreen in the morning routine"), `why` says why it matters. Both may hold
+// {placeholders} (see logic/routine fillTemplate). A missing text is null: the screen then
+// says "Інформація готується" and nothing is invented.
+export const observationTemplateSchema = z.object({
+  ...contentMetaShape,
+  kind: observationKindSchema,
+  text,
+  why: text,
+});
+export type ObservationTemplate = z.infer<typeof observationTemplateSchema>;
+
 // ---- Single-record content ----
 export const disclaimerSchema = z.object({
   ...contentMetaShape,
@@ -183,5 +197,6 @@ export const contentBundleSchema = z.object({
   safetyMessages: z.array(safetyMessageSchema),
   productCategories: z.array(productCategoryInfoSchema),
   routineSteps: z.array(routineStepInfoSchema),
+  observationTemplates: z.array(observationTemplateSchema),
 });
 export type ContentBundle = z.infer<typeof contentBundleSchema>;

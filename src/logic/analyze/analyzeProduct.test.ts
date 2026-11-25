@@ -11,16 +11,8 @@ const NOW = Date.UTC(2026, 0, 5, 12);
 const IDENTITY = { id: 'profile-1', revision: 3, createdAt: '2026-01-01T12:00:00.000Z' };
 const realContent = createRealContent('demo');
 
-// T7 comes from the plan (section 5): oily, sensitive, breakouts, no known reactions,
-// wants to avoid fragrance, 25-34.
-const T7: TestAnswers = {
-  q1_base_type: 'oily',
-  q2_conditions: ['sensitive'],
-  q3_goals: ['reduce_breakouts'],
-  q4_reactions: ['none_noticed'],
-  q5_avoid: ['fragrance_essential_oils'],
-  q10_age_band: '25_34',
-};
+// T7 comes from the plan (section 5): oily, sensitive, no known reactions, wants to avoid fragrance, 25-34.
+const T7: TestAnswers = PERSONAS.T7;
 
 type Persona = { profile: SkinProfile; analysis: ProfileAnalysis };
 

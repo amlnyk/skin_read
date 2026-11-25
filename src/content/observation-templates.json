@@ -1,0 +1,100 @@
+{
+  "items": [
+    {
+      "id": "obs-missing-cleanser",
+      "source": "технічна заглушка, етап 9",
+      "reviewStatus": "placeholder",
+      "kind": "missing_base_step",
+      "text": null,
+      "why": null
+    },
+    {
+      "id": "obs-missing-moisturizer",
+      "source": "технічна заглушка, етап 9",
+      "reviewStatus": "placeholder",
+      "kind": "missing_base_step",
+      "text": null,
+      "why": null
+    },
+    {
+      "id": "obs-missing-sunscreen",
+      "source": "ТЗ, приклад спостереження (етап 9), текст не затверджено косметологом",
+      "reviewStatus": "draft",
+      "kind": "missing_base_step",
+      "text": "У твоїй ранковій рутині не зазначено сонцезахисний засіб.",
+      "why": null
+    },
+    {
+      "id": "obs-conflict",
+      "source": "технічна заглушка, етап 9",
+      "reviewStatus": "placeholder",
+      "kind": "conflict",
+      "text": null,
+      "why": null
+    },
+    {
+      "id": "obs-many-actives",
+      "source": "технічна заглушка, етап 9",
+      "reviewStatus": "placeholder",
+      "kind": "many_actives_in_slot",
+      "text": null,
+      "why": null
+    },
+    {
+      "id": "obs-many-actives-sensitive",
+      "source": "ТЗ, приклад спостереження (етап 9), текст не затверджено косметологом",
+      "reviewStatus": "draft",
+      "kind": "many_actives_in_slot",
+      "text": "У твоїй рутині є декілька засобів із відлущувальними компонентами.",
+      "why": "Одночасне використання може підвищувати ризик подразнення, особливо з урахуванням зазначеної чутливості шкіри."
+    },
+    {
+      "id": "obs-duplicate-active",
+      "source": "технічна заглушка, етап 9",
+      "reviewStatus": "placeholder",
+      "kind": "duplicate_active",
+      "text": null,
+      "why": null
+    },
+    {
+      "id": "obs-personal-restriction",
+      "source": "технічна заглушка, етап 9",
+      "reviewStatus": "placeholder",
+      "kind": "personal_restriction",
+      "text": null,
+      "why": null
+    },
+    {
+      "id": "obs-preference-mismatch",
+      "source": "технічна заглушка, етап 9",
+      "reviewStatus": "placeholder",
+      "kind": "preference_mismatch",
+      "text": null,
+      "why": null
+    },
+    {
+      "id": "obs-incomplete-no-composition",
+      "source": "технічна заглушка, етап 9",
+      "reviewStatus": "placeholder",
+      "kind": "incomplete_data",
+      "text": null,
+      "why": null
+    },
+    {
+      "id": "obs-incomplete-low-coverage",
+      "source": "технічна заглушка, етап 9",
+      "reviewStatus": "placeholder",
+      "kind": "incomplete_data",
+      "text": null,
+      "why": null
+    },
+    {
+      "id": "obs-doctor-note",
+      "source": "технічна заглушка, етап 9",
+      "reviewStatus": "placeholder",
+      "kind": "doctor_note",
+      "text": null,
+      "why": null
+    }
+  ]
+}

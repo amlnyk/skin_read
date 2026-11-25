@@ -17,7 +17,8 @@ export {
 export { groupName, ingredientName } from './names';
 export { markReaction, type ReactionMarked } from './reactions';
 export { groupsForAvoid, groupsForReaction } from './groupMap';
-export { ingredientsOfText } from './steps/personalRestrictions';
+export { ingredientsOfText, personalRestrictions } from './steps/personalRestrictions';
+export { preferenceMismatches } from './steps/preferences';
 export type { LimitationCode } from './steps/limitations';
-export type { AnalyzeContent, AnalyzeInput, Composition } from './types';
+export type { AnalyzeContent, AnalyzeInput, Composition, Draft } from './types';
 export { isPossible, isRecognized } from './types';

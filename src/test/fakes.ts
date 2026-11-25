@@ -59,6 +59,7 @@ export function createEmptyBundle(): ContentBundle {
     safetyMessages: [],
     productCategories: [],
     routineSteps: [],
+    observationTemplates: [],
   };
 }
 

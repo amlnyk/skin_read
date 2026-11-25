@@ -69,6 +69,19 @@
 - **Тексти екрана** (`uk.ts`, блоки `scan.*`, `products.*`, `composition.*`): назви чотирьох статусів сканера й усі формулювання застережень мої. Перевірити тон, особливо «Може підходити» й «Це побажання, а не висновок про небезпеку».
 - **Питання від першого етапу, ще без відповіді:** групи «Денатурований спирт» і «Жирні спирти» названі мною (група alcohol_denat і fatty_alcohols); підтвердити назви.
 
+## Етап 9: аналіз усієї рутини (заповнює вручну авторка / косметолог)
+
+Файл `src/content/observation-templates.json`: дванадцять записів. Дві фрази з ТЗ перенесено слово в слово як `draft`, десять заглушок (`placeholder`, `text: null`, `why: null`): на екрані «Аналіз мого догляду» вони дають «Інформація готується».
+
+- **Тексти шаблонів** (`text`: що знайдено; `why`: чому це важливо), по одному на кожен запис: `obs-missing-cleanser`, `obs-missing-moisturizer`, `obs-conflict`, `obs-many-actives` (варіант для профілю без чутливості; є `draft` для чутливої шкіри), `obs-duplicate-active`, `obs-personal-restriction`, `obs-preference-mismatch`, `obs-incomplete-no-composition`, `obs-incomplete-low-coverage`, `obs-doctor-note`. Можна писати `{products}` (назви засобів), `{slots}` («Ранок», «Вечір»), `{names}` (компоненти або групи), `{categories}` (категорії). Закриває: косметолог.
+- **Пояснення «чому» для спостережень «Бракує сонцезахисту» і «Бракує…»**: у ТЗ є лише речення «що знайдено» про сонцезахист, пояснення немає (`why: null` у `obs-missing-sunscreen`).
+- **Затвердити дві фрази з ТЗ** (`obs-missing-sunscreen`, `obs-many-actives-sensitive`): вони `draft`, у режимі `public` не показуються, поки не стануть `verified`.
+- **Поріг «багато активних засобів в один час»** (`MANY_ACTIVES_IN_SLOT = 2`, `src/logic/config.ts`): це робоче значення, не косметологічний факт. Чи змінювати його.
+- **Що вважати «активним» засобом.** Зараз: засіб має компонент групи з `active: true` (позначок поки немає, див. етап 8), або людина сама віднесла його до категорії «Ексфоліант». Чи правильно рахувати так, чи потрібні інші ознаки (наприклад, окремий перелік відлущувальних груп).
+- **Базові кроки, відсутність яких видно в аналізі**: зараз вранці зволоження й сонцезахист, ввечері очищення й зволоження (ранкове очищення «за потреби»). Підтвердити.
+- **Правила сумісності** потрібні й тут: без них конфліктів у рутині не буде (див. етап 7).
+- **Тексти екрана** (`uk.ts`, блок `analysis.*`): назви видів спостережень («Можливий конфлікт», «Багато активних засобів в один час» тощо), слова ступеня («Важливо», «Зверни увагу», «До відома») і службові рядки. Перевірити тон.
+
 <!-- content-audit:start -->
 ## Записи, що чекають наповнення або затвердження (створено автоматично)
 
@@ -89,6 +102,16 @@
 - routine-steps.json: step-base-cleanser
 - routine-steps.json: step-base-moisturizer
 - routine-steps.json: step-base-sunscreen
+- observation-templates.json: obs-missing-cleanser
+- observation-templates.json: obs-missing-moisturizer
+- observation-templates.json: obs-conflict
+- observation-templates.json: obs-many-actives
+- observation-templates.json: obs-duplicate-active
+- observation-templates.json: obs-personal-restriction
+- observation-templates.json: obs-preference-mismatch
+- observation-templates.json: obs-incomplete-no-composition
+- observation-templates.json: obs-incomplete-low-coverage
+- observation-templates.json: obs-doctor-note
 
 ### draft
 
@@ -144,6 +167,8 @@
 - ingredient-groups.json: parabens
 - safety-messages.json: safety-emergency
 - safety-messages.json: safety-see_doctor
+- observation-templates.json: obs-missing-sunscreen
+- observation-templates.json: obs-many-actives-sensitive
 - disclaimer.json: medical-disclaimer
 
 <!-- content-audit:end -->

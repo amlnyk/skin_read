@@ -119,5 +119,8 @@
   },
   "routine-steps.json": {
     "items": []
+  },
+  "observation-templates.json": {
+    "items": []
   }
 }

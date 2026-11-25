@@ -22,6 +22,7 @@ describe('app routes', () => {
   const pages: [string, MessageKey][] = [
     ['/', 'nav.home'],
     ['/care', 'nav.care'],
+    ['/care/analysis', 'analysis.title'],
     ['/scan', 'nav.scan'], // lazy chunk
     ['/scan/paste', 'scan.pasteTitle'], // lazy chunk
     ['/care/products', 'products.title'], // lazy chunk

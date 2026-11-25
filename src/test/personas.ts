@@ -4,7 +4,7 @@ import type { ContentBundle, TestAnswers } from '@/types';
 // The expected results live in the tests; here are only the inputs.
 
 export const PERSONAS: Record<
-  'T1' | 'T2' | 'T3' | 'T4' | 'T5a' | 'T5b' | 'T6' | 'T8',
+  'T1' | 'T2' | 'T3' | 'T4' | 'T5a' | 'T5b' | 'T6' | 'T7' | 'T8',
   TestAnswers
 > = {
   // Beginner, oily skin with breakouts.
@@ -72,6 +72,16 @@ export const PERSONAS: Record<
     q3_goals: ['anti_aging', 'reduce_breakouts'],
     q10_age_band: 'under_18',
   },
+  // A routine with conflicts (stages 8 and 9): sensitive oily skin that avoids fragrance. The products of
+  // the persona are built in the tests of the stages.
+  T7: {
+    q1_base_type: 'oily',
+    q2_conditions: ['sensitive'],
+    q3_goals: ['reduce_breakouts'],
+    q4_reactions: ['none_noticed'],
+    q5_avoid: ['fragrance_essential_oils'],
+    q10_age_band: '25_34',
+  },
   // A prescription and a pregnancy: notes only, the mode stays "standard".
   T8: {
     q1_base_type: 'normal',
@@ -137,5 +147,6 @@ export function profileContent({
     safetyMessages: [],
     productCategories: [],
     routineSteps: [],
+    observationTemplates: [],
   };
 }

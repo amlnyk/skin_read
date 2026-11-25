@@ -4,7 +4,7 @@ import { t } from '@/i18n';
 import { HomePage } from '@/features/home';
 import { OnboardingPage } from '@/features/onboarding';
 import { ProfilePage, ResultPage } from '@/features/profile';
-import { RoutinePage } from '@/features/routine';
+import { AnalysisPage, RoutinePage } from '@/features/routine';
 import { OnboardingGuard } from './guards/OnboardingGuard';
 import { Layout } from './Layout';
 
@@ -85,6 +85,7 @@ export const appRoutes: RouteObject[] = [
         children: [
           { index: true, element: <HomePage /> },
           { path: 'care', element: <RoutinePage /> },
+          { path: 'care/analysis', element: <AnalysisPage /> },
           { path: 'care/products', element: <CollectionPage /> },
           { path: 'care/products/new', element: <AddProductPage /> },
           { path: 'care/products/:id', element: <ProductPage /> },

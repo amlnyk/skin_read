@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { QUESTION_IDS } from '@/schemas';
+import { OBSERVATION_TEMPLATE_IDS, QUESTION_IDS } from '@/schemas';
+import raw from './observation-templates.json';
 import { loadBundledContent } from './bundled';
 
 // The real files of src/content go through the same loader as in the app.
@@ -94,5 +95,43 @@ describe('bundled content', () => {
       'behenyl alcohol',
     ]);
     expect(patterns('alcohol_denat')).toEqual([]);
+  });
+
+  it('every template of the routine analysis has a record in the file, and no text is invented', () => {
+    type Template = { id: string; text: string | null; why: string | null; reviewStatus: string };
+    const records: Template[] = raw.items;
+    const ids = records.map((record) => record.id);
+    for (const id of Object.values(OBSERVATION_TEMPLATE_IDS)) expect(ids, id).toContain(id);
+    expect(new Set(ids).size).toBe(ids.length);
+    // a text is there only when it came from the spec (draft); the rest waits for the cosmetologist
+    for (const record of records) {
+      if (record.reviewStatus === 'placeholder') {
+        expect(record.text).toBeNull();
+        expect(record.why).toBeNull();
+      }
+    }
+    const filled = records
+      .filter((record) => record.text !== null)
+      .map((record) => record.id)
+      .sort();
+    expect(filled).toEqual(['obs-many-actives-sensitive', 'obs-missing-sunscreen']);
+  });
+
+  it('the two examples of the spec are in the content as drafts, word for word', () => {
+    const demo = loadBundledContent('demo');
+    const publicMode = loadBundledContent('public');
+    if (!demo.ok || !publicMode.ok) throw new Error('content must load');
+    const byId = (id: string) =>
+      demo.value.bundle.observationTemplates.find((record) => record.id === id);
+    expect(byId('obs-missing-sunscreen')?.text).toBe(
+      'У твоїй ранковій рутині не зазначено сонцезахисний засіб.',
+    );
+    const many = byId('obs-many-actives-sensitive');
+    expect(`${many?.text} ${many?.why}`).toBe(
+      'У твоїй рутині є декілька засобів із відлущувальними компонентами. Одночасне використання може підвищувати ризик подразнення, особливо з урахуванням зазначеної чутливості шкіри.',
+    );
+    // not verified yet: hidden in the public mode, placeholders hidden everywhere
+    expect(publicMode.value.bundle.observationTemplates).toEqual([]);
+    expect(demo.value.bundle.observationTemplates).toHaveLength(2);
   });
 });

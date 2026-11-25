@@ -182,6 +182,11 @@ export const observationKindSchema = z.enum([
 ]);
 export type ObservationKind = z.infer<typeof observationKindSchema>;
 
+// How much attention an observation of the whole routine asks for. It is a degree of emphasis on
+// the screen (words and shapes, never a score): there are no numbers in the routine analysis.
+export const observationSeveritySchema = z.enum(['info', 'attention', 'important']);
+export type ObservationSeverity = z.infer<typeof observationSeveritySchema>;
+
 export const intensitySchema = z.union([z.literal(0), z.literal(1), z.literal(2), z.literal(3)]);
 export type Intensity = z.infer<typeof intensitySchema>;
 

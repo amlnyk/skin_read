@@ -8,7 +8,9 @@
 - `explainStep`: призначення, компоненти, особисті застереження. Не зберігається, рахується щоразу;
 - `buildShoppingNeeds`: групи `base`, `missing`, `optional`, `not_now`;
 - `moveStep`, `removeStep`, `addStep`: редагування кнопками;
-- `markStep`, `doneStepIds`: позначка «виконано» на один день.
+- `markStep`, `doneStepIds`: позначка «виконано» на один день;
+- `analyzeRoutine(routines, products, profile, analysis, content, config?)` (етап 9): спостереження про весь набір засобів (`RoutineObservation[]`): особисті реакції, конфлікти пар, багато активних в один слот, повтор активного, відсутні базові кроки, побажання, засоби без складу, примітки лікаря. Без числових оцінок, без текстів (лише id і ключі, слова з `observation-templates.json`). Перевірки в `routineChecks.ts`, злиття однакових спостережень ранку й вечора, порядок і id в `analyzeRoutine.ts`;
+- `routineProducts`, `categoriesInSlots`: які засоби й категорії стоять у рутині; `fillTemplate`: підстановка `{products}`, `{slots}` у текст шаблону.
 
 Правила: чисті функції.
 - можна імпортувати: `@/schemas`, `@/types`, `@/lib/result`, сусідні модулі logic через `../`;

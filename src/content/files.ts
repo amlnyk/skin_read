@@ -4,6 +4,7 @@ import {
   ingredientGroupSchema,
   ingredientSchema,
   compatibilityRuleSchema,
+  observationTemplateSchema,
   productCategoryInfoSchema,
   questionSchema,
   routineStepInfoSchema,
@@ -25,6 +26,11 @@ export const CONTENT_FILES = [
   { file: 'safety-messages.json', key: 'safetyMessages', schema: safetyMessageSchema },
   { file: 'product-categories.json', key: 'productCategories', schema: productCategoryInfoSchema },
   { file: 'routine-steps.json', key: 'routineSteps', schema: routineStepInfoSchema },
+  {
+    file: 'observation-templates.json',
+    key: 'observationTemplates',
+    schema: observationTemplateSchema,
+  },
 ] as const satisfies readonly { file: string; key: keyof ContentBundle; schema: unknown }[];
 
 // Files with a single record (not a container). Counted by the audit, not part of the bundle.

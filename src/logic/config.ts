@@ -42,3 +42,17 @@ export function fuzzyDistanceFor(length: number, config: InciConfig = DEFAULT_IN
   if (length < config.fuzzyMinLength) return 0;
   return length >= config.fuzzyLongFrom ? config.fuzzyLongDistance : config.fuzzyShortDistance;
 }
+
+// Thresholds of the analysis of the whole routine (stage 9). Like the ones above these are
+// tuning values, not medical rules: the observation says "may raise the risk", never "is harmful".
+
+/** From this many "active" products in one slot the routine gets "many_actives_in_slot". */
+export const MANY_ACTIVES_IN_SLOT = 2;
+
+export type RoutineConfig = {
+  manyActivesInSlot: number;
+};
+
+export const DEFAULT_ROUTINE_CONFIG: RoutineConfig = {
+  manyActivesInSlot: MANY_ACTIVES_IN_SLOT,
+};
