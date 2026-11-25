@@ -75,7 +75,7 @@ describe('tokens: nothing bypasses tokens.css', () => {
     for (const file of sources.filter((f) => f.endsWith('.css'))) {
       const text = readFileSync(file, 'utf8');
       for (const match of text.matchAll(/font-size:\s*([^;]+);/g)) {
-        if (!/^var\(--font-size-(sm|md|lg)\)$/.test(match[1]!.trim()))
+        if (!/^var\(--font-size-(sm|md|lg|xl)\)$/.test(match[1]!.trim()))
           offenders.push(`${rel(file)}: ${match[1]}`);
       }
     }
@@ -85,7 +85,7 @@ describe('tokens: nothing bypasses tokens.css', () => {
 
 describe('tokens: accessibility numbers', () => {
   it('keeps the smallest text size at 16px or more', () => {
-    for (const name of ['--font-size-sm', '--font-size-md', '--font-size-lg']) {
+    for (const name of ['--font-size-sm', '--font-size-md', '--font-size-lg', '--font-size-xl']) {
       const value = token(name);
       expect(value.endsWith('rem')).toBe(true);
       expect(parseFloat(value)).toBeGreaterThanOrEqual(1);
@@ -96,12 +96,22 @@ describe('tokens: accessibility numbers', () => {
     expect(parseInt(token('--tap-target'), 10)).toBeGreaterThanOrEqual(44);
   });
 
-  const surfaces = ['--color-bg', '--color-surface', '--color-notice-bg'];
+  const surfaces = ['--color-bg', '--color-surface', '--color-notice-bg', '--color-primary-soft'];
 
   it.each(surfaces)('text and muted text have AA contrast (4.5:1) on %s', (surface) => {
     expect(contrast(token('--color-text'), token(surface))).toBeGreaterThanOrEqual(4.5);
     expect(contrast(token('--color-text-muted'), token(surface))).toBeGreaterThanOrEqual(4.5);
     expect(contrast(token('--color-primary'), token(surface))).toBeGreaterThanOrEqual(4.5);
+  });
+
+  it('text on a filled button has AA contrast', () => {
+    expect(contrast(token('--color-on-primary'), token('--color-primary'))).toBeGreaterThanOrEqual(
+      4.5,
+    );
+  });
+
+  it('the tap target of a button is at least 44px', () => {
+    expect(parseInt(token('--button-height'), 10)).toBeGreaterThanOrEqual(44);
   });
 
   it.each(['--color-bg', '--color-surface'])(

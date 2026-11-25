@@ -6,15 +6,15 @@
 }
 
 .title {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-xl);
 }
 
 .button {
   min-height: var(--tap-target);
   padding: 0 var(--space-4);
-  border: 2px solid var(--color-primary);
+  border: 0;
   border-radius: var(--radius-md);
-  background: var(--color-surface);
+  background: var(--color-primary-soft);
   color: var(--color-primary);
   font-weight: 700;
   cursor: pointer;

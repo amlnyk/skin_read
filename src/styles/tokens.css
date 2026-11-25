@@ -1,17 +1,32 @@
-/* Temporary neutral design tokens. The visual design is not approved yet.
-   This is the only file allowed to contain raw color values. */
+/* Temporary design tokens in the spirit of iOS (light, grouped lists, system font).
+   They will be replaced by the author's design from Figma: change the values here, not in modules.
+   This is the only file allowed to contain raw color values.
+   Contrast is checked by src/styles/tokens.test.ts (text 4.5:1, controls 3:1). */
 :root {
-  --color-bg: #f7f7f5;
-  --color-surface: #ffffff;
-  --color-text: #1d1d1b;
-  --color-text-muted: #55554f;
-  --color-primary: #2f5d62;
-  --color-border: #d6d6d0;
+  color-scheme: light;
+
+  /* surfaces */
+  --color-bg: #f2f2f7; /* grouped background */
+  --color-surface: #ffffff; /* cards, lists, sheets */
+  --color-notice-bg: #e9f1fd; /* calm highlight: notes, banners */
+  --color-primary-soft: #e8f0fe; /* tinted buttons, the active tab */
+  --color-tabbar: rgb(249 249 249 / 92%); /* translucent bottom bar */
+  --color-overlay: rgb(0 0 0 / 40%);
+
+  /* text */
+  --color-text: #1c1c1e;
+  --color-text-muted: #636366;
+  --color-primary: #0062cc; /* a darker system blue: 4.5:1 on every surface */
+  --color-on-primary: #ffffff;
+
+  /* lines */
+  --color-border: #e5e5ea; /* hairlines and card edges (decorative) */
   /* Borders of interactive controls: >= 3:1 against surface and bg (WCAG 1.4.11). */
-  --color-control-border: #757570;
-  --color-focus: #1a56db;
-  --color-notice-bg: #eef3f3;
-  --color-overlay: rgb(29 29 27 / 55%);
+  --color-control-border: #86868b;
+  --color-focus: #0062cc;
+
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 4%), 0 1px 1px rgb(0 0 0 / 2%);
+  --shadow-sheet: 0 -8px 30px rgb(0 0 0 / 12%);
 
   --space-1: 4px;
   --space-2: 8px;
@@ -20,15 +35,22 @@
   --space-5: 24px;
   --space-6: 32px;
 
-  --radius-md: 12px;
-  --radius-lg: 16px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
 
-  --font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
-  --font-size-sm: 1rem;
-  --font-size-md: 1rem;
-  --font-size-lg: 1.375rem;
-  --line-height: 1.5;
+  --font-family:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', system-ui, 'Segoe UI',
+    Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-size-sm: 1rem; /* footnotes, hints: still 16px */
+  --font-size-md: 1.0625rem; /* body, 17px like iOS */
+  --font-size-lg: 1.25rem; /* section titles */
+  --font-size-xl: 1.875rem; /* large page titles */
+  --line-height: 1.45;
 
   --tap-target: 44px;
-  --nav-height: 72px;
+  --button-height: 50px;
+  --nav-height: 64px;
+  --content-width: 42rem;
 }
