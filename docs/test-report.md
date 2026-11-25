@@ -40,6 +40,13 @@
 | `npm audit --omit=dev`, `depcheck` | див. висновок скрипта |
 | `dist/sw.js` не кешує `/api/` | див. висновок скрипта |
 
+## Етап 14
+
+- Атаки A.6 і чеклист безпеки: `docs/security-report.md`.
+- Звірка з ТЗ: `docs/tz-compliance.md`.
+- Нові автотести: `src/test/security.test.tsx` (XSS і `javascript:` на екранах засобів), `src/test/deployConfig.test.ts` (rewrite і заголовки `vercel.json`), `src/features/home/HomePage.test.tsx` (головний екран).
+- Сценарій 1 тепер видно й на головному екрані (профіль, схема на зараз, потреби).
+
 ## Не перевірено
 
 - Lighthouse (Accessibility ≥ 90, PWA): потрібен браузер, див. `docs/accessibility.md`.
