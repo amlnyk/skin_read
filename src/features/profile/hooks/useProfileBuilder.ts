@@ -29,6 +29,7 @@ export function useProfileBuilder() {
       id: existing?.id ?? 'proposal',
       revision,
       createdAt,
+      reactionIngredients: existing?.reactionIngredients ?? [],
     });
   }, [finished, draft.answers, bundle, clock, existing, revision]);
 
@@ -39,6 +40,7 @@ export function useProfileBuilder() {
       id: existing?.id ?? ids.next(),
       revision,
       createdAt: existing?.createdAt ?? new Date(now).toISOString(),
+      reactionIngredients: existing?.reactionIngredients ?? [],
     });
     store.getState().actions.profile.set(profile);
   };

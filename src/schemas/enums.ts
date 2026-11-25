@@ -175,6 +175,7 @@ export const observationKindSchema = z.enum([
   'duplicate_active',
   'many_actives_in_slot',
   'personal_restriction',
+  'ingredient_caution',
   'preference_mismatch',
   'incomplete_data',
   'doctor_note',

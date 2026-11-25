@@ -23,6 +23,10 @@ describe('app routes', () => {
     ['/', 'nav.home'],
     ['/care', 'nav.care'],
     ['/scan', 'nav.scan'], // lazy chunk
+    ['/scan/paste', 'scan.pasteTitle'], // lazy chunk
+    ['/care/products', 'products.title'], // lazy chunk
+    ['/care/products/new', 'products.addTitle'], // lazy chunk
+    ['/profile/history', 'scan.historyTitle'], // lazy chunk
     ['/reference', 'nav.reference'], // lazy chunk
     ['/reference/compat', 'compat.title'], // lazy chunk
     ['/profile', 'nav.profile'],

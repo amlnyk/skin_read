@@ -38,6 +38,9 @@ export const ingredientGroupSchema = z.object({
   description: text,
   // name patterns for the 'group_pattern' match type
   patterns: z.array(z.string().min(1).max(LIMITS.shortText)),
+  // true: the group counts as an "active" one (duplicates and many actives in a slot are
+  // looked for only among these). Not set: the cosmetologist has not decided yet.
+  active: z.boolean().optional(),
 });
 export type IngredientGroup = z.infer<typeof ingredientGroupSchema>;
 

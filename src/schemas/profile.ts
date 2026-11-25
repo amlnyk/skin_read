@@ -40,6 +40,9 @@ export const skinProfileSchema = z.object({
   goalOtherText: z.string().max(LIMITS.otherText).optional(),
   reactions: reactionsSchema,
   reactionOtherText: z.string().max(LIMITS.otherText).optional(),
+  // Ids of ingredients the user reported a reaction to (marked on a product card, stage 8).
+  // Not an answer of the test: a new test keeps them.
+  reactionIngredients: z.array(idSchema),
   avoid: avoidSchema,
   sex: sexSchema.nullable(),
   ageBand: ageBandSchema.nullable(),

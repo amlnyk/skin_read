@@ -1,16 +1,9 @@
-import type { CompatStatus } from '@/schemas';
 import { checkPair } from './checkPair';
+import { compatSeverity } from './severity';
 import { sameSubject } from './subjects';
 import type { CompatContent, CompatContext, CompatResult, CompatSubject } from './types';
 
 // All pairs of a list of components, the most important first.
-
-const SEVERITY: Readonly<Record<CompatStatus, number>> = {
-  not_recommended_for_profile: 0,
-  caution: 1,
-  insufficient_info: 2,
-  no_known_conflicts: 3,
-};
 
 export function checkList(
   subjects: readonly CompatSubject[],
@@ -31,5 +24,5 @@ export function checkList(
     }
   }
   // Array.prototype.sort is stable: equal severities keep the order of the pairs
-  return results.sort((x, y) => SEVERITY[x.status] - SEVERITY[y.status]);
+  return results.sort((x, y) => compatSeverity(x.status) - compatSeverity(y.status));
 }

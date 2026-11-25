@@ -111,6 +111,15 @@ describe('skin profile', () => {
   it('revision starts at 1', () => {
     expect(skinProfileSchema.safeParse({ ...profile, revision: 0 }).success).toBe(false);
   });
+
+  it('stage 8: keeps the ingredients the person reacted to, and the field is required', () => {
+    expect(
+      skinProfileSchema.safeParse({ ...profile, reactionIngredients: ['retinol'] }).success,
+    ).toBe(true);
+    const { reactionIngredients, ...without } = profile;
+    expect(reactionIngredients).toEqual([]);
+    expect(skinProfileSchema.safeParse(without).success).toBe(false);
+  });
 });
 
 describe('scan result', () => {
@@ -134,6 +143,42 @@ describe('scan result', () => {
 
   it('rejects an unknown status', () => {
     expect(scanResultSchema.safeParse({ ...scan, status: 'great' }).success).toBe(false);
+  });
+
+  it('stage 8: an old result gets the defaults of the new fields', () => {
+    const parsed = scanResultSchema.parse(scan);
+    expect(parsed.benefits).toEqual([]);
+    expect(parsed.coverage).toEqual({
+      total: 0,
+      recognized: 0,
+      unknownRatio: 0,
+      isSufficient: false,
+    });
+    expect(parsed.insufficientInfo[0]).toMatchObject({
+      key: null,
+      via: null,
+      groupIds: [],
+      productIds: [],
+      slot: null,
+      possible: false,
+    });
+  });
+
+  it('stage 8: the new observation kind and a possible (unconfirmed) match are valid', () => {
+    const observation = {
+      id: 'o1',
+      kind: 'ingredient_caution',
+      ingredientIds: ['a'],
+      ruleId: null,
+      messageId: null,
+      key: '0',
+      possible: true,
+    };
+    expect(scanResultSchema.safeParse({ ...scan, warnings: [observation] }).success).toBe(true);
+    expect(
+      scanResultSchema.safeParse({ ...scan, warnings: [{ ...observation, kind: 'nonsense' }] })
+        .success,
+    ).toBe(false);
   });
 });
 

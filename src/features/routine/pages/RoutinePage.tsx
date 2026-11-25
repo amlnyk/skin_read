@@ -40,6 +40,7 @@ export function RoutinePage() {
     return (
       <section className={styles.page}>
         <h1>{t('nav.care')}</h1>
+        <Link to="/care/products">{t('products.link')}</Link>
         <p>{t('care.needsProfile')}</p>
         <Link to="/test">{t('care.startTest')}</Link>
       </section>
@@ -71,6 +72,7 @@ export function RoutinePage() {
   return (
     <section className={styles.page}>
       <h1>{t('nav.care')}</h1>
+      <Link to="/care/products">{t('products.link')}</Link>
       {showBanner ? <DoctorBanner message={seeDoctorText} /> : null}
 
       {care.notes.length > 0 ? (

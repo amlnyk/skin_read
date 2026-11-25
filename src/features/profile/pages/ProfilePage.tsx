@@ -90,6 +90,8 @@ export function ProfilePage() {
         />
       ))}
 
+      <Link to="/profile/history">{t('scan.history')}</Link>
+
       <div className={styles.actions}>
         <Button variant="secondary" fullWidth onClick={retake}>
           {t('profile.retake')}

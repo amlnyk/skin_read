@@ -53,6 +53,7 @@ export function buildProfile(
     id: identity.id,
     revision: identity.revision,
     contradictions: contradictions.map((item) => item.id),
+    reactionIngredients: [...(identity.reactionIngredients ?? [])],
     createdAt: identity.createdAt,
     updatedAt: new Date(now).toISOString(),
   };

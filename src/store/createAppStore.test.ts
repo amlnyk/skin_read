@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import valid from '@fixtures/persisted-valid.json';
 import valid1 from '@fixtures/persisted-v1.json';
+import valid2 from '@fixtures/persisted-v2.json';
 import type { Product } from '@/schemas';
 import {
   createJsdomStorageAdapter,
@@ -10,7 +11,7 @@ import {
 } from '@/test/fakes';
 import { createAppStore, STORAGE_KEY } from './createAppStore';
 
-const envelope = (state: unknown, version = 2) => JSON.stringify({ state, version });
+const envelope = (state: unknown, version = 3) => JSON.stringify({ state, version });
 
 describe('persistence round trip', () => {
   it('starts with initial data and a healthy status', () => {
@@ -30,7 +31,7 @@ describe('persistence round trip', () => {
       version: number;
       state: Record<string, unknown>;
     };
-    expect(saved.version).toBe(2);
+    expect(saved.version).toBe(3);
     // actions and the session status are never saved
     expect(saved.state).not.toHaveProperty('actions');
     expect(saved.state).not.toHaveProperty('persistence');
@@ -67,6 +68,28 @@ describe('persistence round trip', () => {
     });
     expect(state.needs).toEqual([{ id: 'need-1', done: false, dismissed: false }]);
     expect(state.profile?.id).toBe('profile-1');
+  });
+
+  it('restores data saved by version 2 and keeps the products, the checks and the profile', () => {
+    const adapter = createMemoryAdapter({ [STORAGE_KEY]: envelope(valid2, 2) });
+    const state = createAppStore(adapter).getState();
+    expect(state.persistence).toEqual({ kind: 'ok' });
+    expect(state.profile?.revision).toBe(2);
+    expect(state.profile?.reactionIngredients).toEqual([]);
+    expect(state.products.map((product) => product.id)).toEqual(['product-1', 'product-2']);
+    expect(state.products[1]?.ingredients[2]).toMatchObject({
+      raw: 'Niacinamide',
+      matchType: 'fuzzy',
+      groupIds: [],
+      confirmed: true,
+    });
+    expect(state.scans).toHaveLength(1);
+    expect(state.scans[0]).toMatchObject({ id: 'scan-1', status: 'may_fit', profileRevision: 2 });
+    expect(state.scans[0]?.warnings[0]).toMatchObject({
+      kind: 'personal_restriction',
+      key: null,
+      possible: false,
+    });
   });
 
   it('works with the real jsdom localStorage', () => {

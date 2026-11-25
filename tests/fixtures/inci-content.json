@@ -30,7 +30,7 @@
       "cautions": [],
       "usage": null,
       "knownInteractions": [],
-      "supports": []
+      "supports": ["hydrate"]
     },
     {
       "id": "cetearyl-alcohol",
@@ -155,7 +155,12 @@
       "category": null,
       "purpose": null,
       "properties": [],
-      "cautions": [],
+      "cautions": [
+        {
+          "conditions": ["sensitive", "reactive"],
+          "text": null
+        }
+      ],
       "usage": null,
       "knownInteractions": [],
       "supports": []
@@ -254,7 +259,7 @@
       "cautions": [],
       "usage": null,
       "knownInteractions": [],
-      "supports": []
+      "supports": ["reduce_oiliness", "reduce_breakouts"]
     },
     {
       "id": "allantoin",
@@ -392,7 +397,8 @@
       "reviewStatus": "draft",
       "nameUk": "Кислоти",
       "description": null,
-      "patterns": []
+      "patterns": [],
+      "active": true
     },
     {
       "id": "aha",
@@ -400,7 +406,8 @@
       "reviewStatus": "draft",
       "nameUk": "AHA-кислоти",
       "description": null,
-      "patterns": []
+      "patterns": [],
+      "active": true
     },
     {
       "id": "retinoids",
@@ -408,7 +415,8 @@
       "reviewStatus": "draft",
       "nameUk": "Ретиноїди",
       "description": null,
-      "patterns": []
+      "patterns": [],
+      "active": true
     },
     {
       "id": "fatty_alcohols",
@@ -448,7 +456,8 @@
       "reviewStatus": "draft",
       "nameUk": "Вітамін C",
       "description": null,
-      "patterns": []
+      "patterns": [],
+      "active": true
     },
     {
       "id": "preservatives",

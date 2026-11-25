@@ -33,5 +33,6 @@ export function analyzeSavedProfile(
     id: profile.id,
     revision: profile.revision,
     createdAt: profile.createdAt,
+    reactionIngredients: profile.reactionIngredients,
   }).analysis;
 }

@@ -9,12 +9,18 @@ export const parsedIngredientSchema = z.object({
   // id of the matched content ingredient, null when unknown
   ingredientId: idSchema.nullable(),
   matchType: matchTypeSchema,
+  // groups of the ingredient plus the groups its name fits by pattern
+  groupIds: z.array(idSchema).default([]),
+  // false: a fuzzy match the user has not confirmed yet. It is only a "possible match".
+  confirmed: z.boolean().default(true),
 });
 export type ParsedIngredient = z.infer<typeof parsedIngredientSchema>;
 
 export const declaredConcentrationSchema = z.object({
+  // as written on the label ("5%", "0,5-2 %"): a claim of the label, not a checked value
   raw: z.string().min(1).max(LIMITS.shortText),
-  percent: z.number().min(0).max(100),
+  // the number when the text is one plain value; null for ranges
+  percent: z.number().min(0).max(100).nullable(),
 });
 export type DeclaredConcentration = z.infer<typeof declaredConcentrationSchema>;
 

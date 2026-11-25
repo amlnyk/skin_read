@@ -1,6 +1,6 @@
 // Storage migrations. Every change of the saved data shape raises STORE_VERSION and adds a
 // function vN -> vN+1 here, together with a test on a fixture of the old data.
-export const STORE_VERSION = 2;
+export const STORE_VERSION = 3;
 
 type Migration = (state: unknown) => unknown;
 
@@ -31,7 +31,29 @@ const toVersion2: Migration = (state) => {
   };
 };
 
-const steps: Readonly<Record<number, Migration>> = { 1: toVersion2 };
+// Version 2 -> 3 (stage 8):
+// - the profile gets `reactionIngredients` (ingredients the user reported a reaction to);
+// - products, their parsed ingredients and scan results get new fields (`groupIds`, `confirmed`,
+//   `position`, observation keys, `benefits`, `coverage`). Those have defaults in the schema,
+//   so old records stay valid and nothing is rewritten here;
+// - `declaredConcentrations[].percent` may now be null (ranges): old numbers stay as they are.
+// Nothing is dropped. The step can run twice on the same data.
+const toVersion3: Migration = (state) => {
+  if (!isRecord(state)) return state;
+  const profile = state['profile'];
+  if (!isRecord(profile)) return state;
+  return {
+    ...state,
+    profile: {
+      ...profile,
+      reactionIngredients: Array.isArray(profile['reactionIngredients'])
+        ? profile['reactionIngredients']
+        : [],
+    },
+  };
+};
+
+const steps: Readonly<Record<number, Migration>> = { 1: toVersion2, 2: toVersion3 };
 
 /** Brings saved data of an older version to the current shape. Never drops data on its own. */
 export function migrate(persisted: unknown, fromVersion: number): unknown {

@@ -12,7 +12,7 @@ import type {
 /** The part of the profile that comes from the answers (the rest is identity and dates). */
 export type ProfileFields = Omit<
   SkinProfile,
-  'id' | 'revision' | 'contradictions' | 'createdAt' | 'updatedAt'
+  'id' | 'revision' | 'contradictions' | 'reactionIngredients' | 'createdAt' | 'updatedAt'
 >;
 
 /** Who the profile belongs to; the caller owns ids and dates (logic has no clock). */
@@ -21,6 +21,8 @@ export type ProfileIdentity = {
   /** Already incremented by the caller: 1 for the first confirmed profile. */
   revision: number;
   createdAt: string;
+  /** Ingredients the user reported a reaction to: a new test does not forget them. */
+  reactionIngredients?: readonly string[];
 };
 
 /**

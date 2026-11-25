@@ -1,0 +1,227 @@
+{
+  "onboarding": {
+    "completed": true
+  },
+  "testDraft": {
+    "answers": {
+      "q1": "a",
+      "q2": ["x", "y"]
+    },
+    "currentQuestionId": "q3",
+    "startedAt": "2026-01-01T10:00:00.000Z",
+    "updatedAt": "2026-01-01T10:00:00.000Z"
+  },
+  "profile": {
+    "id": "profile-1",
+    "revision": 2,
+    "baseType": "unsure",
+    "conditions": [],
+    "goals": ["maintain_healthy"],
+    "reactions": ["none_noticed"],
+    "avoid": ["none"],
+    "sex": null,
+    "ageBand": null,
+    "cycle": {
+      "status": null,
+      "phases": [],
+      "effects": []
+    },
+    "safetyFlags": [],
+    "careHabits": {
+      "productsCount": null,
+      "careTime": null
+    },
+    "contradictions": [],
+    "createdAt": "2026-01-01T10:00:00.000Z",
+    "updatedAt": "2026-01-01T10:00:00.000Z"
+  },
+  "routine": [
+    {
+      "id": "routine-am",
+      "slot": "am",
+      "steps": [
+        {
+          "id": "step-1",
+          "order": 0,
+          "category": "cleanser",
+          "status": "to_choose",
+          "frequency": "as_needed"
+        },
+        {
+          "id": "step-2",
+          "order": 1,
+          "category": "moisturizer",
+          "status": "owned",
+          "frequency": "daily"
+        }
+      ]
+    }
+  ],
+  "routineLog": [
+    {
+      "date": "2026-01-01",
+      "slot": "am",
+      "doneStepIds": ["step-1"]
+    }
+  ],
+  "products": [
+    {
+      "id": "product-1",
+      "name": "Test product",
+      "category": "other",
+      "inciRaw": "Test composition",
+      "ingredients": [],
+      "compositionSource": "manual",
+      "userReactions": [],
+      "addedAt": "2026-01-01T10:00:00.000Z"
+    },
+    {
+      "id": "product-2",
+      "name": "Old style product",
+      "category": "serum",
+      "inciRaw": "Aqua, Glycerin, Niacinamide 5%",
+      "ingredients": [
+        {
+          "raw": "Aqua",
+          "position": 0,
+          "ingredientId": "aqua",
+          "matchType": "exact"
+        },
+        {
+          "raw": "Glycerin",
+          "position": 1,
+          "ingredientId": "glycerin",
+          "matchType": "exact"
+        },
+        {
+          "raw": "Niacinamide",
+          "position": 2,
+          "ingredientId": "niacinamide",
+          "matchType": "fuzzy"
+        }
+      ],
+      "declaredConcentrations": [
+        {
+          "raw": "5%",
+          "percent": 5
+        }
+      ],
+      "compositionSource": "pasted",
+      "userReactions": [],
+      "addedAt": "2026-01-02T10:00:00.000Z"
+    }
+  ],
+  "scans": [
+    {
+      "id": "scan-1",
+      "productSnapshot": {
+        "id": "product-2",
+        "name": "Old style product",
+        "category": "serum",
+        "inciRaw": "Aqua, Glycerin, Niacinamide 5%",
+        "ingredients": [
+          {
+            "raw": "Aqua",
+            "position": 0,
+            "ingredientId": "aqua",
+            "matchType": "exact"
+          },
+          {
+            "raw": "Glycerin",
+            "position": 1,
+            "ingredientId": "glycerin",
+            "matchType": "exact"
+          },
+          {
+            "raw": "Niacinamide",
+            "position": 2,
+            "ingredientId": "niacinamide",
+            "matchType": "fuzzy"
+          }
+        ],
+        "declaredConcentrations": [
+          {
+            "raw": "5%",
+            "percent": 5
+          }
+        ],
+        "compositionSource": "pasted",
+        "userReactions": [],
+        "addedAt": "2026-01-02T10:00:00.000Z"
+      },
+      "checkedAt": "2026-01-02T11:00:00.000Z",
+      "status": "may_fit",
+      "matched": [
+        {
+          "raw": "Aqua",
+          "ingredientId": "aqua",
+          "matchType": "exact"
+        }
+      ],
+      "warnings": [
+        {
+          "id": "obs-1",
+          "kind": "personal_restriction",
+          "ingredientIds": ["aqua"],
+          "ruleId": null,
+          "messageId": null
+        }
+      ],
+      "unknown": ["Mystery"],
+      "insufficientInfo": [],
+      "profileRevision": 2
+    }
+  ],
+  "journal": [
+    {
+      "id": "entry-1",
+      "date": "2026-01-01",
+      "symptoms": {
+        "dryness": 2
+      },
+      "newProductIds": [],
+      "note": "Test note"
+    }
+  ],
+  "needs": [
+    {
+      "id": "need-cleanser",
+      "done": false,
+      "dismissed": false
+    },
+    {
+      "id": "need-sunscreen",
+      "done": true,
+      "dismissed": true
+    }
+  ],
+  "settings": {
+    "consents": {
+      "photoToAi": {
+        "granted": false,
+        "at": null
+      }
+    },
+    "reminders": {
+      "am": {
+        "enabled": false,
+        "time": null
+      },
+      "pm": {
+        "enabled": true,
+        "time": "21:30"
+      },
+      "journal": {
+        "enabled": false,
+        "time": null
+      }
+    },
+    "cycleTrackingVisible": false,
+    "showShavingField": false
+  },
+  "careSetup": {
+    "scenario": "partial",
+    "ownedCategories": ["moisturizer"],
+    "builtForRevision": 1
+  }
+}

@@ -5,6 +5,7 @@ export {
   optionalStepId,
   ROUTINE_IDS,
 } from './buildBaseRoutine';
+export { attachProduct, canAttach } from './attachProduct';
 export { buildShoppingNeeds } from './buildShoppingNeeds';
 export { doneStepIds, markStep } from './doneLog';
 export { ADDABLE_CATEGORIES, addStep, canAddCategory, moveStep, removeStep } from './editRoutine';
