@@ -30,6 +30,11 @@ describe('app routes', () => {
     ['/profile/history', 'scan.historyTitle'], // lazy chunk
     ['/reference', 'nav.reference'], // lazy chunk
     ['/reference/compat', 'compat.title'], // lazy chunk
+    ['/profile/journal', 'journal.title'], // lazy chunk
+    ['/profile/settings', 'settings.title'], // lazy chunk
+    ['/profile/settings/reminders', 'settings.remindersTitle'], // lazy chunk
+    ['/profile/settings/consents', 'settings.consentsTitle'], // lazy chunk
+    ['/profile/settings/data', 'settings.dataTitle'], // lazy chunk
     ['/profile', 'nav.profile'],
   ];
 

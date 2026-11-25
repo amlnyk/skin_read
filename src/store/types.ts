@@ -57,6 +57,11 @@ export type AppActions = {
   settings: { set(settings: Settings): void; update(patch: Partial<Settings>): void };
   /** Puts every slice back to its initial value. */
   resetAll(): void;
+  /**
+   * Replaces every saved slice at once (import of a file, deleting a category of data).
+   * One change, so a half-replaced state is never saved. The data must already be valid.
+   */
+  replaceAll(data: PersistedState): void;
   /** After "data is corrupted": throws away the unreadable saved data and starts clean. */
   discardCorruptedData(): void;
 };

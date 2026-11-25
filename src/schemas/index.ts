@@ -1,6 +1,7 @@
 export * from './common';
 export * from './content';
 export * from './enums';
+export * from './exportFile';
 export * from './journal';
 export * from './observationTemplateIds';
 export * from './needs';

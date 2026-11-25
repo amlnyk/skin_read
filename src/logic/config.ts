@@ -56,3 +56,29 @@ export type RoutineConfig = {
 export const DEFAULT_ROUTINE_CONFIG: RoutineConfig = {
   manyActivesInSlot: MANY_ACTIVES_IN_SLOT,
 };
+
+// Thresholds of the journal (stage 10). Tuning values, not medical rules: they decide only
+// when the app asks "do you want to update your profile?". The profile never changes by itself.
+
+/** Only the entries of this many last days (today included) are looked at. */
+export const JOURNAL_WINDOW_DAYS = 14;
+/** The same symptom has to be marked in at least this many entries of the window. */
+export const JOURNAL_MIN_ENTRIES = 4;
+/** "Marked" means this intensity or more (2 = moderate, 3 = strong). */
+export const JOURNAL_MIN_INTENSITY = 2;
+/** "Not now" hides the question for this many days. */
+export const JOURNAL_SNOOZE_DAYS = 7;
+
+export type JournalConfig = {
+  windowDays: number;
+  minEntries: number;
+  minIntensity: number;
+  snoozeDays: number;
+};
+
+export const DEFAULT_JOURNAL_CONFIG: JournalConfig = {
+  windowDays: JOURNAL_WINDOW_DAYS,
+  minEntries: JOURNAL_MIN_ENTRIES,
+  minIntensity: JOURNAL_MIN_INTENSITY,
+  snoozeDays: JOURNAL_SNOOZE_DAYS,
+};

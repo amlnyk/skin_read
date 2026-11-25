@@ -1,1 +1,1 @@
-export {};
+export { JournalPage } from './pages/JournalPage';

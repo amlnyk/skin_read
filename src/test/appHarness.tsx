@@ -5,13 +5,21 @@ import { prepareComposition } from '@/logic/analyze';
 import { buildProfile } from '@/logic/profile';
 import type {
   ContentBundle,
+  JournalEntry,
   Product,
   Routine,
   ScanResult,
+  Settings,
   SkinProfile,
   TestAnswers,
 } from '@/types';
-import { createRealContent, createTestContent, createTestServices, createTestStore } from './fakes';
+import {
+  createFixedClock,
+  createRealContent,
+  createTestContent,
+  createTestServices,
+  createTestStore,
+} from './fakes';
 import { inciContent } from './inciFixtures';
 import { TestProviders } from './TestProviders';
 
@@ -56,6 +64,10 @@ type Options = {
   products?: Product[];
   scans?: ScanResult[];
   routines?: Routine[];
+  journal?: JournalEntry[];
+  settings?: Partial<Settings>;
+  /** The moment of the fake clock; without it the clock stands at 0 (as before stage 10). */
+  now?: number;
 };
 
 export function renderApp(path: string, options: Options = {}) {
@@ -79,13 +91,18 @@ export function renderApp(path: string, options: Options = {}) {
   actions.products.set(options.products ?? []);
   actions.scans.set(options.scans ?? []);
   actions.routine.set(options.routines ?? []);
+  actions.journal.set(options.journal ?? []);
+  if (options.settings) actions.settings.update(options.settings);
 
   const router = createMemoryRouter(appRoutes, { initialEntries: [path] });
-  const services = createTestServices({ content: createTestContent({ bundle }) });
+  const services = createTestServices({
+    content: createTestContent({ bundle }),
+    ...(options.now === undefined ? {} : { clock: createFixedClock(options.now) }),
+  });
   render(
     <TestProviders store={store} services={services}>
       <RouterProvider router={router} />
     </TestProviders>,
   );
-  return { store, router, bundle };
+  return { store, router, bundle, services };
 }

@@ -23,6 +23,7 @@ export type {
   DeclaredConcentration,
   Disclaimer,
   EmergencyFlag,
+  ExportFile,
   Feeling,
   Frequency,
   Goal,

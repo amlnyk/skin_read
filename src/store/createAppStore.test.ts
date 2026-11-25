@@ -9,7 +9,7 @@ import {
   createUnavailableAdapter,
   createWriteFailingAdapter,
 } from '@/test/fakes';
-import { createAppStore, STORAGE_KEY } from './createAppStore';
+import { createAppStore, pickPersisted, STORAGE_KEY } from './createAppStore';
 
 const envelope = (state: unknown, version = 3) => JSON.stringify({ state, version });
 
@@ -212,6 +212,48 @@ describe('actions', () => {
     expect(store.getState().profile).toBeNull();
     expect(store.getState().onboarding.completed).toBe(false);
     expect(createAppStore(adapter).getState().products).toEqual([]);
+  });
+
+  it('replaceAll replaces every slice in one change and saves it', () => {
+    const adapter = createMemoryAdapter({ [STORAGE_KEY]: envelope(valid) });
+    const store = createAppStore(adapter);
+    const before = pickPersisted(store.getState());
+    const next = {
+      ...before,
+      products: [],
+      journal: [],
+      settings: { ...before.settings, showShavingField: true },
+    };
+    let changes = 0;
+    const unsubscribe = store.subscribe(() => {
+      changes += 1;
+    });
+    store.getState().actions.replaceAll(next);
+    unsubscribe();
+
+    expect(changes).toBe(1);
+    expect(pickPersisted(store.getState())).toEqual(next);
+    expect(store.getState().actions).toBeDefined();
+    expect(pickPersisted(createAppStore(adapter).getState())).toEqual(next);
+  });
+
+  it('pickPersisted leaves out the actions and the session status', () => {
+    const picked = pickPersisted(createAppStore(createMemoryAdapter()).getState());
+    expect(Object.keys(picked).sort()).toEqual(
+      [
+        'careSetup',
+        'journal',
+        'needs',
+        'onboarding',
+        'products',
+        'profile',
+        'routine',
+        'routineLog',
+        'scans',
+        'settings',
+        'testDraft',
+      ].sort(),
+    );
   });
 
   it('the initial data of two resets does not share objects', () => {

@@ -14,3 +14,16 @@
   display: grid;
   gap: var(--space-3);
 }
+
+.links {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.links a {
+  min-height: var(--tap-target);
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-primary);
+  font-weight: 700;
+}

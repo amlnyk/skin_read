@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { isoDateTimeSchema, timeOfDaySchema } from './common';
+import { isoDateSchema, isoDateTimeSchema, timeOfDaySchema } from './common';
 
 const reminderSchema = z.object({
   enabled: z.boolean(),
@@ -21,5 +21,8 @@ export const settingsSchema = z.object({
   }),
   cycleTrackingVisible: z.boolean(),
   showShavingField: z.boolean(),
+  // "Not now" on the banner "update the profile?": the banner stays hidden before this day
+  // (YYYY-MM-DD). Optional, so data saved before stage 10 stays valid without a migration.
+  profileSuggestionSnoozedUntil: isoDateSchema.nullable().optional(),
 });
 export type Settings = z.infer<typeof settingsSchema>;

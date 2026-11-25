@@ -9,7 +9,7 @@ import { OnboardingGuard } from './guards/OnboardingGuard';
 import { Layout } from './Layout';
 
 // Heavy features are loaded on demand (separate chunks): scan, reference, compat.
-// journal and compare join this list when they appear.
+// The journal and the settings load on demand too; compare joins this list when it appears.
 const ScanPage = lazy(() => import('@/features/scan').then((m) => ({ default: m.ScanPage })));
 const PastePage = lazy(() => import('@/features/scan').then((m) => ({ default: m.PastePage })));
 const ReviewPage = lazy(() => import('@/features/scan').then((m) => ({ default: m.ReviewPage })));
@@ -35,6 +35,19 @@ const ReferencePage = lazy(() =>
 const CompatCheckerPage = lazy(() =>
   import('@/features/compat').then((m) => ({ default: m.CompatCheckerPage })),
 );
+const JournalPage = lazy(() =>
+  import('@/features/journal').then((m) => ({ default: m.JournalPage })),
+);
+const SettingsPage = lazy(() =>
+  import('@/features/settings').then((m) => ({ default: m.SettingsPage })),
+);
+const RemindersPage = lazy(() =>
+  import('@/features/settings').then((m) => ({ default: m.RemindersPage })),
+);
+const ConsentsPage = lazy(() =>
+  import('@/features/settings').then((m) => ({ default: m.ConsentsPage })),
+);
+const DataPage = lazy(() => import('@/features/settings').then((m) => ({ default: m.DataPage })));
 // The test has its own full-screen layout (no bottom navigation) and loads on demand.
 const TestPage = lazy(() => import('@/features/test').then((m) => ({ default: m.TestPage })));
 
@@ -98,6 +111,11 @@ export const appRoutes: RouteObject[] = [
           { path: 'reference/compat', element: <CompatCheckerPage /> },
           { path: 'profile', element: <ProfilePage /> },
           { path: 'profile/history', element: <HistoryPage /> },
+          { path: 'profile/journal', element: <JournalPage /> },
+          { path: 'profile/settings', element: <SettingsPage /> },
+          { path: 'profile/settings/reminders', element: <RemindersPage /> },
+          { path: 'profile/settings/consents', element: <ConsentsPage /> },
+          { path: 'profile/settings/data', element: <DataPage /> },
         ],
       },
     ],

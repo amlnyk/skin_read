@@ -10,7 +10,8 @@ export const STORAGE_KEY = 'skinbarrier:v1';
 
 export type AppStore = StoreApi<AppState>;
 
-function pickPersisted(state: AppState): PersistedState {
+/** The part of the state that is saved (everything except `actions` and `persistence`). */
+export function pickPersisted(state: AppState): PersistedState {
   return {
     onboarding: state.onboarding,
     testDraft: state.testDraft,
@@ -174,6 +175,7 @@ export function createAppStore(adapter: StorageAdapter, key: string = STORAGE_KE
             update: (patch) => set({ settings: { ...get().settings, ...patch } }),
           },
           resetAll: () => set(createInitialData()),
+          replaceAll: (data) => set({ ...data }),
           discardCorruptedData: () => {
             adapter.removeItem(key);
             status = { kind: 'ok' };

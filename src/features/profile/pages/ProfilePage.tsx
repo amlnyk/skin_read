@@ -90,7 +90,11 @@ export function ProfilePage() {
         />
       ))}
 
-      <Link to="/profile/history">{t('scan.history')}</Link>
+      <nav className={styles.links} aria-label={t('profile.moreLabel')}>
+        <Link to="/profile/journal">{t('profile.journalLink')}</Link>
+        <Link to="/profile/history">{t('scan.history')}</Link>
+        <Link to="/profile/settings">{t('profile.settingsLink')}</Link>
+      </nav>
 
       <div className={styles.actions}>
         <Button variant="secondary" fullWidth onClick={retake}>
