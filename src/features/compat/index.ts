@@ -1,1 +1,1 @@
-export {};
+export { CompatCheckerPage } from './pages/CompatCheckerPage';

@@ -1,4 +1,5 @@
 import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { afterEach, describe, expect, it } from 'vitest';
 import { t } from '@/i18n';
 import type { ContentBundle } from '@/schemas';
@@ -18,7 +19,9 @@ function setup(
   const services = createTestServices({ content: { ...real, policy, bundle } });
   render(
     <TestProviders services={services}>
-      <ReferencePage />
+      <MemoryRouter>
+        <ReferencePage />
+      </MemoryRouter>
     </TestProviders>,
   );
 }

@@ -1,4 +1,5 @@
 import { useId, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { t, type MessageKey } from '@/i18n';
 import { useServices } from '@/lib/services';
 import { categoriesOf, searchGroups, searchIngredients, ungroupedIngredients } from '@/logic/inci';
@@ -46,6 +47,11 @@ export function ReferencePage() {
   return (
     <section className={styles.page}>
       <h1>{t('nav.reference')}</h1>
+
+      <Link to="/reference/compat" className={styles.compatLink}>
+        <span className={styles.compatTitle}>{t('compat.linkTitle')}</span>
+        <span className={styles.hint}>{t('compat.linkHint')}</span>
+      </Link>
 
       <div role="tablist" aria-label={t('reference.tabsLabel')} className={styles.tabs}>
         {TABS.map((item) => (

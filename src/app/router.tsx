@@ -8,11 +8,14 @@ import { RoutinePage } from '@/features/routine';
 import { OnboardingGuard } from './guards/OnboardingGuard';
 import { Layout } from './Layout';
 
-// Heavy features are loaded on demand (separate chunks): scan, reference.
+// Heavy features are loaded on demand (separate chunks): scan, reference, compat.
 // journal and compare join this list when they appear.
 const ScanPage = lazy(() => import('@/features/scan').then((m) => ({ default: m.ScanPage })));
 const ReferencePage = lazy(() =>
   import('@/features/reference').then((m) => ({ default: m.ReferencePage })),
+);
+const CompatCheckerPage = lazy(() =>
+  import('@/features/compat').then((m) => ({ default: m.CompatCheckerPage })),
 );
 // The test has its own full-screen layout (no bottom navigation) and loads on demand.
 const TestPage = lazy(() => import('@/features/test').then((m) => ({ default: m.TestPage })));
@@ -66,6 +69,7 @@ export const appRoutes: RouteObject[] = [
           { path: 'care', element: <RoutinePage /> },
           { path: 'scan', element: <ScanPage /> },
           { path: 'reference', element: <ReferencePage /> },
+          { path: 'reference/compat', element: <CompatCheckerPage /> },
           { path: 'profile', element: <ProfilePage /> },
         ],
       },

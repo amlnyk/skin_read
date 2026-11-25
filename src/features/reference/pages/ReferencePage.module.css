@@ -69,3 +69,20 @@
   border-radius: var(--radius-md);
   background: var(--color-notice-bg);
 }
+
+.compatLink {
+  display: grid;
+  gap: var(--space-1);
+  min-height: var(--tap-target);
+  padding: var(--space-3) var(--space-4);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.compatTitle {
+  color: var(--color-primary);
+  font-weight: 700;
+}
