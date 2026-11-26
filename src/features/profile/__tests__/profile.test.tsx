@@ -164,14 +164,11 @@ describe('ResultPage', () => {
     const restrictions = screen
       .getByRole('heading', { name: t('profile.avoidTitle') })
       .closest('section') as HTMLElement;
+    // short chip names, one per component group
+    expect(within(restrictions).getByText(t('profile.avoidChip.acids'))).toBeInTheDocument();
     expect(
-      within(restrictions).getByText(optionLabel(questions, 'q4_reactions', 'acids')),
-    ).toBeInTheDocument();
-    expect(
-      within(restrictions).getByText(
-        optionLabel(questions, 'q5_avoid', 'fragrance_essential_oils'),
-      ),
-    ).toBeInTheDocument();
+      within(restrictions).getAllByText(t('profile.avoidChip.fragrance_essential_oils')),
+    ).toHaveLength(1);
     expect(screen.getByText(t('profile.noteSuggestCycleDiary'))).toBeInTheDocument();
   });
 

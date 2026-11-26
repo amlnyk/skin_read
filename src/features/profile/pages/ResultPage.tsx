@@ -12,7 +12,7 @@ import { BackButton, Background, Button, DoctorBanner, MedicalDisclaimer, Modal 
 import { EmergencyScreen } from '../components/EmergencyScreen';
 import { TextBlocks } from '../components/TextBlocks';
 import { ValueGroup } from '../components/ValueGroup';
-import { groupValues, restrictionValues } from '../utils/describeProfile';
+import { groupValues } from '../utils/describeProfile';
 import { useProfileBuilder } from '../hooks/useProfileBuilder';
 import { optionLabel } from '../utils/labels';
 import {
@@ -37,6 +37,20 @@ const PRIORITY_KEYS: Record<Mode, MessageKey> = {
   see_doctor: 'profile.priorityDoctor',
   barrier_first: 'profile.priorityBarrier',
   standard: 'profile.priorityStandard',
+};
+
+// Short chip names for the restrictions; "none" and unknown ids give no chip.
+const AVOID_CHIP_KEYS: Partial<Record<string, MessageKey>> = {
+  acids: 'profile.avoidChip.acids',
+  retinoids: 'profile.avoidChip.retinoids',
+  fragrance_essential_oils: 'profile.avoidChip.fragrance_essential_oils',
+  preservatives_alcohol: 'profile.avoidChip.preservatives_alcohol',
+  other: 'profile.avoidChip.other',
+  silicones: 'profile.avoidChip.silicones',
+  sulfates: 'profile.avoidChip.sulfates',
+  parabens: 'profile.avoidChip.parabens',
+  alcohol: 'profile.avoidChip.alcohol',
+  comedogenic_oils: 'profile.avoidChip.comedogenic_oils',
 };
 
 const STEP_KEYS = {
@@ -89,7 +103,16 @@ export function ResultPage() {
 
   const typeBlocks = analysis.textBlocks.filter((block) => block.kind === 'skin_type');
   const conditionBlocks = analysis.textBlocks.filter((block) => block.kind === 'condition');
-  const restrictions = restrictionValues(profile, analysis.restrictions, questions);
+  // One chip per component group: a reaction and an avoided component of the same group
+  // (for example essential oils) give one chip, under a short name.
+  const restrictionIds = [
+    ...new Set<string>([...analysis.restrictions.reactions, ...analysis.restrictions.avoid]),
+  ];
+  const restrictions = restrictionIds.flatMap((id) => {
+    if (id === 'other' && profile.reactionOtherText) return [profile.reactionOtherText];
+    const key = AVOID_CHIP_KEYS[id];
+    return key ? [t(key)] : [];
+  });
   const recommendations = recommendationsFor(analysis.textBlocks, bundle.recommendations);
   const lookFor = lookForChips(
     recommendations,

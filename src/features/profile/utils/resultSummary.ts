@@ -56,14 +56,28 @@ export function lookForChips(
   return labels;
 }
 
-/** Chip labels "avoid for now": the person's own restrictions first, then the content, no repeats. */
+/** Letters and digits only, lower case: "SLS / SLES" and "(SLS/SLES)" compare as the same. */
+function squash(label: string): string {
+  return label.toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');
+}
+
+/**
+ * Chip labels "avoid for now": the person's own restrictions first (one chip per component group,
+ * even when it is both a reaction and an avoided component), then the content. A content label
+ * that says the same as a chip already there ("Ефірні олії" next to "Ефірні олії й
+ * ароматизатори", "SLS / SLES" next to "Сульфати (SLS/SLES)") is left out.
+ */
 export function avoidChips(
   restrictions: readonly string[],
   recommendations: readonly SkinRecommendation[],
 ): string[] {
   const labels: string[] = [];
+  const seen: string[] = [];
   for (const label of [...restrictions, ...recommendations.flatMap((item) => item.avoid)]) {
-    if (!labels.some((known) => known.toLowerCase() === label.toLowerCase())) labels.push(label);
+    const key = squash(label);
+    if (key === '' || seen.some((known) => known.includes(key) || key.includes(known))) continue;
+    seen.push(key);
+    labels.push(label);
   }
   return labels;
 }

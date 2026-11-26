@@ -64,8 +64,17 @@ describe('result summary', () => {
     expect(lookForChips([oily, aging], ['acids'], true)).toEqual(['A']);
   });
 
-  it('puts the person restrictions first in "avoid"', () => {
+  it('puts the person restrictions first in "avoid" and drops labels that say the same', () => {
     expect(avoidChips(['Mine', 'x'], [aging])).toEqual(['Mine', 'x']);
+    const sulfates = rec('s', { baseTypes: [], conditions: [] }, [], ['SLS / SLES', 'Alcohol']);
+    expect(avoidChips(['Sulfates (SLS/SLES)', 'Oils and fragrance'], [sulfates])).toEqual([
+      'Sulfates (SLS/SLES)',
+      'Oils and fragrance',
+      'Alcohol',
+    ]);
+    expect(
+      avoidChips(['Oils and fragrance'], [rec('f', sulfates.target, [], ['fragrance'])]),
+    ).toEqual(['Oils and fragrance']);
   });
 
   it('chooses the Ukrainian plural form', () => {
