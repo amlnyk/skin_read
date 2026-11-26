@@ -65,9 +65,7 @@ const TestPage = lazy(() => import('@/features/test').then((m) => ({ default: m.
 
 // Design review page (temporary, see features/design/README.md): kept in every build so the
 // author can check the design on Vercel Preview from a phone.
-const DesignPage = lazy(() =>
-  import('@/features/design').then((m) => ({ default: m.DesignPage })),
-);
+const DesignPage = lazy(() => import('@/features/design').then((m) => ({ default: m.DesignPage })));
 
 function Loading() {
   return <p role="status">{t('common.loading')}</p>;
