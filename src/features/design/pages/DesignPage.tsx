@@ -113,7 +113,7 @@ function TypeSample({
   children,
 }: {
   spec: string;
-  className: string;
+  className: string | undefined;
   children: string;
 }) {
   return (

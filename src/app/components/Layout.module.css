@@ -1,3 +1,4 @@
+/* Every tab screen stands on the Figma background (blobs at the top) with 20 pt margins. */
 .shell {
   min-height: 100dvh;
   display: flex;
@@ -9,12 +10,12 @@
   width: 100%;
   max-width: var(--content-width);
   margin: 0 auto;
-  padding: var(--space-4);
-  padding-top: calc(var(--space-5) + env(safe-area-inset-top));
+  padding: var(--space-4) var(--space-page);
+  padding-top: max(54px, calc(var(--space-5) + env(safe-area-inset-top)));
   padding-bottom: calc(var(--nav-height) + var(--space-6) + env(safe-area-inset-bottom));
 }
 
-/* A translucent tab bar like iOS. Browsers without backdrop-filter get the solid-ish colour. */
+/* The tab bar is glass, like the back button of the test (white 70% + blur). */
 .nav {
   position: fixed;
   right: 0;
@@ -22,7 +23,8 @@
   left: 0;
   z-index: 5;
   background: var(--color-tabbar);
-  border-top: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sheet);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   padding-bottom: env(safe-area-inset-bottom);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
@@ -35,7 +37,7 @@
   max-width: var(--content-width);
   min-height: var(--nav-height);
   margin: 0 auto;
-  padding: var(--space-1);
+  padding: var(--space-2);
   list-style: none;
 }
 
@@ -50,18 +52,19 @@
   justify-content: center;
   min-height: var(--tap-target);
   padding: var(--space-1) 2px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   overflow-wrap: anywhere;
   color: var(--color-text-muted);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-footnote);
+  font-weight: var(--font-weight-medium);
   line-height: 1.15;
   text-align: center;
   text-decoration: none;
 }
 
-/* The active tab: a tinted pill and bold text, not colour alone. */
+/* The active tab: the "surface" pill (like a selected option) and black SemiBold text. */
 .active {
-  background: var(--color-primary-soft);
-  color: var(--color-primary);
-  font-weight: 700;
+  background: var(--color-surface-muted);
+  color: var(--color-text);
+  font-weight: var(--font-weight-semibold);
 }

@@ -1,3 +1,4 @@
+export { BackButton } from './BackButton';
 export { Background } from './Background';
 export { Button } from './Button';
 export { Chip } from './Chip';
@@ -10,5 +11,6 @@ export { Modal } from './Modal';
 export { PhotoPreview } from './PhotoPreview';
 export { ProgressBar } from './ProgressBar';
 export { Select } from './Select';
+export { Sheet } from './Sheet';
 export { TextInput } from './TextInput';
 export type { BackgroundVariant } from './Background';

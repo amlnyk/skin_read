@@ -23,7 +23,12 @@ function setup() {
   return { store, router };
 }
 
-const next = () => fireEvent.click(screen.getByRole('button', { name: t('onboarding.next') }));
+// The first step says "Розпочати" (Figma Welcome), the others "Далі".
+const next = () =>
+  fireEvent.click(
+    screen.queryByRole('button', { name: t('onboarding.begin') }) ??
+      screen.getByRole('button', { name: t('onboarding.next') }),
+  );
 
 describe('OnboardingPage', () => {
   it('starts with the welcome step and no "Back"', () => {

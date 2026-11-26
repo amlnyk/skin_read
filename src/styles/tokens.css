@@ -51,8 +51,9 @@
 
   /* shadows */
   --shadow-button: 0 4px 10px rgb(0 0 0 / 25%); /* Figma effect style "01" */
-  --shadow-card: 0 1px 2px rgb(0 0 0 / 4%), 0 1px 1px rgb(0 0 0 / 2%);
-  --shadow-sheet: 0 -8px 30px rgb(0 0 0 / 8%);
+  --shadow-card: 0 4px 16px rgb(0 0 0 / 6%); /* cards on the white screen, softer than the sheet */
+  --shadow-sheet: 0 4px 16px rgb(0 0 0 / 8%); /* Figma sheet: drop shadow 0 4 8, black 8% */
+  --shadow-glow: 0 0 18px 4px rgb(123 97 255 / 35%); /* analysis line */
 
   /* spacing: rhythm of 4 (brief: 4 8 12 16 20 24 32) */
   --space-1: 4px;
@@ -93,7 +94,10 @@
   --line-height: 1.375; /* 22 / 16 */
   --line-height-footnote: 1.385; /* 18 / 13 */
   --line-height-title: 1.125; /* 36 / 32 */
-  --line-height-hero: 1.05;
+  --line-height-hero: 0.92;
+  --letter-spacing-title: -0.5px;
+  --font-size-display: 6rem; /* 96: analysis percent */
+  --font-size-unit: 3rem; /* 48: the percent sign */
   --letter-spacing-caption: 1px;
 
   /* sizes */
@@ -107,4 +111,5 @@
   --control-border-width: 1.5px;
   --progress-width: 182px;
   --progress-height: 6px;
+  --glass-blur: 10px; /* back button: backdrop blur 10 in Figma */
 }

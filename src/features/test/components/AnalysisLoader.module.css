@@ -1,0 +1,57 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 480px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 287px var(--space-page) 0; /* Figma: the line is 287 from the top */
+}
+
+.meter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Purple line 3 high with a soft glow; it fills from left to right. */
+.line {
+  display: block;
+  width: 100%;
+  height: 3px;
+  appearance: none;
+  border: 0;
+  border-radius: 1.5px;
+  background: transparent;
+  overflow: visible;
+}
+
+.line::-webkit-progress-bar {
+  background: transparent;
+}
+
+.line::-webkit-progress-value {
+  border-radius: 1.5px;
+  background: var(--color-purple);
+  box-shadow: var(--shadow-glow);
+}
+
+.line::-moz-progress-bar {
+  border-radius: 1.5px;
+  background: var(--color-purple);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Fixel Display Bold: 96 for the number, 48 for the sign, line height 0.92. */
+.percent {
+  font-size: var(--font-size-display);
+  font-weight: 700;
+  line-height: var(--line-height-hero);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text);
+}
+
+.unit {
+  font-size: var(--font-size-unit);
+}

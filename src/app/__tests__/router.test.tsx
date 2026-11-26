@@ -65,7 +65,7 @@ describe('app routes', () => {
     expect(
       await screen.findByRole('heading', { name: t('onboarding.welcomeTitle') }),
     ).toBeInTheDocument();
-    fireEvent.click(screen.getByRole('button', { name: t('onboarding.next') }));
+    fireEvent.click(screen.getByRole('button', { name: t('onboarding.begin') }));
     fireEvent.click(screen.getByRole('button', { name: t('onboarding.next') }));
     fireEvent.click(screen.getByRole('button', { name: t('onboarding.start') }));
     expect(
