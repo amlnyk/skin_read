@@ -9,6 +9,7 @@ describe('parseEnv', () => {
       value: {
         appEnv: 'development',
         contentPolicy: 'demo',
+        freshStart: false,
         features: { photoScan: false, simplifyAI: false },
       },
     });
@@ -25,12 +26,14 @@ describe('parseEnv', () => {
       VITE_CONTENT_POLICY: 'public',
       VITE_FEATURE_PHOTO_SCAN: 'true',
       VITE_FEATURE_SIMPLIFY_AI: 'false',
+      VITE_FRESH_START: 'true',
     });
     expect(result).toEqual({
       ok: true,
       value: {
         appEnv: 'production',
         contentPolicy: 'public',
+        freshStart: true,
         features: { photoScan: true, simplifyAI: false },
       },
     });

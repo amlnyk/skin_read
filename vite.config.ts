@@ -44,6 +44,12 @@ const pwa = VitePWA({
   },
 });
 
+// Review mode on Vercel (Preview and Production) unless VITE_FRESH_START is set there:
+// every visit starts from the loading screen and the onboarding. Local builds are not affected.
+if (process.env['VERCEL_ENV'] && !process.env['VITE_FRESH_START']) {
+  process.env['VITE_FRESH_START'] = 'true';
+}
+
 export default defineConfig({
   // Tests do not need the PWA plugin.
   plugins: [react(), ...(process.env['VITEST'] ? [] : [pwa])],
