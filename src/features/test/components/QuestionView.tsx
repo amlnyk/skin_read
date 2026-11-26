@@ -32,7 +32,7 @@ export function QuestionView({ question, answers, onSelect, onOtherText, onText,
         {question.text ?? t('common.contentPending')}
       </h1>
 
-      <Sheet>
+      <Sheet scroll>
         <div className={styles.subtitleRow}>
           {question.type === 'text' ? null : (
             <p className={styles.subtitle}>

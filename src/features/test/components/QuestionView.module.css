@@ -3,14 +3,16 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
+  min-height: 0; /* lets the sheet scroll inside the screen */
 }
 
 /* The title sits over the background: ExtraBold 32 / 36, 20 from the left
    (Figma: 66 under the header, the sheet 40 under the title). */
 .title {
   max-width: calc(341px + var(--space-page) * 2);
+  flex: none;
   padding: 0 var(--space-page);
-  margin: 66px 0 40px;
+  margin: clamp(20px, 7dvh, 66px) 0 clamp(20px, 4.5dvh, 40px);
   letter-spacing: var(--letter-spacing-title);
 }
 

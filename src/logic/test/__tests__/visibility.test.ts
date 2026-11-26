@@ -68,3 +68,16 @@ describe('answers helpers', () => {
     expect(isAnswered(q, { x: ['a'] })).toBe(true);
   });
 });
+
+describe('getVisibleQuestions with noneOf', () => {
+  const list = [question('p'), question('c', { showIf: { questionId: 'p', noneOf: ['male'] } })];
+
+  it('hides the question when the parent answer has a noneOf option', () => {
+    expect(getVisibleQuestions(list, { p: 'male' }).map((q) => q.id)).toEqual(['p']);
+  });
+
+  it('shows it for other answers and when the parent is skipped', () => {
+    expect(getVisibleQuestions(list, { p: 'female' }).map((q) => q.id)).toEqual(['p', 'c']);
+    expect(getVisibleQuestions(list, {}).map((q) => q.id)).toEqual(['p', 'c']);
+  });
+});

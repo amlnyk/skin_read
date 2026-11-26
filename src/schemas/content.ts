@@ -134,8 +134,18 @@ export const questionSchema = z.object({
   description: text,
   required: z.boolean(),
   options: z.array(questionOptionSchema),
-  // shown only when the answer to `questionId` contains any of `anyOf`; null = always shown
-  showIf: z.object({ questionId: idSchema, anyOf: z.array(idSchema).min(1) }).nullable(),
+  // shown only when the answer to `questionId` contains any of `anyOf` and none of `noneOf`
+  // (a skipped answer passes `noneOf`); null = always shown
+  showIf: z
+    .object({
+      questionId: idSchema,
+      anyOf: z.array(idSchema).min(1).optional(),
+      noneOf: z.array(idSchema).min(1).optional(),
+    })
+    .refine((rule) => rule.anyOf !== undefined || rule.noneOf !== undefined, {
+      message: 'showIf needs anyOf or noneOf',
+    })
+    .nullable(),
 });
 export type Question = z.infer<typeof questionSchema>;
 

@@ -5,14 +5,13 @@ import { useAppStore } from '@/store';
 import { BackButton, Background, Button, Logo } from '@/ui';
 import { Features } from '../components/Features';
 import { Limits } from '../components/Limits';
-import { Splash } from '../components/Splash';
 import { Welcome } from '../components/Welcome';
 import styles from '../styles/onboarding.module.css';
 
 const STEPS = [Welcome, Features, Limits] as const;
 
 // Shown once: the flag is saved in the store, the guard sends the user here until it is set.
-// Step 1 is the Figma Welcome screen; the splash with the big logo plays over it on arrival.
+// Step 1 is the Figma Welcome screen (the loading screen with the logo lives in the app shell).
 export function OnboardingPage() {
   const navigate = useNavigate();
   const complete = useAppStore((state) => state.actions.onboarding.complete);
@@ -28,8 +27,7 @@ export function OnboardingPage() {
   };
 
   return (
-    <Background variant="welcome">
-      {isFirst ? <Splash /> : null}
+    <Background variant="welcome" animated>
       <main className={styles.page}>
         <header className={styles.header}>
           {isFirst ? (

@@ -1,15 +1,19 @@
-/* Full-screen test (no tab bar). Figma: 393 wide; on larger screens the column is centred. */
+/* Full-screen test (no tab bar). Figma: 393 wide; on larger screens the column is centred.
+   The page is exactly one screen high: the header and the question title stay at the top and
+   only the sheet with the answers scrolls. */
 .page {
   display: flex;
   flex-direction: column;
   width: 100%;
   max-width: 480px;
-  min-height: 100dvh;
+  height: 100dvh;
   margin: 0 auto;
+  overflow: hidden;
 }
 
 /* Back button, progress (182 wide) and counter, 54 from the top of the frame. */
 .header {
+  flex: none;
   display: grid;
   grid-template-columns: var(--tap-target) 1fr var(--tap-target);
   align-items: center;

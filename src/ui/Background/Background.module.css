@@ -42,6 +42,87 @@
   background: var(--color-blob-coral);
 }
 
+/* Animation: each blob drifts on its own path with its own period, so the three never repeat
+   together; they may cross and grow or shrink. Only transform changes (cheap for the GPU).
+   With prefers-reduced-motion the global rule in reset.css stops it. */
+.animated .blob {
+  will-change: transform;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.animated .blue {
+  animation-name: drift-a;
+  animation-duration: 13s;
+}
+
+.animated .purple {
+  animation-name: drift-b;
+  animation-duration: 17s;
+  animation-delay: -4s;
+}
+
+.animated .coral {
+  animation-name: drift-c;
+  animation-duration: 11s;
+  animation-delay: -7s;
+}
+
+@keyframes drift-a {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  30% {
+    transform: translate(90px, 60px) scale(1.12);
+  }
+
+  65% {
+    transform: translate(20px, 150px) scale(0.86);
+  }
+
+  100% {
+    transform: translate(120px, -40px) scale(1.05);
+  }
+}
+
+@keyframes drift-b {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  35% {
+    transform: translate(-110px, 90px) scale(0.85);
+  }
+
+  70% {
+    transform: translate(-40px, -60px) scale(1.18);
+  }
+
+  100% {
+    transform: translate(-150px, 30px) scale(0.95);
+  }
+}
+
+@keyframes drift-c {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  40% {
+    transform: translate(-80px, -120px) scale(1.25);
+  }
+
+  75% {
+    transform: translate(60px, -40px) scale(0.9);
+  }
+
+  100% {
+    transform: translate(-30px, -170px) scale(1.1);
+  }
+}
+
 /* The "noise" layer of the splash screen: a light white veil on top of the blobs. */
 .veil {
   display: none;
