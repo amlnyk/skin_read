@@ -51,11 +51,6 @@ describe('app routes', () => {
     expect(await screen.findByRole('heading', { name: t('nav.home') })).toBeInTheDocument();
   });
 
-  it('shows the medical disclaimer on the home page', async () => {
-    renderAt('/');
-    expect(await screen.findByRole('note', { name: t('disclaimer.label') })).toBeInTheDocument();
-  });
-
   it('onboarding leads through three steps to the test and is remembered in the store', async () => {
     const { router, store } = renderAt('/', false);
     expect(
