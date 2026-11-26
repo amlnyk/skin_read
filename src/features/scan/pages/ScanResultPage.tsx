@@ -9,17 +9,13 @@ import { frequencySchema, slotSchema } from '@/schemas';
 import { useAppStore, useAppStoreApi } from '@/store';
 import type { Frequency, ParsedIngredient, Product, ScanResult, Slot } from '@/types';
 import { Button, MedicalDisclaimer, Modal, PhotoPreview, Select } from '@/ui';
+import { IngredientSheet } from '../components/IngredientSheet';
 import { ObservationList } from '../components/ObservationList';
 import { ScanStatusIcon } from '../components/ScanStatusIcon';
 import type { DescribeContext } from '../utils/describe';
 import { useChecks } from '../hooks/useChecks';
 import { goalLabel, namesOf } from '../utils/labels';
 import styles from '../styles/scan.module.css';
-
-const MAX_KEY_COMPONENTS = 8;
-
-const filled = (value: string | null | undefined): value is string =>
-  value !== null && value !== undefined && value.trim() !== '';
 
 export function ScanResultPage() {
   const { id } = useParams();
@@ -48,6 +44,7 @@ function ResultView({ scan }: { scan: ScanResult }) {
   const { check } = useChecks();
   const [routineOpen, setRoutineOpen] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [openIngredient, setOpenIngredient] = useState<string | null>(null);
 
   const context: DescribeContext = { content: bundle, profile, products };
   const of = (...kinds: string[]) =>
@@ -62,13 +59,21 @@ function ResultView({ scan }: { scan: ScanResult }) {
     if (result) navigate(`/scan/result/${result.id}`);
   };
 
+  // The whole recognised composition, in label order, each component once.
   const keyComponents = [
     ...new Map(
       scan.matched
         .filter((item) => item.confirmed && item.ingredientId !== null)
         .map((item) => [item.ingredientId as string, item] as const),
     ).values(),
-  ].slice(0, MAX_KEY_COMPONENTS);
+  ];
+  // Components named in the personal warnings are marked in the list.
+  const personalIds = new Set(
+    of('personal_restriction', 'doctor_note', 'ingredient_caution', 'preference_mismatch').flatMap(
+      (warning) => warning.ingredientIds,
+    ),
+  );
+  const openCard = bundle.ingredients.find((entry) => entry.id === openIngredient) ?? null;
   const possible = scan.matched.filter((item) => !item.confirmed);
 
   return (
@@ -151,27 +156,35 @@ function ResultView({ scan }: { scan: ScanResult }) {
 
       <section className={styles.section} aria-label={t('scan.keyTitle')}>
         <h2>{t('scan.keyTitle')}</h2>
-        {keyComponents.length === 0 ? <p>{t('scan.keyEmpty')}</p> : null}
-        {keyComponents.map((item) => {
-          const card = bundle.ingredients.find((entry) => entry.id === item.ingredientId);
-          return (
-            <details key={item.ingredientId} className={styles.details}>
-              <summary>{ingredientName(item.ingredientId ?? '', bundle.ingredients)}</summary>
-              <dl>
-                <dt>{t('scan.purposeLabel')}</dt>
-                <dd>{filled(card?.purpose) ? card.purpose : t('scan.pending')}</dd>
-                <dt>{t('scan.propertiesLabel')}</dt>
-                <dd>
-                  {card && card.properties.length > 0
-                    ? card.properties.join(', ')
-                    : t('scan.pending')}
-                </dd>
-                <dt>{t('scan.usageLabel')}</dt>
-                <dd>{filled(card?.usage) ? card.usage : t('scan.pending')}</dd>
-              </dl>
-            </details>
-          );
-        })}
+        {keyComponents.length === 0 ? (
+          <p>{t('scan.keyEmpty')}</p>
+        ) : (
+          <p className={styles.hint}>{t('scan.keyHint')}</p>
+        )}
+        <ul className={styles.composition}>
+          {keyComponents.map((item) => {
+            const id = item.ingredientId as string;
+            const personal = personalIds.has(id);
+            return (
+              <li key={id}>
+                <button
+                  type="button"
+                  className={personal ? `${styles.component} ${styles.personal}` : styles.component}
+                  onClick={() => setOpenIngredient(id)}
+                  aria-describedby={personal ? 'scan-personal-note' : undefined}
+                >
+                  {ingredientName(id, bundle.ingredients)}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+        {personalIds.size > 0 ? (
+          <p id="scan-personal-note" className={styles.personalNote}>
+            <span className={styles.personalDot} aria-hidden="true" />
+            {t('scan.keyPersonal')}
+          </p>
+        ) : null}
       </section>
 
       {possible.length > 0 ? (
@@ -247,6 +260,13 @@ function ResultView({ scan }: { scan: ScanResult }) {
 
       {routineOpen ? (
         <RoutineModal product={product} onClose={() => setRoutineOpen(false)} />
+      ) : null}
+      {openIngredient ? (
+        <IngredientSheet
+          ingredient={openCard}
+          fallbackName={ingredientName(openIngredient, bundle.ingredients)}
+          onClose={() => setOpenIngredient(null)}
+        />
       ) : null}
     </section>
   );

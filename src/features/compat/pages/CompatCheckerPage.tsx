@@ -57,7 +57,7 @@ export function CompatCheckerPage() {
 
   return (
     <section className={styles.page}>
-      <Link to="/reference" className={styles.back}>
+      <Link to="/scan" className={styles.back}>
         {t('compat.back')}
       </Link>
       <h1>{t('compat.title')}</h1>

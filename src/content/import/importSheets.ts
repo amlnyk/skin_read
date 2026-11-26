@@ -302,6 +302,8 @@ export function importSheets(sheets: Sheets, dictionaries: Dictionaries): Import
       groups: groupIds,
       category: textOrNull(row.get(INGREDIENT_COLUMNS.category)),
       purpose,
+      plainWhat: textOrNull(row.get(INGREDIENT_COLUMNS.plainWhat)),
+      plainCaution: textOrNull(row.get(INGREDIENT_COLUMNS.plainCaution)),
       properties: splitList(row.get(INGREDIENT_COLUMNS.properties)),
       cautions,
       usage: textOrNull(row.get(INGREDIENT_COLUMNS.usage)),

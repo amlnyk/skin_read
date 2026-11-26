@@ -82,6 +82,22 @@ describe('the scanner: paste, review, check', () => {
     expect(within(key).queryByText('Ніацинамід')).not.toBeInTheDocument();
   });
 
+  it('a component of the composition opens a sheet in plain words', async () => {
+    renderApp('/scan/paste', { persona: PERSONAS.T1 });
+    await pasteAndReview('Aqua, Glycerin, Panthenol, Allantoin, Squalane');
+    fireEvent.click(screen.getByRole('button', { name: t('scan.check') }));
+    const key = await screen.findByRole('region', { name: t('scan.keyTitle') });
+    fireEvent.click(within(key).getByRole('button', { name: 'Гліцерин' }));
+    const sheet = within(screen.getByRole('dialog'));
+    expect(sheet.getByRole('heading', { name: 'Гліцерин' })).toBeInTheDocument();
+    // the cosmetologist's plain texts: "what is it" and "what is it for" are there
+    expect(sheet.getByText(t('scan.plainWhat'))).toBeInTheDocument();
+    expect(sheet.getByText(t('scan.plainPurpose'))).toBeInTheDocument();
+    expect(sheet.queryByText(t('scan.plainPending'))).not.toBeInTheDocument();
+    fireEvent.click(sheet.getByRole('button', { name: t('scan.plainClose') }));
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+
   it('an unknown position can be fixed in the review and then counts', async () => {
     renderApp('/scan/paste', { persona: PERSONAS.T1 });
     await pasteAndReview('Aqua, Glycerin, Panthenol, Allantoin, Squalane, Mystery');

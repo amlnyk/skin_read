@@ -18,12 +18,11 @@ describe('Layout', () => {
 
     const nav = screen.getByRole('navigation', { name: t('nav.label') });
     const links = within(nav).getAllByRole('link');
-    expect(links).toHaveLength(5);
+    expect(links).toHaveLength(4);
     expect(links.map((link) => link.textContent)).toEqual([
       t('nav.home'),
       t('nav.care'),
       t('nav.scan'),
-      t('nav.reference'),
       t('nav.profile'),
     ]);
     expect(within(nav).getByRole('link', { name: t('nav.home') })).toHaveAttribute(
