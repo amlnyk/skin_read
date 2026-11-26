@@ -1,6 +1,6 @@
 import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { t } from '@/i18n';
 import type { ContentBundle } from '@/schemas';
 import { createRealContent, createTestServices } from '@/test/helpers/fakes';
@@ -157,6 +157,37 @@ describe('ReferencePage: quick filter by group', () => {
     expect(names).toContain('Жирні спирти');
     expect(names[names.length - 1]).toBe(t('reference.groupFilterUngrouped'));
     expect(chip(t('reference.groupFilterAll'))).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  it('is one line with arrows that move it by three buttons', () => {
+    const scrollTo = vi.fn();
+    const sizes = { scrollWidth: 2000, clientWidth: 300 };
+    Object.defineProperty(HTMLElement.prototype, 'scrollTo', {
+      value: scrollTo,
+      configurable: true,
+    });
+    Object.defineProperty(HTMLElement.prototype, 'scrollWidth', {
+      get: () => sizes.scrollWidth,
+      configurable: true,
+    });
+    Object.defineProperty(HTMLElement.prototype, 'clientWidth', {
+      get: () => sizes.clientWidth,
+      configurable: true,
+    });
+    try {
+      setup();
+      const back = screen.getByRole('button', { name: t('reference.groupFilterBack') });
+      const forward = screen.getByRole('button', { name: t('reference.groupFilterForward') });
+      expect(back).toBeDisabled();
+      expect(forward).toBeEnabled();
+      fireEvent.click(forward);
+      expect(scrollTo).toHaveBeenCalledTimes(1);
+      fireEvent.click(back);
+    } finally {
+      delete (HTMLElement.prototype as unknown as Record<string, unknown>).scrollTo;
+      delete (HTMLElement.prototype as unknown as Record<string, unknown>).scrollWidth;
+      delete (HTMLElement.prototype as unknown as Record<string, unknown>).clientWidth;
+    }
   });
 
   it('a chosen group shows only that group, open, with its cards', () => {

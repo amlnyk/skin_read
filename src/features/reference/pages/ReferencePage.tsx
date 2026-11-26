@@ -5,6 +5,7 @@ import { useServices } from '@/lib/services';
 import { categoriesOf, searchGroups, searchIngredients, ungroupedIngredients } from '@/logic/inci';
 import { LIMITS } from '@/schemas';
 import { EducationPlaceholder } from '../components/EducationPlaceholder';
+import { GroupChips } from '../components/GroupChips';
 import { GroupList } from '../components/GroupList';
 import { IngredientList } from '../components/IngredientList';
 import styles from './ReferencePage.module.css';
@@ -122,41 +123,19 @@ export function ReferencePage() {
             ) : null}
 
             {!searching && namedGroups.length > 0 ? (
-              <div
-                role="group"
-                aria-label={t('reference.groupFilterLabel')}
-                className={styles.chips}
-              >
-                <button
-                  type="button"
-                  aria-pressed={showAll}
-                  className={showAll ? `${styles.chip} ${styles.chipOn}` : styles.chip}
-                  onClick={() => setView('')}
-                >
-                  {t('reference.groupFilterAll')}
-                </button>
-                {namedGroups.map((item) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    aria-pressed={view === item.id}
-                    className={view === item.id ? `${styles.chip} ${styles.chipOn}` : styles.chip}
-                    onClick={() => setView(item.id)}
-                  >
-                    {item.nameUk}
-                  </button>
-                ))}
-                {ungrouped.length > 0 ? (
-                  <button
-                    type="button"
-                    aria-pressed={view === UNGROUPED}
-                    className={view === UNGROUPED ? `${styles.chip} ${styles.chipOn}` : styles.chip}
-                    onClick={() => setView(UNGROUPED)}
-                  >
-                    {t('reference.groupFilterUngrouped')}
-                  </button>
-                ) : null}
-              </div>
+              <GroupChips
+                chips={[
+                  { id: '', label: t('reference.groupFilterAll') },
+                  ...namedGroups.flatMap((item) =>
+                    item.nameUk === null ? [] : [{ id: item.id, label: item.nameUk }],
+                  ),
+                  ...(ungrouped.length > 0
+                    ? [{ id: UNGROUPED, label: t('reference.groupFilterUngrouped') }]
+                    : []),
+                ]}
+                selected={view}
+                onSelect={setView}
+              />
             ) : null}
 
             {searching ? (

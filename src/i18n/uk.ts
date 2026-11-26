@@ -591,6 +591,8 @@ export const uk = {
     groupFilterLabel: 'Показати групу',
     groupFilterAll: 'Усі',
     groupFilterUngrouped: 'Інші',
+    groupFilterBack: 'Попередні групи',
+    groupFilterForward: 'Наступні групи',
     closeCard: 'Закрити',
     ungroupedTitle: 'Інші компоненти',
     resultsTitle: 'Знайдено',
