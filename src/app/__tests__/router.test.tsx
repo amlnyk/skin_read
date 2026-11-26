@@ -28,12 +28,9 @@ describe('app routes', () => {
     ['/scan/photo', 'scan.photoTitle'], // lazy chunk
     ['/care/products', 'products.title'], // lazy chunk
     ['/care/products/new', 'products.addTitle'], // lazy chunk
-    ['/care/compare', 'compare.title'], // lazy chunk
-    ['/profile/history', 'scan.historyTitle'], // lazy chunk
-    ['/compat', 'compat.title'], // lazy chunk
-    ['/profile/journal', 'journal.title'], // lazy chunk
+    ['/scan/history', 'scan.historyTitle'], // lazy chunk
+    ['/journal', 'journal.title'], // lazy chunk
     ['/profile/settings', 'settings.title'], // lazy chunk
-    ['/profile/settings/reminders', 'settings.remindersTitle'], // lazy chunk
     ['/profile/settings/consents', 'settings.consentsTitle'], // lazy chunk
     ['/profile/settings/data', 'settings.dataTitle'], // lazy chunk
     ['/profile/about', 'about.title'], // lazy chunk

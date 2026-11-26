@@ -39,13 +39,7 @@ export function ScanPage() {
         <Link to="/care/products" className={styles.linkButton}>
           {t('scan.myProducts')}
         </Link>
-        <Link to="/care/compare" className={styles.linkButton}>
-          {t('compare.link')}
-        </Link>
-        <Link to="/compat" className={styles.linkButton}>
-          {t('compat.linkTitle')}
-        </Link>
-        <Link to="/profile/history" className={styles.linkButton}>
+        <Link to="/scan/history" className={styles.linkButton}>
           {t('scan.history')}
         </Link>
       </div>

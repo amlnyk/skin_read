@@ -32,7 +32,7 @@ function marked(
 }
 
 const open = (journal: JournalEntry[] = [], extra: Parameters<typeof renderApp>[1] = {}) =>
-  renderApp('/profile/journal', { persona: PERSONAS.T4, journal, now: APP_NOW, ...extra });
+  renderApp('/journal', { persona: PERSONAS.T4, journal, now: APP_NOW, ...extra });
 
 const pick = (label: string, value: string) =>
   fireEvent.change(screen.getByLabelText(label), { target: { value } });
@@ -46,10 +46,7 @@ describe('the journal screen', () => {
     expect(await screen.findByRole('heading', { name: t('journal.title') })).toBeInTheDocument();
     expect(screen.getByText(t('journal.intro'))).toBeInTheDocument();
     expect(screen.getByText(t('journal.listEmpty'))).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: t('journal.back') })).toHaveAttribute(
-      'href',
-      '/profile',
-    );
+    expect(screen.getByRole('link', { name: t('journal.back') })).toHaveAttribute('href', '/');
   });
 
   it('never talks about missed days or streaks', async () => {
@@ -60,13 +57,9 @@ describe('the journal screen', () => {
     );
   });
 
-  it('the profile screen links to the journal and to the settings', async () => {
+  it('the profile screen links to the settings', async () => {
     renderApp('/profile', { persona: PERSONAS.T4 });
-    expect(await screen.findByRole('link', { name: t('profile.journalLink') })).toHaveAttribute(
-      'href',
-      '/profile/journal',
-    );
-    expect(screen.getByRole('link', { name: t('profile.settingsLink') })).toHaveAttribute(
+    expect(await screen.findByRole('link', { name: t('profile.settingsLink') })).toHaveAttribute(
       'href',
       '/profile/settings',
     );
@@ -213,13 +206,13 @@ describe('the optional fields follow the profile and the settings', () => {
   });
 
   it('T1 (the cycle is not relevant): no cycle field either', async () => {
-    renderApp('/profile/journal', { persona: PERSONAS.T1, now: APP_NOW });
+    renderApp('/journal', { persona: PERSONAS.T1, now: APP_NOW });
     await clickAdd();
     expect(screen.queryByLabelText(t('journal.cyclePeriod'))).not.toBeInTheDocument();
   });
 
   it('T2 (notices the cycle effect): the cycle field is there, with the five options', async () => {
-    renderApp('/profile/journal', { persona: PERSONAS.T2, now: APP_NOW });
+    renderApp('/journal', { persona: PERSONAS.T2, now: APP_NOW });
     await clickAdd();
     const field = screen.getByLabelText(t('journal.cyclePeriod'));
     const options = within(field)
@@ -248,7 +241,7 @@ describe('the optional fields follow the profile and the settings', () => {
   });
 
   it('breakouts before the period are saved as they are, with no conclusion about the cause', async () => {
-    const { store } = renderApp('/profile/journal', { persona: PERSONAS.T2, now: APP_NOW });
+    const { store } = renderApp('/journal', { persona: PERSONAS.T2, now: APP_NOW });
     await clickAdd();
     pick(t('journal.symptom.breakouts'), '3');
     pick(t('journal.cyclePeriod'), 'pre_menstrual');
@@ -384,7 +377,7 @@ describe('"update the profile?"', () => {
 
   it('a symptom that is already a state of the profile: no banner', async () => {
     // T2 has "dehydrated" already
-    renderApp('/profile/journal', {
+    renderApp('/journal', {
       persona: PERSONAS.T2,
       journal: dry([0, 3, 6, 9]),
       now: APP_NOW,
@@ -452,7 +445,7 @@ describe('"update the profile?"', () => {
 
 describe('the journal without a profile', () => {
   it('still works: there is just nothing to suggest', async () => {
-    renderApp('/profile/journal', {
+    renderApp('/journal', {
       persona: null,
       journal: marked('dryness', 3, [0, 1, 2, 3]),
       now: APP_NOW,

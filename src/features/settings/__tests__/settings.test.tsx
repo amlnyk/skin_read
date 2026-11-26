@@ -62,13 +62,9 @@ function exportText(): string {
 }
 
 describe('the settings start', () => {
-  it('has the title, three links and a way back', async () => {
+  it('has the title, two links and a way back', async () => {
     open('/profile/settings');
     expect(await screen.findByRole('heading', { name: t('settings.title') })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: t('settings.remindersLink') })).toHaveAttribute(
-      'href',
-      '/profile/settings/reminders',
-    );
     expect(screen.getByRole('link', { name: t('settings.consentsLink') })).toHaveAttribute(
       'href',
       '/profile/settings/consents',
@@ -96,73 +92,6 @@ describe('the settings start', () => {
     expect(store.getState().settings.showShavingField).toBe(true);
     fireEvent.click(cycle);
     expect(store.getState().settings.cycleTrackingVisible).toBe(false);
-  });
-});
-
-describe('reminders: only the interface and what is saved', () => {
-  it('says that real notifications come later, and has no guilt', async () => {
-    open('/profile/settings/reminders');
-    expect(
-      await screen.findByRole('heading', { name: t('settings.remindersTitle') }),
-    ).toBeInTheDocument();
-    expect(screen.getByText(t('settings.remindersLater'))).toBeInTheDocument();
-    expect(document.body.textContent ?? '').not.toMatch(/серія|стрік|не забудь|ти забула|втрачен/i);
-  });
-
-  it('three switches, all off at first, with no time fields', async () => {
-    const { store } = open('/profile/settings/reminders');
-    await screen.findByRole('heading', { name: t('settings.remindersTitle') });
-    for (const key of [
-      'settings.reminderAm',
-      'settings.reminderPm',
-      'settings.reminderJournal',
-    ] as const) {
-      expect(screen.getByRole('checkbox', { name: t(key) })).not.toBeChecked();
-    }
-    expect(document.querySelectorAll('input[type="time"]')).toHaveLength(0);
-    expect(store.getState().settings.reminders.am).toEqual({ enabled: false, time: null });
-  });
-
-  it('switching one on gives it a time that can be changed; both are saved', async () => {
-    const { store } = open('/profile/settings/reminders');
-    fireEvent.click(await screen.findByRole('checkbox', { name: t('settings.reminderAm') }));
-    expect(store.getState().settings.reminders.am).toEqual({ enabled: true, time: '08:00' });
-
-    const time = screen.getByLabelText(
-      t('settings.reminderTime', { name: t('settings.reminderAm') }),
-    );
-    expect(time).toHaveValue('08:00');
-    fireEvent.change(time, { target: { value: '07:15' } });
-    expect(store.getState().settings.reminders.am).toEqual({ enabled: true, time: '07:15' });
-    // the others are untouched
-    expect(store.getState().settings.reminders.pm).toEqual({ enabled: false, time: null });
-  });
-
-  it('switching off keeps the chosen time for next time and hides the field', async () => {
-    const { store } = open('/profile/settings/reminders', {
-      settings: {
-        reminders: {
-          am: { enabled: true, time: '06:45' },
-          pm: { enabled: false, time: null },
-          journal: { enabled: false, time: null },
-        },
-      },
-    });
-    fireEvent.click(await screen.findByRole('checkbox', { name: t('settings.reminderAm') }));
-    expect(store.getState().settings.reminders.am).toEqual({ enabled: false, time: '06:45' });
-    expect(document.querySelectorAll('input[type="time"]')).toHaveLength(0);
-  });
-
-  it('a time that is not a time is not saved as one', async () => {
-    const { store } = open('/profile/settings/reminders');
-    fireEvent.click(await screen.findByRole('checkbox', { name: t('settings.reminderPm') }));
-    fireEvent.change(
-      screen.getByLabelText(t('settings.reminderTime', { name: t('settings.reminderPm') })),
-      {
-        target: { value: '' },
-      },
-    );
-    expect(store.getState().settings.reminders.pm.time).toBeNull();
   });
 });
 
@@ -309,7 +238,7 @@ describe('import: a good file', () => {
     await screen.findByRole('button', { name: t('settings.exportButton') });
     choose(jsonFile(text));
     fireEvent.click(await screen.findByRole('button', { name: t('settings.importConfirm') }));
-    await router.navigate('/profile/journal');
+    await router.navigate('/journal');
     expect(await screen.findByText('<script>alert(1)</script>')).toBeInTheDocument();
     expect(document.querySelector('script')).toBeNull();
     expect(store.getState().journal[0]?.note).toBe('<script>alert(1)</script>');

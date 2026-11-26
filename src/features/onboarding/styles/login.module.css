@@ -1,0 +1,61 @@
+/* Login: the same frame as onboarding (blobs, header, actions at the bottom),
+   the fields sit on a white card like the test sheet. */
+.page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 480px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 0 var(--space-page);
+  padding-top: max(45px, env(safe-area-inset-top));
+  padding-bottom: calc(42px + env(safe-area-inset-bottom));
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  min-height: 64px;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-top: var(--space-6);
+}
+
+.title {
+  font-size: var(--font-size-hero);
+  font-weight: var(--font-weight-extrabold);
+  line-height: var(--line-height-hero);
+}
+
+.subtitle {
+  color: var(--color-text-secondary);
+}
+
+.sheet {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+  padding: var(--space-5) var(--space-4);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sheet);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-top: var(--space-5);
+}
+
+.note {
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-link);
+}

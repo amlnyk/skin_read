@@ -1,4 +1,4 @@
-import { act, cleanup, screen } from '@testing-library/react';
+import { act, cleanup, fireEvent, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 import { t } from '@/i18n';
 import { analyzeSavedProfile } from '@/logic/profile';
@@ -21,8 +21,8 @@ function withRoutine(persona: (typeof PERSONAS)[keyof typeof PERSONAS]) {
   return rendered;
 }
 
-describe('the home screen', () => {
-  it('without a profile: invites to the test, links to the scanner, shows the disclaimer', async () => {
+describe('the "Сьогодні" screen', () => {
+  it('without a profile: invites to the test', async () => {
     renderApp('/');
     expect(await screen.findByRole('heading', { name: t('nav.home') })).toBeInTheDocument();
     expect(screen.getByText(t('home.welcome'))).toBeInTheDocument();
@@ -30,53 +30,44 @@ describe('the home screen', () => {
       'href',
       '/test',
     );
-    expect(screen.getByRole('link', { name: t('home.quickScan') })).toHaveAttribute(
-      'href',
-      '/scan',
-    );
-    expect(screen.getByRole('note', { name: t('disclaimer.label') })).toBeInTheDocument();
-    expect(screen.queryByText(t('common.inDevelopment'))).not.toBeInTheDocument();
   });
 
-  it('with a profile but no routine: the profile summary and a way to build the routine', async () => {
+  it('with a profile but no routine: a way to build it and the calendar', async () => {
     renderApp('/', { persona: PERSONAS.T1, now: APP_NOW });
-    expect(
-      await screen.findByRole('heading', { name: t('home.profileTitle') }),
-    ).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: t('home.profileLink') })).toHaveAttribute(
-      'href',
-      '/profile',
-    );
-    expect(screen.getByText(t('home.careEmpty'))).toBeInTheDocument();
+    expect(await screen.findByText(t('home.careEmpty'))).toBeInTheDocument();
     expect(screen.getByRole('link', { name: t('home.careBuild') })).toHaveAttribute(
       'href',
       '/care',
     );
-    expect(screen.getByRole('link', { name: t('home.quickJournal') })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: t('home.calendarLink') })).toHaveAttribute(
       'href',
-      '/profile/journal',
+      '/journal',
     );
   });
 
-  it('with a routine: the steps of now, the marks of today and what is missing', async () => {
-    withRoutine(PERSONAS.T1);
-    const title = slotAt(APP_NOW) === 'am' ? t('home.careTitleAm') : t('home.careTitlePm');
-    expect(await screen.findByRole('heading', { name: title })).toBeInTheDocument();
-    const steps: ('cleanser' | 'moisturizer' | 'sunscreen')[] =
-      slotAt(APP_NOW) === 'am'
-        ? ['cleanser', 'moisturizer', 'sunscreen']
-        : ['cleanser', 'moisturizer'];
-    const names = steps.map((category) => t(`category.${category}`)).join(', ');
-    expect(screen.getByText(t('home.careSteps', { names }))).toBeInTheDocument();
-    expect(
-      screen.getByText(t('home.careDone', { done: 0, total: slotAt(APP_NOW) === 'am' ? 3 : 2 })),
-    ).toBeInTheDocument();
-    // nothing is owned, so the base steps are needs
-    expect(screen.getByRole('heading', { name: t('home.needsTitle') })).toBeInTheDocument();
-    expect(
-      screen.getByText(new RegExp(`^${t('home.needsList', { names: '' })}`)),
-    ).toBeInTheDocument();
-    expect(screen.queryByText(t('home.needsNone'))).not.toBeInTheDocument();
+  it('with a routine: both slots as checklists, nothing saved before "Зберегти"', async () => {
+    const { store } = withRoutine(PERSONAS.T1);
+    expect(await screen.findByRole('heading', { name: t('home.careTitleAm') })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: t('home.careTitlePm') })).toBeInTheDocument();
+
+    const box = screen.getAllByRole('checkbox', { name: t('category.cleanser') })[0];
+    if (!box) throw new Error('a cleanser step is expected');
+    fireEvent.click(box);
+    expect(box).toBeChecked();
+    expect(store.getState().routineLog).toEqual([]);
+
+    fireEvent.click(screen.getByRole('radio', { name: t('journal.feelingOption.good') }));
+    fireEvent.click(screen.getByRole('button', { name: t('home.save') }));
+
+    expect(screen.getByRole('status')).toHaveTextContent(t('home.saved'));
+    const day = localDay(APP_NOW);
+    const first = slotAt(APP_NOW);
+    const entry = store.getState().routineLog.find((item) => item.slot === first);
+    expect(entry?.date).toBe(day);
+    expect(entry?.doneStepIds).toHaveLength(1);
+    const journal = store.getState().journal;
+    expect(journal).toHaveLength(1);
+    expect(journal[0]).toMatchObject({ date: day, feeling: 'good' });
   });
 
   it('alarming answers (T5a): the doctor banner comes first', async () => {
@@ -86,7 +77,7 @@ describe('the home screen', () => {
 
   it('gives no score and no percent', async () => {
     withRoutine(PERSONAS.T2);
-    await screen.findByRole('heading', { name: t('home.profileTitle') });
+    await screen.findByRole('button', { name: t('home.save') });
     expect(document.body.textContent ?? '').not.toMatch(/%|\d+\s*\/\s*10|бал/);
   });
 });

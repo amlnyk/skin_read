@@ -52,7 +52,7 @@ export function JournalPage() {
 
   return (
     <section className={styles.page}>
-      <Link className={styles.back} to="/profile">
+      <Link className={styles.back} to="/">
         {t('journal.back')}
       </Link>
       <h1>{t('journal.title')}</h1>

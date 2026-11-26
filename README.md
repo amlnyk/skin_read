@@ -26,7 +26,7 @@ React 19, TypeScript, Vite, React Router, Zustand (сховище в `localStora
 ```
 src/
   app/        застосунок: навігація, маршрути, ErrorBoundary, банер оновлення
-  features/   екрани (about, care, compare, journal, products, profile, reference, scan, settings, test ...)
+  features/   екрани (about, care, home, journal, onboarding, products, profile, scan, settings, test ...)
   logic/      чиста логіка без React: профіль, рутина, аналіз, сумісність, щоденник
   content/    завантажувач контенту; самі JSON (довідка, анкета, правила, version.json) у content/data/
   schemas/    zod-схеми й типи

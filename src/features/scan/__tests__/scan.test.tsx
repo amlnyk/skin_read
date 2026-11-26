@@ -21,7 +21,7 @@ describe('the scanner: paste, review, check', () => {
     expect(photo).toBeDisabled();
     expect(screen.getByRole('link', { name: t('scan.history') })).toHaveAttribute(
       'href',
-      '/profile/history',
+      '/scan/history',
     );
   });
 
@@ -203,7 +203,7 @@ describe('the history of checks', () => {
     const [scan] = seed.store.getState().scans;
     cleanup();
 
-    renderApp('/profile/history', {
+    renderApp('/scan/history', {
       persona: PERSONAS.T1,
       profilePatch: { revision: 3 },
       scans: scan ? [scan] : [],
@@ -214,7 +214,7 @@ describe('the history of checks', () => {
   });
 
   it('an empty history says so', async () => {
-    renderApp('/profile/history', { persona: PERSONAS.T1 });
+    renderApp('/scan/history', { persona: PERSONAS.T1 });
     expect(await screen.findByText(t('scan.historyEmpty'))).toBeInTheDocument();
   });
 

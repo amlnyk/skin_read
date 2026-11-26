@@ -1,19 +1,76 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { disclaimer } from '@/content';
 import { t } from '@/i18n';
-import { DoctorBanner, Logo, MedicalDisclaimer } from '@/ui';
-import styles from '../styles/home.module.css';
+import { useServices } from '@/lib/services';
+import { useAppStoreApi } from '@/store';
+import { Button, Chip, DoctorBanner, Logo } from '@/ui';
+import type { Feeling, Slot } from '@/types';
+import { TodayChecklist } from '../components/TodayChecklist';
 import { useHomeSummary } from '../hooks/useHomeSummary';
+import styles from '../styles/home.module.css';
 
-// The home screen (ТЗ, розділ 27): the state of the profile, the routine for now, what to look
-// for, quick access to the scanner. It only summarises; the details live on their own screens.
+const FEELINGS: readonly Feeling[] = ['good', 'so_so', 'bad'];
+
+// "Сьогодні" (ТЗ, екран 08): the care of the day as a checklist, a quick mark of how the skin
+// feels and the way into the calendar. Marks are drafts until "Зберегти": then they go to the
+// routine log and today's journal entry. A mark counts for one day only, with no streaks.
 export function HomePage() {
   const home = useHomeSummary();
+  const store = useAppStoreApi();
+  const { ids } = useServices();
+  const [done, setDone] = useState<Record<Slot, string[]>>(home.done);
+  const [feeling, setFeeling] = useState<Feeling | null>(home.todayEntry?.feeling ?? null);
+  const [saved, setSaved] = useState(false);
+
+  const toggle = (slot: Slot, stepId: string) => {
+    setSaved(false);
+    setDone((current) => ({
+      ...current,
+      [slot]: current[slot].includes(stepId)
+        ? current[slot].filter((id) => id !== stepId)
+        : [...current[slot], stepId],
+    }));
+  };
+
+  const save = () => {
+    const { actions } = store.getState();
+    (['am', 'pm'] as const).forEach((slot) => {
+      if (home.steps[slot].length > 0) {
+        actions.routineLog.upsert({ date: home.today, slot, doneStepIds: done[slot] });
+      }
+    });
+    if (feeling !== null) {
+      if (home.todayEntry) {
+        actions.journal.update(home.todayEntry.id, { feeling });
+      } else {
+        actions.journal.add({
+          id: `journal-${ids.next()}`,
+          date: home.today,
+          feeling,
+          symptoms: {},
+          newProductIds: [],
+          note: '',
+        });
+      }
+    }
+    setSaved(true);
+  };
+
+  const dateLabel = new Date(home.nowMs).toLocaleDateString('uk-UA', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+  });
+  const slots: Slot[] = home.firstSlot === 'am' ? ['am', 'pm'] : ['pm', 'am'];
+  const hasSteps = home.steps.am.length + home.steps.pm.length > 0;
 
   return (
     <section className={styles.page}>
       <Logo variant="compact" label={t('brand.name')} />
-      <h1 className={styles.title}>{t('nav.home')}</h1>
+      <header className={styles.head}>
+        <h1 className={styles.title}>{t('nav.home')}</h1>
+        <p className={styles.date}>{dateLabel}</p>
+      </header>
 
       {home.profile === null ? (
         <section className={styles.card}>
@@ -28,77 +85,61 @@ export function HomePage() {
             <DoctorBanner message={home.seeDoctorText} />
           ) : null}
 
-          <section className={styles.card} aria-labelledby="home-profile">
-            <h2 id="home-profile">{t('home.profileTitle')}</h2>
-            <p>
-              {home.typeName ? t('home.typeLabel', { name: home.typeName }) : t('home.typeUnsure')}
-            </p>
-            {home.conditionNames.length > 0 ? (
-              <p>{t('home.conditionsLabel', { names: home.conditionNames.join(', ') })}</p>
-            ) : null}
-            {home.restrictionCount > 0 ? (
-              <p>{t('home.restrictionsCount', { count: home.restrictionCount })}</p>
-            ) : null}
-            <Link to="/profile" className={styles.link}>
-              {t('home.profileLink')}
-            </Link>
-          </section>
+          {hasSteps ? (
+            slots.map((slot) => (
+              <TodayChecklist
+                key={slot}
+                slot={slot}
+                steps={home.steps[slot]}
+                done={done[slot]}
+                onToggle={(stepId) => toggle(slot, stepId)}
+              />
+            ))
+          ) : (
+            <section className={styles.card}>
+              <p>{t('home.careEmpty')}</p>
+              <Link to="/care" className={styles.link}>
+                {t('home.careBuild')}
+              </Link>
+            </section>
+          )}
 
-          <section className={styles.card} aria-labelledby="home-care">
-            <h2 id="home-care">
-              {home.slot === 'am' ? t('home.careTitleAm') : t('home.careTitlePm')}
-            </h2>
-            {home.stepCategories.length === 0 ? (
-              <>
-                <p>{t('home.careEmpty')}</p>
-                <Link to="/care" className={styles.link}>
-                  {t('home.careBuild')}
-                </Link>
-              </>
-            ) : (
-              <>
-                <p>
-                  {t('home.careSteps', {
-                    names: home.stepCategories
-                      .map((category) => t(`category.${category}`))
-                      .join(', '),
-                  })}
-                </p>
-                <p>
-                  {t('home.careDone', { done: home.doneCount, total: home.stepCategories.length })}
-                </p>
-                <Link to="/care" className={styles.link}>
-                  {t('home.careLink')}
-                </Link>
-              </>
-            )}
-          </section>
+          <fieldset className={styles.card}>
+            <legend className={styles.legend}>{t('home.feelingTitle')}</legend>
+            <div className={styles.chips}>
+              {FEELINGS.map((value) => (
+                <Chip
+                  key={value}
+                  kind="radio"
+                  name="today-feeling"
+                  value={value}
+                  label={t(`journal.feelingOption.${value}`)}
+                  selected={feeling === value}
+                  onChange={() => {
+                    setSaved(false);
+                    setFeeling(value);
+                  }}
+                />
+              ))}
+            </div>
+          </fieldset>
 
-          <section className={styles.card} aria-labelledby="home-needs">
-            <h2 id="home-needs">{t('home.needsTitle')}</h2>
-            <p>
-              {home.openNeeds.length > 0
-                ? t('home.needsList', {
-                    names: home.openNeeds.map((category) => t(`category.${category}`)).join(', '),
-                  })
-                : t('home.needsNone')}
-            </p>
-          </section>
+          <Link to="/journal" className={styles.calendarLink}>
+            {t('home.calendarLink')}
+          </Link>
+
+          <div className={styles.saveBar}>
+            {saved ? (
+              <p className={styles.saved} role="status">
+                {t('home.saved')}
+              </p>
+            ) : null}
+            <Button fullWidth onClick={save}>
+              {t('home.save')}
+            </Button>
+          </div>
         </>
       )}
-
-      <nav className={styles.quick} aria-label={t('home.quickTitle')}>
-        <Link to="/scan" className={styles.primary}>
-          {t('home.quickScan')}
-        </Link>
-        {home.profile !== null ? (
-          <Link to="/profile/journal" className={styles.link}>
-            {t('home.quickJournal')}
-          </Link>
-        ) : null}
-      </nav>
-
-      <MedicalDisclaimer text={disclaimer.text} />
     </section>
   );
 }

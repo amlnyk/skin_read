@@ -39,11 +39,6 @@ export function SettingsPage() {
 
       <ul className={styles.links}>
         <li>
-          <Link className={styles.linkButton} to="/profile/settings/reminders">
-            {t('settings.remindersLink')}
-          </Link>
-        </li>
-        <li>
           <Link className={styles.linkButton} to="/profile/settings/consents">
             {t('settings.consentsLink')}
           </Link>

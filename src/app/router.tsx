@@ -2,15 +2,15 @@ import { lazy, Suspense } from 'react';
 import { createBrowserRouter, type RouteObject } from 'react-router-dom';
 import { t } from '@/i18n';
 import { HomePage } from '@/features/home';
-import { OnboardingPage } from '@/features/onboarding';
+import { LoginPage, OnboardingPage } from '@/features/onboarding';
 import { ProfilePage, ResultPage } from '@/features/profile';
 import { AnalysisPage, RoutinePage } from '@/features/routine';
 import { OnboardingGuard } from './guards/OnboardingGuard';
 import { Layout } from './components/Layout';
 import { NotFoundPage } from './pages/NotFoundPage';
 
-// Heavy features are loaded on demand (separate chunks): scan, compat.
-// The journal, the compare screen and the settings load on demand too.
+// Heavy features are loaded on demand (separate chunks): scan.
+// The journal and the settings load on demand too.
 const ScanPage = lazy(() => import('@/features/scan').then((m) => ({ default: m.ScanPage })));
 const PastePage = lazy(() => import('@/features/scan').then((m) => ({ default: m.PastePage })));
 const PhotoPage = lazy(() => import('@/features/scan').then((m) => ({ default: m.PhotoPage })));
@@ -31,20 +31,11 @@ const AddProductPage = lazy(() =>
 const ProductPage = lazy(() =>
   import('@/features/products').then((m) => ({ default: m.ProductPage })),
 );
-const CompatCheckerPage = lazy(() =>
-  import('@/features/compat').then((m) => ({ default: m.CompatCheckerPage })),
-);
-const ComparePage = lazy(() =>
-  import('@/features/compare').then((m) => ({ default: m.ComparePage })),
-);
 const JournalPage = lazy(() =>
   import('@/features/journal').then((m) => ({ default: m.JournalPage })),
 );
 const SettingsPage = lazy(() =>
   import('@/features/settings').then((m) => ({ default: m.SettingsPage })),
-);
-const RemindersPage = lazy(() =>
-  import('@/features/settings').then((m) => ({ default: m.RemindersPage })),
 );
 const ConsentsPage = lazy(() =>
   import('@/features/settings').then((m) => ({ default: m.ConsentsPage })),
@@ -89,6 +80,7 @@ const devRoutes: RouteObject[] = DevStatePage
 
 export const appRoutes: RouteObject[] = [
   { path: '/onboarding', element: <OnboardingPage /> },
+  { path: '/login', element: <LoginPage /> },
   {
     path: '/design',
     element: (
@@ -118,10 +110,10 @@ export const appRoutes: RouteObject[] = [
         element: <Layout />,
         children: [
           { index: true, element: <HomePage /> },
+          { path: 'journal', element: <JournalPage /> },
           { path: 'care', element: <RoutinePage /> },
           { path: 'care/analysis', element: <AnalysisPage /> },
           { path: 'care/products', element: <CollectionPage /> },
-          { path: 'care/compare', element: <ComparePage /> },
           { path: 'care/products/new', element: <AddProductPage /> },
           { path: 'care/products/:id', element: <ProductPage /> },
           { path: 'scan', element: <ScanPage /> },
@@ -130,12 +122,9 @@ export const appRoutes: RouteObject[] = [
           { path: 'scan/review', element: <ReviewPage /> },
           { path: 'scan/check/:productId', element: <CheckProductPage /> },
           { path: 'scan/result/:id', element: <ScanResultPage /> },
-          { path: 'compat', element: <CompatCheckerPage /> },
+          { path: 'scan/history', element: <HistoryPage /> },
           { path: 'profile', element: <ProfilePage /> },
-          { path: 'profile/history', element: <HistoryPage /> },
-          { path: 'profile/journal', element: <JournalPage /> },
           { path: 'profile/settings', element: <SettingsPage /> },
-          { path: 'profile/settings/reminders', element: <RemindersPage /> },
           { path: 'profile/settings/consents', element: <ConsentsPage /> },
           { path: 'profile/settings/data', element: <DataPage /> },
           { path: 'profile/about', element: <AboutPage /> },

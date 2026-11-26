@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from '@/i18n';
 import { useAppStore } from '@/store';
@@ -16,22 +16,11 @@ export function OnboardingPage() {
   const navigate = useNavigate();
   const complete = useAppStore((state) => state.actions.onboarding.complete);
   const [index, setIndex] = useState(0);
-  const [loginNote, setLoginNote] = useState(false);
   const Step = STEPS[index] ?? Welcome;
   const isFirst = index === 0;
   const isLast = index === STEPS.length - 1;
 
-  // The note about accounts disappears by itself after a few seconds.
-  useEffect(() => {
-    if (!loginNote) return;
-    const timer = window.setTimeout(() => setLoginNote(false), 3500);
-    return () => window.clearTimeout(timer);
-  }, [loginNote]);
-
-  const goTo = (next: number) => {
-    setLoginNote(false);
-    setIndex(next);
-  };
+  const goTo = (next: number) => setIndex(next);
 
   const start = () => {
     complete();
@@ -57,18 +46,13 @@ export function OnboardingPage() {
         </div>
 
         <div className={styles.actions}>
-          {loginNote ? (
-            <p className={styles.note} role="status">
-              {t('onboarding.loginLater')}
-            </p>
-          ) : null}
           {isFirst ? (
             <>
               <Button fullWidth onClick={() => goTo(1)}>
                 {t('onboarding.begin')}
               </Button>
-              {/* Accounts come later (decision 2026-11-26): the button is kept from the design. */}
-              <Button fullWidth variant="secondary" onClick={() => setLoginNote((shown) => !shown)}>
+              {/* Opens the login screen with a local account (decision 2026-11-26). */}
+              <Button fullWidth variant="secondary" onClick={() => navigate('/login')}>
                 <span className={styles.loginQuestion}>{t('onboarding.loginQuestion')}</span>
                 <span className={styles.loginAction}>{t('onboarding.loginAction')}</span>
               </Button>
