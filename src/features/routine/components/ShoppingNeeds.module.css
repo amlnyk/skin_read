@@ -79,6 +79,6 @@
   display: inline-flex;
   align-items: center;
   min-height: var(--tap-target);
-  color: var(--color-primary);
-  font-weight: 700;
+  color: var(--color-link);
+  font-weight: var(--font-weight-semibold);
 }

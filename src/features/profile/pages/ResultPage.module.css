@@ -1,19 +1,32 @@
+/* The result in the Figma style: the title over the blobs, each block on a white card. */
 .page {
-  /* full-screen pages (no tab bar): centred like the layout */
   width: 100%;
   max-width: var(--content-width);
   margin: 0 auto;
   display: grid;
   align-content: start;
-  gap: var(--space-5);
+  gap: var(--space-4);
   min-height: 100dvh;
-  padding: var(--space-4);
+  padding: 0 var(--space-page);
+  padding-top: max(120px, calc(var(--space-6) + env(safe-area-inset-top)));
   padding-bottom: calc(var(--space-6) + env(safe-area-inset-bottom));
+}
+
+.page > h1 {
+  margin-bottom: var(--space-4);
 }
 
 .section {
   display: grid;
   gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.section h2 {
+  font-size: var(--font-size-option);
 }
 
 .section ul {

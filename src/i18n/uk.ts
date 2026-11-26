@@ -211,6 +211,7 @@ export const uk = {
     hintMulti: 'Можна вибрати кілька варіантів.',
     selectedCount: 'Обрано {count}',
     analysing: 'Аналізуємо відповіді',
+    percentSign: '%',
     required: 'Обовʼязкове питання',
     optional: 'Можна пропустити',
     otherLabel: 'Уточнення',

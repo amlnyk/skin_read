@@ -51,7 +51,7 @@ export function AnalysisLoader({ onDone }: Props) {
           <progress className={styles.line} value={percent} max={100} aria-hidden="true" />
           <p className={styles.percent} aria-hidden="true">
             {percent}
-            <span className={styles.unit}>%</span>
+            <span className={styles.unit}>{t('test.percentSign')}</span>
           </p>
         </div>
       </main>

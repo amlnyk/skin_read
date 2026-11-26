@@ -10,8 +10,8 @@
   min-height: var(--tap-target);
   display: inline-flex;
   align-items: center;
-  color: var(--color-primary);
-  font-weight: 700;
+  color: var(--color-link);
+  font-weight: var(--font-weight-semibold);
 }
 
 /* an iOS-like chevron; the alternative text after / keeps screen readers quiet */
@@ -42,8 +42,8 @@
   border: 0;
   border-radius: var(--radius-md);
   background: var(--color-primary-soft);
-  color: var(--color-primary);
-  font-weight: 700;
+  color: var(--color-link);
+  font-weight: var(--font-weight-semibold);
   text-align: center;
 }
 
@@ -79,7 +79,7 @@
 }
 
 .statusTitle {
-  font-weight: 700;
+  font-weight: var(--font-weight-semibold);
 }
 
 .banner {
@@ -118,7 +118,7 @@
   display: flex;
   align-items: center;
   cursor: pointer;
-  font-weight: 700;
+  font-weight: var(--font-weight-semibold);
 }
 
 /* A file field drawn as a button: the input stays in the page for keyboard and screen readers. */
@@ -132,8 +132,8 @@
   border: 0;
   border-radius: var(--radius-md);
   background: var(--color-primary-soft);
-  color: var(--color-primary);
-  font-weight: 700;
+  color: var(--color-link);
+  font-weight: var(--font-weight-semibold);
   text-align: center;
   cursor: pointer;
 }

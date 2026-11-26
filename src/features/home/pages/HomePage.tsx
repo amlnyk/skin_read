@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { disclaimer } from '@/content';
 import { t } from '@/i18n';
-import { DoctorBanner, MedicalDisclaimer } from '@/ui';
+import { DoctorBanner, Logo, MedicalDisclaimer } from '@/ui';
 import styles from '../styles/home.module.css';
 import { useHomeSummary } from '../hooks/useHomeSummary';
 
@@ -12,7 +12,8 @@ export function HomePage() {
 
   return (
     <section className={styles.page}>
-      <h1>{t('nav.home')}</h1>
+      <Logo variant="compact" label={t('brand.name')} />
+      <h1 className={styles.title}>{t('nav.home')}</h1>
 
       {home.profile === null ? (
         <section className={styles.card}>

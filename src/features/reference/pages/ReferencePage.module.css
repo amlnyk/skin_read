@@ -30,7 +30,7 @@
 .selected {
   background: var(--color-surface);
   box-shadow: var(--shadow-card);
-  font-weight: 700;
+  font-weight: var(--font-weight-semibold);
 }
 
 .components {
@@ -89,6 +89,6 @@
 }
 
 .compatTitle {
-  color: var(--color-primary);
-  font-weight: 700;
+  color: var(--color-link);
+  font-weight: var(--font-weight-semibold);
 }

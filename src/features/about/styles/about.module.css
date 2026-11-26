@@ -10,8 +10,8 @@
   min-height: var(--tap-target);
   display: inline-flex;
   align-items: center;
-  color: var(--color-primary);
-  font-weight: 700;
+  color: var(--color-link);
+  font-weight: var(--font-weight-semibold);
 }
 
 /* an iOS-like chevron; the alternative text after / keeps screen readers quiet */
@@ -48,6 +48,6 @@
   min-height: var(--tap-target);
   display: inline-flex;
   align-items: center;
-  color: var(--color-primary);
-  font-weight: 700;
+  color: var(--color-link);
+  font-weight: var(--font-weight-semibold);
 }
