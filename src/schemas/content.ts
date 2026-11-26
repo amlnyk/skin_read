@@ -79,6 +79,18 @@ export const skinRecommendationSchema = z.object({
   }),
   title: text,
   text,
+  // short chip labels taken from the text: what to look for in the composition. A label tied
+  // to a reaction group is hidden for people who reported a reaction to that group.
+  lookFor: z
+    .array(
+      z.object({
+        label: z.string().min(1).max(LIMITS.shortText),
+        reactionGroup: reactionGroupSchema.nullable(),
+      }),
+    )
+    .default([]),
+  // short chip labels taken from the text: what to avoid for now
+  avoid: z.array(z.string().min(1).max(LIMITS.shortText)).default([]),
 });
 export type SkinRecommendation = z.infer<typeof skinRecommendationSchema>;
 
@@ -134,8 +146,18 @@ export const questionSchema = z.object({
   description: text,
   required: z.boolean(),
   options: z.array(questionOptionSchema),
-  // shown only when the answer to `questionId` contains any of `anyOf`; null = always shown
-  showIf: z.object({ questionId: idSchema, anyOf: z.array(idSchema).min(1) }).nullable(),
+  // shown only when the answer to `questionId` contains any of `anyOf` and none of `noneOf`
+  // (a skipped answer passes `noneOf`); null = always shown
+  showIf: z
+    .object({
+      questionId: idSchema,
+      anyOf: z.array(idSchema).min(1).optional(),
+      noneOf: z.array(idSchema).min(1).optional(),
+    })
+    .refine((rule) => rule.anyOf !== undefined || rule.noneOf !== undefined, {
+      message: 'showIf needs anyOf or noneOf',
+    })
+    .nullable(),
 });
 export type Question = z.infer<typeof questionSchema>;
 

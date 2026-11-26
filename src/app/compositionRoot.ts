@@ -7,14 +7,16 @@ import { createCryptoIdGenerator } from '@/lib/ids';
 import { createConsoleLogger } from '@/lib/logger';
 import type { ContentProvider } from '@/lib/ports';
 import type { Services } from '@/lib/services';
-import { createLocalStorageAdapter } from '@/lib/storage';
+import { createLocalStorageAdapter, createMemoryAdapter } from '@/lib/storage';
 import { createAppStore, type AppStore } from '@/store';
 
 // The only place where concrete adapters are chosen.
 // Tests build their own Services from fakes (src/test/helpers/fakes.ts).
 export function createServices(env: Env, content: ContentProvider): Services {
   return {
-    storage: createLocalStorageAdapter(),
+    // Review mode keeps the data in memory: a reload starts from the loading screen and the
+    // onboarding, and whatever the device saved before is left untouched.
+    storage: env.freshStart ? createMemoryAdapter() : createLocalStorageAdapter(),
     clock: systemClock,
     ids: createCryptoIdGenerator(),
     logger: createConsoleLogger(env.appEnv === 'development' ? 'debug' : 'warn'),

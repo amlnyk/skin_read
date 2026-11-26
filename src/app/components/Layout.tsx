@@ -4,15 +4,16 @@ import { t, type MessageKey } from '@/i18n';
 import { Background } from '@/ui';
 import { ErrorBoundary } from './ErrorBoundary';
 import styles from './Layout.module.css';
+import { TabIcon, type TabIconName } from './TabIcon';
 
-type Tab = { to: string; labelKey: MessageKey; end: boolean };
+type Tab = { to: string; labelKey: MessageKey; end: boolean; icon: TabIconName };
 
 const tabs: readonly Tab[] = [
-  { to: '/', labelKey: 'nav.home', end: true },
-  { to: '/care', labelKey: 'nav.care', end: false },
-  { to: '/scan', labelKey: 'nav.scan', end: false },
-  { to: '/reference', labelKey: 'nav.reference', end: false },
-  { to: '/profile', labelKey: 'nav.profile', end: false },
+  { to: '/', labelKey: 'nav.home', end: true, icon: 'home' },
+  { to: '/care', labelKey: 'nav.care', end: false, icon: 'care' },
+  { to: '/scan', labelKey: 'nav.scan', end: false, icon: 'scan' },
+  { to: '/reference', labelKey: 'nav.reference', end: false, icon: 'reference' },
+  { to: '/profile', labelKey: 'nav.profile', end: false, icon: 'profile' },
 ];
 
 export function Layout() {
@@ -37,7 +38,10 @@ export function Layout() {
                     isActive ? `${styles.link} ${styles.active}` : styles.link
                   }
                 >
-                  {t(tab.labelKey)}
+                  <span className={styles.icon}>
+                    <TabIcon name={tab.icon} />
+                  </span>
+                  <span className={styles.label}>{t(tab.labelKey)}</span>
                 </NavLink>
               </li>
             ))}

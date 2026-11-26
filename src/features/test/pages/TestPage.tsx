@@ -45,7 +45,7 @@ export function TestPage() {
   const exit = () => navigate(only ? '/profile' : '/', { replace: true });
 
   return (
-    <Background variant="sheet">
+    <Background variant="sheet" animated>
       <main className={styles.page}>
         <header className={styles.header}>
           {flow.index > 0 ? (

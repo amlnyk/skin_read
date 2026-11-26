@@ -8,8 +8,9 @@ export function selectedOptionIds(answer: TestAnswers[string] | undefined): read
 
 /**
  * The questions to show for the given answers, in questionnaire order.
- * A question with `showIf` is shown only when the question it depends on is shown itself
- * and its answer contains one of `anyOf`. The rules live in questionnaire.json, not in code.
+ * A question with `showIf` is shown only when the question it depends on is shown itself,
+ * its answer contains one of `anyOf` (if given) and none of `noneOf` (if given).
+ * The rules live in questionnaire.json, not in code.
  */
 export function getVisibleQuestions(
   questions: readonly Question[],
@@ -22,7 +23,9 @@ export function getVisibleQuestions(
     if (rule) {
       const parentShown = visibleIds.has(rule.questionId);
       const chosen = selectedOptionIds(answers[rule.questionId]);
-      if (!parentShown || !rule.anyOf.some((id) => chosen.includes(id))) continue;
+      if (!parentShown) continue;
+      if (rule.anyOf && !rule.anyOf.some((id) => chosen.includes(id))) continue;
+      if (rule.noneOf?.some((id) => chosen.includes(id))) continue;
     }
     visibleIds.add(question.id);
     visible.push(question);

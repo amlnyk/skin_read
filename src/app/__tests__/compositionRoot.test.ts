@@ -67,3 +67,13 @@ describe('createServices', () => {
     expect(info).toHaveBeenCalledWith('shown');
   });
 });
+
+describe('review mode (fresh start)', () => {
+  it('keeps the data in memory, so nothing is left for the next visit', () => {
+    const result = parseEnv({ VITE_FRESH_START: 'true' });
+    if (!result.ok) throw new Error('test env must be valid');
+    const services = createServices(result.value, createTestContent());
+    services.storage.setItem('skinbarrier:fresh-test', 'ok');
+    expect(window.localStorage.getItem('skinbarrier:fresh-test')).toBeNull();
+  });
+});

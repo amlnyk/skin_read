@@ -362,7 +362,7 @@
     },
     {
       "id": "q6_1_cycle",
-      "source": "content/source/message.txt, розділ 09",
+      "source": "Рішення авторки 2026-11-26: для відповіді «Чоловіча» питання про цикл не показується; content/source/message.txt, розділ 09",
       "reviewStatus": "draft",
       "type": "multi",
       "text": "Чи помічаєш ти зміни стану шкіри, пов'язані з менструальним циклом?",
@@ -426,7 +426,10 @@
           "hasText": false
         }
       ],
-      "showIf": null
+      "showIf": {
+        "questionId": "q6_sex",
+        "noneOf": ["male"]
+      }
     },
     {
       "id": "q6_1_effects",

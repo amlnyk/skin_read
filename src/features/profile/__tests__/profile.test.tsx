@@ -90,14 +90,20 @@ describe('ResultPage', () => {
     expect(
       screen.getByRole('heading', { name: 'Жирна або схильна до жирності' }),
     ).toBeInTheDocument();
-    // the type has its description and recommendations from content (author's Figma texts)
+    // the summary: "the main thing now" follows the mode, morning and evening have their steps
+    expect(screen.getByText(t('profile.priorityStandard'))).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Ранок/ })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Вечір/ })).toBeInTheDocument();
+    // the full texts (author's Figma texts) and the goals open in the details sheet
+    fireEvent.click(screen.getByRole('button', { name: new RegExp(t('profile.priorityLabel')) }));
+    const sheet = within(screen.getByRole('dialog'));
     const oily = content.bundle.skinTypes.find((item) => item.baseType === 'oily');
-    expect(screen.getByText(oily?.description ?? '')).toBeInTheDocument();
+    expect(sheet.getByText(oily?.description ?? '')).toBeInTheDocument();
     expect(
-      screen.getAllByRole('heading', { name: t('profile.recommendationsTitle') }).length,
+      sheet.getAllByRole('heading', { name: t('profile.recommendationsTitle') }).length,
     ).toBeGreaterThanOrEqual(1);
     expect(
-      screen.getByText(optionLabel(questions, 'q3_goals', 'reduce_breakouts')),
+      sheet.getByText(optionLabel(questions, 'q3_goals', 'reduce_breakouts')),
     ).toBeInTheDocument();
   });
 
@@ -156,16 +162,13 @@ describe('ResultPage', () => {
       finish(s, PERSONAS.T2);
     });
     const restrictions = screen
-      .getByRole('heading', { name: t('profile.restrictionsTitle') })
+      .getByRole('heading', { name: t('profile.avoidTitle') })
       .closest('section') as HTMLElement;
+    // short chip names, one per component group
+    expect(within(restrictions).getByText(t('profile.avoidChip.acids'))).toBeInTheDocument();
     expect(
-      within(restrictions).getByText(optionLabel(questions, 'q4_reactions', 'acids')),
-    ).toBeInTheDocument();
-    expect(
-      within(restrictions).getByText(
-        optionLabel(questions, 'q5_avoid', 'fragrance_essential_oils'),
-      ),
-    ).toBeInTheDocument();
+      within(restrictions).getAllByText(t('profile.avoidChip.fragrance_essential_oils')),
+    ).toHaveLength(1);
     expect(screen.getByText(t('profile.noteSuggestCycleDiary'))).toBeInTheDocument();
   });
 

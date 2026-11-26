@@ -86,7 +86,15 @@ describe('questionnaire.json', () => {
       questionId: QUESTION_IDS.cycle,
       anyOf: ['pre_menstrual', 'during_menstrual', 'other_phase'],
     });
-    expect(questions.filter((q) => q.showIf).map((q) => q.id)).toEqual([QUESTION_IDS.cycleEffects]);
+    // the author's decision (2026-11-26): the cycle questions are not shown for "male"
+    expect(byId(QUESTION_IDS.cycle).showIf).toEqual({
+      questionId: QUESTION_IDS.sex,
+      noneOf: ['male'],
+    });
+    expect(questions.filter((q) => q.showIf).map((q) => q.id)).toEqual([
+      QUESTION_IDS.cycle,
+      QUESTION_IDS.cycleEffects,
+    ]);
   });
 
   it('options added as recommendations are flagged "proposed"', () => {

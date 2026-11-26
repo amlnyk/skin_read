@@ -12,11 +12,16 @@ const rawEnvSchema = z.object({
   VITE_CONTENT_POLICY: contentPolicySchema.default('demo'),
   VITE_FEATURE_PHOTO_SCAN: flagSchema.default('false'),
   VITE_FEATURE_SIMPLIFY_AI: flagSchema.default('false'),
+  // Review mode: nothing is saved between visits, so every visit starts from the loading
+  // screen and the onboarding (decision 2026-11-26). On Vercel it is on unless set to false.
+  VITE_FRESH_START: flagSchema.default('false'),
 });
 
 export type Env = {
   readonly appEnv: 'development' | 'preview' | 'production';
   readonly contentPolicy: ContentPolicy;
+  /** Keep the data in memory only: each visit starts from scratch (review mode). */
+  readonly freshStart: boolean;
   readonly features: {
     readonly photoScan: boolean;
     readonly simplifyAI: boolean;
@@ -34,6 +39,7 @@ const KEYS = [
   'VITE_CONTENT_POLICY',
   'VITE_FEATURE_PHOTO_SCAN',
   'VITE_FEATURE_SIMPLIFY_AI',
+  'VITE_FRESH_START',
 ] as const;
 
 // An empty value (as in .env.example) counts as "not set".
@@ -60,6 +66,7 @@ export function parseEnv(raw: Readonly<Record<string, unknown>>): Result<Env, En
   return ok({
     appEnv: data.VITE_APP_ENV,
     contentPolicy: data.VITE_CONTENT_POLICY,
+    freshStart: data.VITE_FRESH_START === 'true',
     features: {
       photoScan: data.VITE_FEATURE_PHOTO_SCAN === 'true',
       simplifyAI: data.VITE_FEATURE_SIMPLIFY_AI === 'true',

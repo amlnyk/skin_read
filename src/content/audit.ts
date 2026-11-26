@@ -125,7 +125,10 @@ export function auditContent(raw: Readonly<Record<string, unknown>>): AuditRepor
             errors.push(`questionnaire.json: "${question.id}" must come after "${parent.id}"`);
           }
           const parentOptions = new Set(parent.options.map((o) => o.id));
-          for (const optionId of question.showIf.anyOf) {
+          for (const optionId of [
+            ...(question.showIf.anyOf ?? []),
+            ...(question.showIf.noneOf ?? []),
+          ]) {
             if (!parentOptions.has(optionId)) {
               errors.push(
                 `questionnaire.json: "${question.id}" is shown by unknown option "${optionId}" of "${parent.id}"`,

@@ -1,36 +1,247 @@
-/* The result in the Figma style: the title over the blobs, each block on a white card. */
+/* Figma "result" (58:22): back button, the type in big letters, then cards 11 apart. */
 .page {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
   width: 100%;
-  max-width: var(--content-width);
-  margin: 0 auto;
-  display: grid;
-  align-content: start;
-  gap: var(--space-4);
+  max-width: 480px;
   min-height: 100dvh;
+  margin: 0 auto;
   padding: 0 var(--space-page);
-  padding-top: max(120px, calc(var(--space-6) + env(safe-area-inset-top)));
+  padding-top: max(54px, calc(var(--space-3) + env(safe-area-inset-top)));
   padding-bottom: calc(var(--space-6) + env(safe-area-inset-bottom));
 }
 
-.page > h1 {
-  margin-bottom: var(--space-4);
-}
-
-.section {
-  display: grid;
+.header {
+  display: flex;
+  flex-direction: column;
   gap: var(--space-2);
-  padding: var(--space-4);
-  border-radius: var(--radius-md);
-  background: var(--color-surface);
-  box-shadow: var(--shadow-card);
+  padding: var(--space-5) 0 var(--space-5);
 }
 
-.section h2 {
+/* "ТВІЙ ТИП ШКІРИ": Medium 12, CAPS, letter-spacing 1 */
+.caption {
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.4;
+  letter-spacing: var(--letter-spacing-caption);
+  text-transform: uppercase;
+}
+
+.type {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ExtraBold 52 / 56, tracking -1.5 */
+.typeMain {
+  font-size: var(--font-size-hero);
+  font-weight: var(--font-weight-extrabold);
+  line-height: 1.08;
+  letter-spacing: -1.5px;
+}
+
+.typeRest {
   font-size: var(--font-size-option);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
 }
 
-.section ul {
+.chevron {
+  display: block;
+  flex: none;
+}
+
+/* "Головне зараз": black card, radius 22, padding 16 */
+.priority {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-4);
+  border: 0;
+  border-radius: var(--radius-card);
+  background: var(--color-black);
+  color: var(--color-white);
+  text-align: left;
+  cursor: pointer;
+}
+
+.priorityHead,
+.routineHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.priorityLabel {
+  font-size: var(--font-size-footnote);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-purple-light);
+}
+
+.priorityText {
+  font-size: var(--font-size-option);
+  font-weight: var(--font-weight-semibold);
+  line-height: 23px;
+}
+
+/* Glass cards: white 82% + blur 12, radius 22, shadow 0 6 20 black 6% */
+.card,
+.routine,
+.avoidCard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: var(--space-4);
+  border-radius: var(--radius-card);
+  background: var(--color-card-glass);
+  box-shadow: var(--shadow-float);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.cardTitle {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Chips: pill, padding 7 / 12 */
+.stateChip,
+.lookChip,
+.avoidChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: var(--radius-pill);
+  font-weight: var(--font-weight-medium);
+}
+
+.stateChip {
+  background: var(--color-surface-muted);
+  font-size: var(--font-size-footnote);
+}
+
+.lookChip {
+  background: var(--color-purple-soft);
+  color: var(--color-purple-ink);
+  font-size: var(--font-size-caption);
+}
+
+.avoidCard {
+  background: var(--color-coral-soft);
+}
+
+.avoidTitle {
+  font-size: var(--font-size-option);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-coral-ink);
+}
+
+.avoidChip {
+  background: var(--color-surface);
+  color: var(--color-coral-ink);
+  font-size: var(--font-size-caption);
+}
+
+/* Colour dots (8, radius 4): the indicator colours of the design system */
+.dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+}
+
+.dot_dehydrated {
+  background: var(--color-hydration);
+}
+
+.dot_sensitive,
+.dot_reactive,
+.dot_breakouts {
+  background: var(--color-sensitivity);
+}
+
+.dot_combination,
+.dot_pigmentation {
+  background: var(--color-oil);
+}
+
+.dot_aging_signs,
+.dot_stable {
+  background: var(--color-purple);
+}
+
+.dotAm {
+  background: var(--color-oil);
+}
+
+.dotPm {
+  background: var(--color-purple);
+}
+
+/* Morning and evening side by side */
+.routines {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 11px;
+}
+
+.routine {
+  gap: var(--space-1);
+  padding: 14px;
+  border: 0;
+  color: var(--color-text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.routineTitle {
+  font-size: var(--font-size-title);
+  font-weight: var(--font-weight-extrabold);
+}
+
+.routineMeta {
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-muted);
+}
+
+.list {
   display: grid;
   gap: var(--space-3);
+  margin: 0;
   padding-left: var(--space-5);
+}
+
+.footnote {
+  font-size: var(--font-size-caption);
+}
+
+/* The details sheet */
+.details {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.detailsSection {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.priority:focus-visible,
+.routine:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
 }
