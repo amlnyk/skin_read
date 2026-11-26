@@ -34,7 +34,7 @@ jobs:
       # The built app of a pull request, so it can be looked at without a deploy (kept 7 days).
       - name: Upload the build
         if: github.event_name == 'pull_request'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: dist
           path: dist
