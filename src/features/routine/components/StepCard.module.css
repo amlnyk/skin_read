@@ -1,7 +1,10 @@
-.card {
-  display: grid;
+/* A step is one row: the mark, then the name and two short facts. */
+.row {
+  display: flex;
+  align-items: center;
   gap: var(--space-3);
-  padding: var(--space-4);
+  min-height: var(--tap-target);
+  padding: var(--space-2) var(--space-4);
   border: 0;
   box-shadow: var(--shadow-card);
   border-radius: var(--radius-md);
@@ -9,9 +12,50 @@
   list-style: none;
 }
 
+.check {
+  flex: none;
+  width: 24px;
+  height: 24px;
+}
+
+.text {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-size: var(--font-size-md);
+}
+
+/* the whole name is the tap target */
+.open {
+  display: block;
+  width: 100%;
+  min-height: var(--tap-target);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-3);
+  margin-top: calc(-1 * var(--space-2));
+  padding-bottom: var(--space-1);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
 .facts {
   display: grid;
-  gap: var(--space-2);
+  gap: var(--space-3);
 }
 
 .facts dt {
@@ -23,19 +67,7 @@
   padding-left: var(--space-5);
 }
 
-.done {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  min-height: var(--tap-target);
-}
-
-.done input {
-  width: 24px;
-  height: 24px;
-}
-
-.actions {
+.modalActions {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);

@@ -6,6 +6,8 @@ type Props = {
   ingredient: Ingredient;
   /** Every visible ingredient: known interactions are shown by name. */
   all: readonly Ingredient[];
+  /** The name as a heading. The modal shows the name in its own title, so it turns this off. */
+  withTitle?: boolean;
 };
 
 const hasText = (value: string | null): value is string => value !== null && value.trim() !== '';
@@ -25,9 +27,9 @@ function List({ items }: { items: readonly string[] }) {
   );
 }
 
-// The card of one ingredient. Facts only: no "good" or "bad" marks and no signal colours.
+// The card of one ingredient (shown in a modal from the lists). Facts only: no "good" or "bad" marks and no signal colours.
 // A field that the cosmetologist has not filled in yet says "Інформація готується".
-export function IngredientCard({ ingredient, all }: Props) {
+export function IngredientCard({ ingredient, all, withTitle = true }: Props) {
   const interactions = ingredient.knownInteractions
     .map((id) => all.find((other) => other.id === id))
     .filter((other): other is Ingredient => other !== undefined)
@@ -36,9 +38,11 @@ export function IngredientCard({ ingredient, all }: Props) {
 
   return (
     <article className={styles.card}>
-      <h3>
-        <Text value={ingredient.nameUk} />
-      </h3>
+      {withTitle ? (
+        <h3>
+          <Text value={ingredient.nameUk} />
+        </h3>
+      ) : null}
       {ingredient.reviewStatus === 'verified' ? null : (
         <p className={styles.draft}>{t('reference.draftNote')}</p>
       )}

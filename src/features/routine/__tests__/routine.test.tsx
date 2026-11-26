@@ -129,6 +129,13 @@ function choose(scenario: 'none' | 'have' | 'partial' | 'skipped', owned: Owned 
   }
 }
 
+// a step is short on the screen; its purpose, components and editing buttons are in a modal
+const openDetails = (name: string) =>
+  fireEvent.click(screen.getByRole('button', { name: new RegExp(`^\\d+\\. ${name}$`) }));
+const closeDetails = () =>
+  fireEvent.click(
+    within(screen.getByRole('dialog')).getByRole('button', { name: t('care.detailsClose') }),
+  );
 const stepNames = () => screen.getAllByRole('heading', { level: 3 }).map((h) => h.textContent);
 const openTab = (key: 'care.tabAm' | 'care.tabPm' | 'care.tabShopping') =>
   fireEvent.click(screen.getByRole('tab', { name: t(key) }));
@@ -215,7 +222,10 @@ describe('personas on the screen', () => {
     openTab('care.tabPm');
     expect(stepNames()).toEqual(['1. Очищення', '2. Зволоження', `3. title opt-breakouts`]);
     expect(screen.getByText(t('stepStatus.optional'))).toBeInTheDocument();
-    expect(screen.getByText('purpose opt-breakouts')).toBeInTheDocument();
+    openDetails('title opt-breakouts');
+    expect(
+      within(screen.getByRole('dialog')).getByText('purpose opt-breakouts'),
+    ).toBeInTheDocument();
   });
 
   it('T2: no optional step in either routine; the reaction and the wish are shown at the steps', () => {
@@ -225,16 +235,23 @@ describe('personas on the screen', () => {
     openTab('care.tabPm');
     expect(stepNames()).toHaveLength(2);
     expect(screen.queryByText(t('stepStatus.optional'))).not.toBeInTheDocument();
-    expect(
-      screen.getAllByText(
-        t('care.warningReaction', { name: label(QUESTION_IDS.reactions, 'acids') }),
-      ).length,
-    ).toBe(2);
-    expect(
-      screen.getAllByText(
-        t('care.warningAvoid', { name: label(QUESTION_IDS.avoid, 'fragrance_essential_oils') }),
-      ).length,
-    ).toBe(2);
+    // the rows only say that there are warnings; the texts are in the modal of each step
+    expect(screen.getAllByText(t('care.hasWarnings'))).toHaveLength(2);
+    for (const name of ['Очищення', 'Зволоження']) {
+      openDetails(name);
+      const dialog = within(screen.getByRole('dialog'));
+      expect(
+        dialog.getByText(
+          t('care.warningReaction', { name: label(QUESTION_IDS.reactions, 'acids') }),
+        ),
+      ).toBeInTheDocument();
+      expect(
+        dialog.getByText(
+          t('care.warningAvoid', { name: label(QUESTION_IDS.avoid, 'fragrance_essential_oils') }),
+        ),
+      ).toBeInTheDocument();
+      closeDetails();
+    }
   });
 
   it('T5a: the doctor banner is on top with the text from content, no optional step', () => {
@@ -275,16 +292,23 @@ describe('personas on the screen', () => {
   it('with the real content (no texts yet) every step says "being prepared" and nothing is invented', () => {
     setup({ bundle: real.bundle, prepare: (s) => savedProfile(s, PERSONAS.T1) });
     choose('none');
-    // purpose and components of each of the 3 steps
-    expect(screen.getAllByText(t('common.contentPending'))).toHaveLength(6);
+    // purpose and components of each of the 3 steps, in the modal of each
+    for (const name of ['Очищення', 'Зволоження', 'Сонцезахист']) {
+      openDetails(name);
+      expect(
+        within(screen.getByRole('dialog')).getAllByText(t('common.contentPending')),
+      ).toHaveLength(2);
+      closeDetails();
+    }
     openTab('care.tabPm');
     expect(screen.queryByText(t('stepStatus.optional'))).not.toBeInTheDocument();
   });
 
   it('the components to look for are named by the content', () => {
     built(PERSONAS.T1);
-    // only the cleanser has components in the fixture
-    expect(screen.getByText(GROUP.nameUk)).toBeInTheDocument();
+    // only the cleanser has components in the fixture; they are in its modal
+    openDetails('Очищення');
+    expect(within(screen.getByRole('dialog')).getByText(GROUP.nameUk)).toBeInTheDocument();
   });
 });
 
@@ -293,16 +317,22 @@ describe('editing', () => {
 
   it('moves a step with the buttons, the first cannot go up and the last cannot go down', () => {
     const { store } = built(PERSONAS.T1);
+    openDetails('Очищення');
     expect(
       screen.getByRole('button', { name: t('care.moveUpLabel', { name: 'Очищення' }) }),
     ).toBeDisabled();
+    closeDetails();
+    openDetails('Сонцезахист');
     expect(
       screen.getByRole('button', { name: t('care.moveDownLabel', { name: 'Сонцезахист' }) }),
     ).toBeDisabled();
+    closeDetails();
 
+    openDetails('Очищення');
     fireEvent.click(
       screen.getByRole('button', { name: t('care.moveDownLabel', { name: 'Очищення' }) }),
     );
+    closeDetails();
     expect(am(store)?.steps.map((s) => s.category)).toEqual([
       'moisturizer',
       'cleanser',
@@ -313,6 +343,7 @@ describe('editing', () => {
 
   it('removes a step', () => {
     const { store } = built(PERSONAS.T1);
+    openDetails('Зволоження');
     fireEvent.click(
       screen.getByRole('button', { name: t('care.removeLabel', { name: 'Зволоження' }) }),
     );
@@ -359,6 +390,7 @@ describe('editing', () => {
 
   it('a rebuild asks first and then puts the routine back as the profile says', () => {
     const { store } = built(PERSONAS.T1);
+    openDetails('Зволоження');
     fireEvent.click(
       screen.getByRole('button', { name: t('care.removeLabel', { name: 'Зволоження' }) }),
     );
@@ -371,6 +403,7 @@ describe('editing', () => {
 
   it('a rebuild can be cancelled', () => {
     const { store } = built(PERSONAS.T1);
+    openDetails('Зволоження');
     fireEvent.click(
       screen.getByRole('button', { name: t('care.removeLabel', { name: 'Зволоження' }) }),
     );
@@ -393,7 +426,8 @@ describe('editing', () => {
 });
 
 describe('"done today"', () => {
-  const checkbox = () => screen.getAllByRole('checkbox', { name: t('care.doneToday') });
+  const checkbox = () =>
+    screen.getAllByRole('checkbox', { name: (label) => label.startsWith(t('care.doneToday')) });
 
   it('marks a step, counts the steps and saves the mark', () => {
     const { store } = built(PERSONAS.T1);

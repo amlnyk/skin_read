@@ -32,6 +32,21 @@
 
 .facts {
   display: grid;
+  gap: var(--space-3);
+}
+
+.warningsTitle {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.warnings {
+  padding-left: var(--space-5);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
   gap: var(--space-2);
 }
 

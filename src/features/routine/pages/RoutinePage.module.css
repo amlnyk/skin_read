@@ -49,3 +49,10 @@
   display: grid;
   gap: var(--space-2);
 }
+
+/* the links to products and to the analysis sit side by side and wrap when they do not fit */
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+}

@@ -28,6 +28,11 @@ function setup(
 
 const searchBox = () => screen.getByRole('searchbox', { name: t('reference.searchLabel') });
 const search = (query: string) => fireEvent.change(searchBox(), { target: { value: query } });
+// the ingredient names are rows; a tap on a row opens the card in a modal
+const rows = () =>
+  screen.queryAllByRole('button').filter((item) => item.getAttribute('aria-haspopup') === 'dialog');
+const rowNamed = (name: string) =>
+  screen.getByRole('button', { name: (label) => label.startsWith(name) });
 const cards = () => screen.queryAllByRole('article');
 
 describe('ReferencePage: the screen', () => {
@@ -59,9 +64,9 @@ describe('ReferencePage: the screen', () => {
     expect(
       screen.getByRole('heading', { name: t('reference.ungroupedTitle') }),
     ).toBeInTheDocument();
-    expect(
-      screen.getByRole('heading', { level: 3, name: "Пом'якшувальний екстракт" }),
-    ).toBeInTheDocument();
+    expect(rowNamed("Пом'якшувальний екстракт")).toBeInTheDocument();
+    // the cards are not on the page until a name is tapped
+    expect(cards()).toHaveLength(0);
   });
 });
 
@@ -71,10 +76,12 @@ describe('ReferencePage: search', () => {
     (query) => {
       setup();
       search(query);
-      const found = cards();
+      const found = rows();
       expect(found).toHaveLength(1);
+      expect(found[0]).toHaveTextContent('Ніацинамід');
+      fireEvent.click(found[0]!);
       expect(
-        within(found[0]!).getByRole('heading', { level: 3, name: 'Ніацинамід' }),
+        within(screen.getByRole('dialog')).getByRole('heading', { level: 2, name: 'Ніацинамід' }),
       ).toBeInTheDocument();
     },
   );
@@ -82,16 +89,16 @@ describe('ReferencePage: search', () => {
   it('finds a word with an apostrophe typed in any way', () => {
     setup();
     search('помякшувальний');
-    expect(cards()).toHaveLength(1);
+    expect(rows()).toHaveLength(1);
     search('ПОМ’ЯКШУВАЛЬНИЙ');
-    expect(cards()).toHaveLength(1);
+    expect(rows()).toHaveLength(1);
   });
 
   it('a query that is not in the base gives the empty state "Нічого не знайдено"', () => {
     setup();
     search('щось неіснуюче');
     expect(screen.getByRole('status')).toHaveTextContent(t('reference.nothingFound'));
-    expect(cards()).toHaveLength(0);
+    expect(rows()).toHaveLength(0);
   });
 
   it('shows how many records were found and finds a group by its name', () => {
@@ -99,8 +106,8 @@ describe('ReferencePage: search', () => {
     search('жирні');
     expect(screen.getByText(t('reference.resultCount', { count: 1 }))).toBeInTheDocument();
     expect(screen.getByText('Жирні спирти', { selector: 'summary span' })).toBeInTheDocument();
-    // a found group is not expanded into cards: the cards that match are listed on their own
-    expect(cards()).toHaveLength(0);
+    // a found group is not expanded: the ingredients that match are listed on their own
+    expect(rows()).toHaveLength(0);
   });
 
   it('clearing the query brings back the groups', () => {
@@ -119,16 +126,114 @@ describe('ReferencePage: search', () => {
         .map((option) => option.textContent),
     ).toEqual([t('reference.categoryAll'), 'Активний компонент', 'Емолент', 'Розчинник']);
     fireEvent.change(select, { target: { value: 'Емолент' } });
-    expect(cards()).toHaveLength(1);
-    expect(
-      screen.getByRole('heading', { level: 3, name: 'Цетеариловий спирт' }),
-    ).toBeInTheDocument();
+    expect(rows()).toHaveLength(1);
+    expect(rows()[0]).toHaveTextContent('Цетеариловий спирт');
     expect(
       screen.queryByRole('heading', { name: t('reference.groupsTitle') }),
     ).not.toBeInTheDocument();
 
     search('ніацинамід');
     expect(screen.getByText(t('reference.nothingFound'))).toBeInTheDocument();
+  });
+});
+
+describe('ReferencePage: quick filter by group', () => {
+  const chip = (name: string) =>
+    within(screen.getByRole('group', { name: t('reference.groupFilterLabel') })).getByRole(
+      'button',
+      {
+        name,
+      },
+    );
+
+  it('has a chip for "Усі", for every named group and for the ingredients without a group', () => {
+    setup();
+    const bar = screen.getByRole('group', { name: t('reference.groupFilterLabel') });
+    const names = within(bar)
+      .getAllByRole('button')
+      .map((button) => button.textContent);
+    expect(names[0]).toBe(t('reference.groupFilterAll'));
+    expect(names).toContain('Ніацинамід');
+    expect(names).toContain('Жирні спирти');
+    expect(names[names.length - 1]).toBe(t('reference.groupFilterUngrouped'));
+    expect(chip(t('reference.groupFilterAll'))).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  it('a chosen group shows only that group, open, with its cards', () => {
+    setup();
+    fireEvent.click(chip('Ніацинамід'));
+    expect(chip('Ніацинамід')).toHaveAttribute('aria-pressed', 'true');
+    expect(
+      screen.queryByText('Жирні спирти', { selector: 'summary span' }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('heading', { name: t('reference.ungroupedTitle') }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByText('Ніацинамід', { selector: 'summary span' }).closest('details'),
+    ).toHaveAttribute('open');
+    expect(rows()).toHaveLength(1);
+  });
+
+  it('"Інші" shows only the ingredients without a group, "Усі" brings everything back', () => {
+    setup();
+    fireEvent.click(chip(t('reference.groupFilterUngrouped')));
+    expect(
+      screen.getByRole('heading', { name: t('reference.ungroupedTitle') }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('heading', { name: t('reference.groupsTitle') }),
+    ).not.toBeInTheDocument();
+
+    fireEvent.click(chip(t('reference.groupFilterAll')));
+    expect(screen.getByRole('heading', { name: t('reference.groupsTitle') })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: t('reference.ungroupedTitle') }),
+    ).toBeInTheDocument();
+  });
+
+  it('is hidden while searching', () => {
+    setup();
+    search('niacinamide');
+    expect(
+      screen.queryByRole('group', { name: t('reference.groupFilterLabel') }),
+    ).not.toBeInTheDocument();
+  });
+});
+
+describe('ReferencePage: the card of an ingredient opens in a modal', () => {
+  it('a tap on a name opens the card with that name as the title', () => {
+    setup();
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    fireEvent.click(rowNamed("Пом'якшувальний екстракт"));
+    const dialog = screen.getByRole('dialog');
+    expect(
+      within(dialog).getByRole('heading', { level: 2, name: "Пом'якшувальний екстракт" }),
+    ).toBeInTheDocument();
+    expect(within(dialog).getAllByRole('article')).toHaveLength(1);
+  });
+
+  it('closes with the button and with Escape, and shows one card at a time', () => {
+    setup();
+    fireEvent.click(rowNamed("Пом'якшувальний екстракт"));
+    fireEvent.click(
+      within(screen.getByRole('dialog')).getByRole('button', { name: t('reference.closeCard') }),
+    );
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+
+    fireEvent.click(rowNamed("Пом'якшувальний екстракт"));
+    fireEvent.keyDown(document, { key: 'Escape' });
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+
+  it('the card of a group member opens from inside the open group', () => {
+    setup();
+    // the chip of the group opens it; the group has one ingredient
+    fireEvent.click(screen.getByRole('button', { name: 'Ніацинамід' }));
+    fireEvent.click(rows()[0]!);
+    expect(
+      within(screen.getByRole('dialog')).getByRole('heading', { level: 2, name: 'Ніацинамід' }),
+    ).toBeInTheDocument();
   });
 });
 
@@ -141,7 +246,10 @@ describe('ReferencePage: groups and cards', () => {
     const fatty = groupOf('Жирні спирти');
     // `hidden: true`: the groups are closed <details>, their content is there but not on screen
     const heading = (scope: HTMLElement, name: string) =>
-      within(scope).queryByRole('heading', { level: 3, name, hidden: true });
+      within(scope).queryByRole('button', {
+        name: (label) => label.startsWith(name),
+        hidden: true,
+      });
     expect(heading(denatured, 'Спирт денатурований')).toBeInTheDocument();
     expect(heading(denatured, 'Цетеариловий спирт')).not.toBeInTheDocument();
     expect(heading(fatty, 'Цетеариловий спирт')).toBeInTheDocument();
@@ -150,6 +258,7 @@ describe('ReferencePage: groups and cards', () => {
   it('a card shows every field of the spec, with the source and the known interactions by name', () => {
     setup();
     search('niacinamide');
+    fireEvent.click(rows()[0]!);
     const card = within(cards()[0]!);
     for (const key of [
       'reference.inci',
@@ -176,12 +285,13 @@ describe('ReferencePage: groups and cards', () => {
   it('missing texts say "Інформація готується", and the card is not marked good or bad', () => {
     setup();
     search('pending ingredient');
+    fireEvent.click(rows()[0]!);
     const card = cards()[0]!;
-    expect(within(card).getByRole('heading', { level: 3 })).toHaveTextContent(
+    expect(within(screen.getByRole('dialog')).getByRole('heading', { level: 2 })).toHaveTextContent(
       t('common.contentPending'),
     );
-    // name, synonyms, category, purpose, properties, cautions, usage, interactions
-    expect(within(card).getAllByText(t('common.contentPending'))).toHaveLength(8);
+    // synonyms, category, purpose, properties, cautions, usage, interactions
+    expect(within(card).getAllByText(t('common.contentPending'))).toHaveLength(7);
     // facts only: no inline colours on the card
     expect(card.querySelectorAll('[style]')).toHaveLength(0);
   });
@@ -206,9 +316,12 @@ describe('ReferencePage: the real content', () => {
   it('a card from the table: empty explanations say they are being prepared, a draft says so', () => {
     setup(real.bundle);
     search('niacinamide');
+    fireEvent.click(rows()[0]!);
     const [card] = cards();
     expect(card).toBeDefined();
-    expect(within(card!).getByRole('heading', { level: 3 })).toHaveTextContent('Ніацинамід');
+    expect(within(screen.getByRole('dialog')).getByRole('heading', { level: 2 })).toHaveTextContent(
+      'Ніацинамід',
+    );
     expect(within(card!).getByText('Niacinamide')).toBeInTheDocument();
     const item = real.bundle.ingredients.find((entry) => entry.inci === 'Niacinamide')!;
     if (item.reviewStatus !== 'verified') {
@@ -225,9 +338,9 @@ describe('ReferencePage: the real content', () => {
   it('the search finds a component by INCI or synonym, and says when nothing is found', () => {
     setup(real.bundle);
     search('Cetearyl Alcohol');
-    expect(cards().length).toBeGreaterThan(0);
+    expect(rows().length).toBeGreaterThan(0);
     search('Ceramide 3');
-    expect(within(cards()[0]!).getByRole('heading', { level: 3 })).toHaveTextContent('Церамід NP');
+    expect(rows()[0]).toHaveTextContent('Церамід NP');
     search('ніацинамід');
     expect(screen.getByText('Ніацинамід', { selector: 'summary span' })).toBeInTheDocument();
     search('no such component xyz');

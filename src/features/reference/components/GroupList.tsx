@@ -1,25 +1,27 @@
 import { t } from '@/i18n';
 import { ingredientsOfGroup } from '@/logic/inci';
 import type { Ingredient, IngredientGroup } from '@/schemas';
-import { IngredientCard } from './IngredientCard';
+import { IngredientList } from './IngredientList';
 import styles from './GroupList.module.css';
 
 type Props = {
   groups: readonly IngredientGroup[];
   ingredients: readonly Ingredient[];
-  /** Show the cards of the group's ingredients. Search results turn this off: the found cards are listed apart. */
+  /** Show the ingredients of the group. Search results turn this off: the found cards are listed apart. */
   withMembers?: boolean;
+  /** Open every group at once. Used when a single group was picked in the filter. */
+  open?: boolean;
 };
 
 // The groups, each one opens to its description and the cards of its ingredients.
-export function GroupList({ groups, ingredients, withMembers = true }: Props) {
+export function GroupList({ groups, ingredients, withMembers = true, open = false }: Props) {
   return (
     <ul className={styles.list}>
       {groups.map((group) => {
         const members = ingredientsOfGroup(group.id, { ingredients });
         return (
           <li key={group.id}>
-            <details className={styles.group}>
+            <details className={styles.group} open={open}>
               <summary className={styles.summary}>
                 <span>{group.nameUk ?? t('common.contentPending')}</span>
                 <span className={styles.count}>
@@ -29,9 +31,7 @@ export function GroupList({ groups, ingredients, withMembers = true }: Props) {
               <div className={styles.body}>
                 <p>{group.description ?? t('common.contentPending')}</p>
                 {!withMembers ? null : members.length > 0 ? (
-                  members.map((ingredient) => (
-                    <IngredientCard key={ingredient.id} ingredient={ingredient} all={ingredients} />
-                  ))
+                  <IngredientList ingredients={members} all={ingredients} />
                 ) : (
                   <p className={styles.empty}>{t('reference.groupEmpty')}</p>
                 )}

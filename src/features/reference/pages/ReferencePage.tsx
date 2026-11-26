@@ -6,10 +6,12 @@ import { categoriesOf, searchGroups, searchIngredients, ungroupedIngredients } f
 import { LIMITS } from '@/schemas';
 import { EducationPlaceholder } from '../components/EducationPlaceholder';
 import { GroupList } from '../components/GroupList';
-import { IngredientCard } from '../components/IngredientCard';
+import { IngredientList } from '../components/IngredientList';
 import styles from './ReferencePage.module.css';
 
 type Tab = 'components' | 'education';
+
+const UNGROUPED = '__ungrouped__';
 
 const TABS: readonly { id: Tab; labelKey: MessageKey }[] = [
   { id: 'components', labelKey: 'reference.tabComponents' },
@@ -27,6 +29,8 @@ export function ReferencePage() {
   const [tab, setTab] = useState<Tab>('components');
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('');
+  // '' = all groups, UNGROUPED = the ingredients without a group, otherwise a group id
+  const [view, setView] = useState('');
 
   const categories = useMemo(() => categoriesOf(bundle), [bundle]);
   const searching = query.trim() !== '' || category !== '';
@@ -40,6 +44,13 @@ export function ReferencePage() {
     [searching, query, bundle, category],
   );
   const ungrouped = useMemo(() => ungroupedIngredients(bundle), [bundle]);
+  // the quick filter lists only groups that have a name; a nameless one stays in "Усі"
+  const namedGroups = useMemo(
+    () => bundle.ingredientGroups.filter((item) => item.nameUk !== null),
+    [bundle],
+  );
+  const pickedGroup = bundle.ingredientGroups.find((item) => item.id === view) ?? null;
+  const showAll = pickedGroup === null && view !== UNGROUPED;
 
   const found = foundIngredients.length + foundGroups.length;
   const hasAnything = bundle.ingredientGroups.length + bundle.ingredients.length > 0;
@@ -110,6 +121,44 @@ export function ReferencePage() {
               </div>
             ) : null}
 
+            {!searching && namedGroups.length > 0 ? (
+              <div
+                role="group"
+                aria-label={t('reference.groupFilterLabel')}
+                className={styles.chips}
+              >
+                <button
+                  type="button"
+                  aria-pressed={showAll}
+                  className={showAll ? `${styles.chip} ${styles.chipOn}` : styles.chip}
+                  onClick={() => setView('')}
+                >
+                  {t('reference.groupFilterAll')}
+                </button>
+                {namedGroups.map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    aria-pressed={view === item.id}
+                    className={view === item.id ? `${styles.chip} ${styles.chipOn}` : styles.chip}
+                    onClick={() => setView(item.id)}
+                  >
+                    {item.nameUk}
+                  </button>
+                ))}
+                {ungrouped.length > 0 ? (
+                  <button
+                    type="button"
+                    aria-pressed={view === UNGROUPED}
+                    className={view === UNGROUPED ? `${styles.chip} ${styles.chipOn}` : styles.chip}
+                    onClick={() => setView(UNGROUPED)}
+                  >
+                    {t('reference.groupFilterUngrouped')}
+                  </button>
+                ) : null}
+              </div>
+            ) : null}
+
             {searching ? (
               found === 0 ? (
                 <div role="status" className={styles.empty}>
@@ -134,13 +183,7 @@ export function ReferencePage() {
                   {foundIngredients.length > 0 ? (
                     <section className={styles.section}>
                       <h2>{t('reference.resultsTitle')}</h2>
-                      {foundIngredients.map((ingredient) => (
-                        <IngredientCard
-                          key={ingredient.id}
-                          ingredient={ingredient}
-                          all={bundle.ingredients}
-                        />
-                      ))}
+                      <IngredientList ingredients={foundIngredients} all={bundle.ingredients} />
                     </section>
                   ) : null}
                 </div>
@@ -150,22 +193,27 @@ export function ReferencePage() {
                 {bundle.ingredients.length === 0 ? (
                   <p className={styles.hint}>{t('reference.noIngredientsYet')}</p>
                 ) : null}
-                {bundle.ingredientGroups.length > 0 ? (
+                {pickedGroup !== null ? (
+                  <section className={styles.section}>
+                    <h2>{t('reference.groupsTitle')}</h2>
+                    <GroupList
+                      key={pickedGroup.id}
+                      groups={[pickedGroup]}
+                      ingredients={bundle.ingredients}
+                      open
+                    />
+                  </section>
+                ) : null}
+                {showAll && bundle.ingredientGroups.length > 0 ? (
                   <section className={styles.section}>
                     <h2>{t('reference.groupsTitle')}</h2>
                     <GroupList groups={bundle.ingredientGroups} ingredients={bundle.ingredients} />
                   </section>
                 ) : null}
-                {ungrouped.length > 0 ? (
+                {(showAll || view === UNGROUPED) && ungrouped.length > 0 ? (
                   <section className={styles.section}>
                     <h2>{t('reference.ungroupedTitle')}</h2>
-                    {ungrouped.map((ingredient) => (
-                      <IngredientCard
-                        key={ingredient.id}
-                        ingredient={ingredient}
-                        all={bundle.ingredients}
-                      />
-                    ))}
+                    <IngredientList ingredients={ungrouped} all={bundle.ingredients} />
                   </section>
                 ) : null}
               </div>
