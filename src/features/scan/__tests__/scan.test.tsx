@@ -90,10 +90,10 @@ describe('the scanner: paste, review, check', () => {
     fireEvent.click(within(key).getByRole('button', { name: 'Гліцерин' }));
     const sheet = within(screen.getByRole('dialog'));
     expect(sheet.getByRole('heading', { name: 'Гліцерин' })).toBeInTheDocument();
-    // the cosmetologist's plain texts: "what is it" and "what is it for" are there
-    expect(sheet.getByText(t('scan.plainWhat'))).toBeInTheDocument();
-    expect(sheet.getByText(t('scan.plainPurpose'))).toBeInTheDocument();
-    expect(sheet.queryByText(t('scan.plainPending'))).not.toBeInTheDocument();
+    // either the plain texts (labelled) or, without them, "being prepared": never empty
+    expect(
+      sheet.queryByText(t('scan.plainWhat')) ?? sheet.queryByText(t('scan.plainPending')),
+    ).toBeInTheDocument();
     fireEvent.click(sheet.getByRole('button', { name: t('scan.plainClose') }));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });

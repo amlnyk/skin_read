@@ -116,6 +116,8 @@ describe('importSheets: components', () => {
       groups: ['test_acids'],
       category: null,
       purpose: null,
+      plainWhat: null,
+      plainCaution: null,
       properties: [],
       cautions: [],
       usage: null,
