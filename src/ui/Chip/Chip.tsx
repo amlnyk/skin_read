@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import styles from './Chip.module.css';
 
 type Props = {
@@ -29,6 +30,10 @@ export function Chip({
   description,
   appearance = 'card',
 }: Props) {
+  // The name is the title only; the description is read as a description.
+  const id = useId();
+  const labelId = `${id}-label`;
+  const descriptionId = `${id}-description`;
   const className = [styles.chip, styles[appearance], selected ? styles.selected : '']
     .filter(Boolean)
     .join(' ');
@@ -41,9 +46,17 @@ export function Chip({
         value={value}
         checked={selected}
         onChange={onChange}
+        aria-labelledby={labelId}
+        aria-describedby={description ? descriptionId : undefined}
       />
-      <span className={styles.label}>{label}</span>
-      {description ? <span className={styles.description}>{description}</span> : null}
+      <span id={labelId} className={styles.label}>
+        {label}
+      </span>
+      {description ? (
+        <span id={descriptionId} className={styles.description}>
+          {description}
+        </span>
+      ) : null}
       <span
         className={`${styles.control} ${kind === 'radio' ? styles.radio : styles.checkbox}`}
         aria-hidden="true"

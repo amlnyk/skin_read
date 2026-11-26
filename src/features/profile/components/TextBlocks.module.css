@@ -7,3 +7,37 @@
   display: grid;
   gap: var(--space-1);
 }
+
+.block p {
+  color: var(--color-text-secondary);
+}
+
+.recommendations {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-muted);
+}
+
+.recommendations h4 {
+  margin: 0;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-caption);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.recommendations ul {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding-left: var(--space-4);
+}
+
+.recommendations li {
+  font-size: var(--font-size-link);
+  line-height: 1.4;
+}

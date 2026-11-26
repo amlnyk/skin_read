@@ -2,27 +2,27 @@
   "items": [
     {
       "id": "condition-dehydrated",
-      "source": "content/source/message.txt, розділ 10, «Структура бази результатів»",
+      "source": "Figma skin_read, тексти авторки (вузол 23:460 «Результати аналізу»), 2026-11-26; content/source/message.txt, розділ 10, «Структура бази результатів»",
       "reviewStatus": "draft",
       "condition": "dehydrated",
       "nameUk": "Зневоднена",
-      "description": null
+      "description": "Спостерігається дефіцит води у роговому шарі, часто при нормальній або жирній секреції себуму."
     },
     {
       "id": "condition-sensitive",
-      "source": "content/source/message.txt, розділ 10, «Структура бази результатів»",
+      "source": "Figma skin_read, тексти авторки (вузол 23:460 «Результати аналізу»), 2026-11-26; content/source/message.txt, розділ 10, «Структура бази результатів»",
       "reviewStatus": "draft",
       "condition": "sensitive",
       "nameUk": "Чутлива",
-      "description": null
+      "description": "Відзначається підвищена реактивність нейросенсорних рецепторів і порушений бар’єр."
     },
     {
       "id": "condition-reactive",
-      "source": "content/source/message.txt, розділ 10, «Структура бази результатів»",
+      "source": "Figma skin_read, тексти авторки (вузол 23:460 «Результати аналізу»), 2026-11-26; content/source/message.txt, розділ 10, «Структура бази результатів»",
       "reviewStatus": "draft",
       "condition": "reactive",
       "nameUk": "Реактивна",
-      "description": null
+      "description": "Відзначається підвищена реактивність нейросенсорних рецепторів і порушений бар’єр."
     },
     {
       "id": "condition-combination",
@@ -34,35 +34,35 @@
     },
     {
       "id": "condition-breakouts",
-      "source": "content/source/message.txt, розділ 10, «Структура бази результатів»",
+      "source": "Figma skin_read, тексти авторки (вузол 23:460 «Результати аналізу»), 2026-11-26; content/source/message.txt, розділ 10, «Структура бази результатів»",
       "reviewStatus": "draft",
       "condition": "breakouts",
       "nameUk": "З висипаннями / запаленнями",
-      "description": null
+      "description": "Спостерігається гіперкератоз, дисбаланс мікробіому та підвищена секреція себуму."
     },
     {
       "id": "condition-pigmentation",
-      "source": "content/source/message.txt, розділ 10, «Структура бази результатів»",
+      "source": "Figma skin_read, тексти авторки (вузол 23:460 «Результати аналізу»), 2026-11-26; content/source/message.txt, розділ 10, «Структура бази результатів»",
       "reviewStatus": "draft",
       "condition": "pigmentation",
       "nameUk": "З пігментацією / постакне",
-      "description": null
+      "description": "Порушення рівномірності синтезу меланіну або залишкові постзапальні сліди (PIH, PIE)."
     },
     {
       "id": "condition-aging_signs",
-      "source": "content/source/message.txt, розділ 10, «Структура бази результатів»",
+      "source": "Figma skin_read, тексти авторки (вузол 23:460 «Результати аналізу»), 2026-11-26; content/source/message.txt, розділ 10, «Структура бази результатів»",
       "reviewStatus": "draft",
       "condition": "aging_signs",
       "nameUk": "З ознаками вікових змін",
-      "description": null
+      "description": "Відбувається зниження синтезу колагену, еластину, гіалуронової кислоти та ліпідів."
     },
     {
       "id": "condition-stable",
-      "source": "content/source/message.txt, розділ 10, «Структура бази результатів»",
+      "source": "Figma skin_read, тексти авторки (вузол 23:460 «Результати аналізу»), 2026-11-26; content/source/message.txt, розділ 10, «Структура бази результатів»",
       "reviewStatus": "draft",
       "condition": "stable",
       "nameUk": "Стабільна",
-      "description": null
+      "description": "Має добру бар’єрну функцію, низьку реактивність і рівномірну секрецію себуму."
     }
   ]
 }

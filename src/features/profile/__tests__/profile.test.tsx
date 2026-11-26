@@ -90,8 +90,12 @@ describe('ResultPage', () => {
     expect(
       screen.getByRole('heading', { name: 'Жирна або схильна до жирності' }),
     ).toBeInTheDocument();
-    // the spec has no descriptions yet: the type and the condition both say so
-    expect(screen.getAllByText(t('common.contentPending')).length).toBeGreaterThanOrEqual(2);
+    // the type has its description and recommendations from content (author's Figma texts)
+    const oily = content.bundle.skinTypes.find((item) => item.baseType === 'oily');
+    expect(screen.getByText(oily?.description ?? '')).toBeInTheDocument();
+    expect(
+      screen.getAllByRole('heading', { name: t('profile.recommendationsTitle') }).length,
+    ).toBeGreaterThanOrEqual(1);
     expect(
       screen.getByText(optionLabel(questions, 'q3_goals', 'reduce_breakouts')),
     ).toBeInTheDocument();

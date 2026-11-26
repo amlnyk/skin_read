@@ -164,13 +164,15 @@ describe('exclusive options and free text', () => {
   it('question 4: "No" clears "Retinoids", then "Acids" clears "No"', () => {
     const { store } = setup();
     prefill(store, 'q4_reactions', { ...REQUIRED_DONE, q4_reactions: [] });
-    choose('checkbox', 'Ретиноїди');
+    choose('checkbox', 'Так, на ретиноїди (ретинол, ретиналь, третиноїн)');
     choose('checkbox', 'Ні, не помічала(-в)');
-    expect(screen.getByRole('checkbox', { name: 'Ретиноїди' })).not.toBeChecked();
+    expect(
+      screen.getByRole('checkbox', { name: 'Так, на ретиноїди (ретинол, ретиналь, третиноїн)' }),
+    ).not.toBeChecked();
     expect(screen.getByRole('checkbox', { name: 'Ні, не помічала(-в)' })).toBeChecked();
     expect(store.getState().testDraft.answers.q4_reactions).toEqual(['none_noticed']);
 
-    choose('checkbox', 'Кислоти AHA, BHA, PHA');
+    choose('checkbox', 'Так, на кислоти (AHA, BHA, PHA)');
     expect(screen.getByRole('checkbox', { name: 'Ні, не помічала(-в)' })).not.toBeChecked();
     expect(store.getState().testDraft.answers.q4_reactions).toEqual(['acids']);
   });
@@ -180,7 +182,7 @@ describe('exclusive options and free text', () => {
     prefill(store, 'q3_goals', {});
     expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
 
-    choose('checkbox', 'Інше');
+    choose('checkbox', 'Інше (вкажи своє)');
     const field = screen.getByRole('textbox', { name: t('test.otherLabel') });
     fireEvent.change(field, { target: { value: 'Свій варіант' } });
     expect(store.getState().testDraft.answers['q3_goals:other:text']).toBe('Свій варіант');
@@ -189,7 +191,7 @@ describe('exclusive options and free text', () => {
     expect(store.getState().testDraft.answers).not.toHaveProperty('q3_goals:other:text');
 
     fireEvent.change(field, { target: { value: 'Ще раз' } });
-    choose('checkbox', 'Інше'); // deselected
+    choose('checkbox', 'Інше (вкажи своє)'); // deselected
     expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
     expect(store.getState().testDraft.answers).not.toHaveProperty('q3_goals:other:text');
   });
@@ -215,8 +217,10 @@ describe('question 6.1 and the effects', () => {
     expect(
       screen.getByRole('checkbox', { name: 'Поява або посилення висипань' }),
     ).toBeInTheDocument();
-    // the wording of this question is not in the supplied materials: it is shown as pending
-    expect(screen.getByRole('heading', { name: t('common.contentPending') })).toBeInTheDocument();
+    // the question has its own title now (written at the author's request), not "pending"
+    expect(
+      screen.queryByRole('heading', { name: t('common.contentPending') }),
+    ).not.toBeInTheDocument();
     back();
     expect(screen.getByRole('checkbox', { name: 'Так, перед менструацією' })).toBeChecked();
   });

@@ -105,12 +105,22 @@ describe('questionnaire.json', () => {
     expect(byId(QUESTION_IDS.conditions).options.some((o) => o.proposed)).toBe(false);
   });
 
-  it('texts that are not in the supplied materials are null, never invented', () => {
-    // descriptions of the question 1 options are still to come from the cosmetologist
-    expect(byId(QUESTION_IDS.baseType).options.every((o) => o.description === null)).toBe(true);
-    expect(byId(QUESTION_IDS.cycleEffects).text).toBeNull();
-    expect(byId(QUESTION_IDS.safetyFlags).text).toBeNull();
-    expect(byId(QUESTION_IDS.ageBand).text).toBeNull();
+  it("option descriptions come only from the author's Figma texts", () => {
+    for (const question of questions) {
+      if (question.options.some((o) => o.description !== null)) {
+        expect(question.source, question.id).toContain('Figma skin_read');
+      }
+    }
+    // the "not sure" option is not in Figma, so it has no description
+    const unsure = byId(QUESTION_IDS.baseType).options.find((o) => o.id === 'unsure');
+    expect(unsure?.description).toBeNull();
+  });
+
+  it("question titles written at the author's request say so in the source", () => {
+    for (const id of [QUESTION_IDS.cycleEffects, QUESTION_IDS.safetyFlags, QUESTION_IDS.ageBand]) {
+      expect(byId(id).text).toBeTruthy();
+      expect(byId(id).source).toContain('на прохання авторки');
+    }
   });
 
   it('only options that have a text field are flagged hasText ("Other")', () => {

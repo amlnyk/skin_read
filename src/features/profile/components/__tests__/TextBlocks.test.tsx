@@ -40,4 +40,25 @@ describe('TextBlocks', () => {
     );
     expect(screen.getByText(t('common.contentPending'))).toBeInTheDocument();
   });
+
+  it('lists the recommendations of the block, one point per line', () => {
+    const recommendations = [
+      {
+        id: 'rec-oily',
+        source: 'test',
+        reviewStatus: 'draft' as const,
+        target: { baseTypes: ['oily' as const], conditions: [] },
+        title: 'rec title',
+        text: 'point one\npoint two',
+      },
+    ];
+    render(
+      <TextBlocks
+        blocks={[{ kind: 'skin_type', key: 'oily', contentId: 'type-oily' }]}
+        content={{ ...content, recommendations }}
+      />,
+    );
+    expect(screen.getByRole('heading', { name: 'rec title' })).toBeInTheDocument();
+    expect(screen.getAllByRole('listitem')).toHaveLength(2);
+  });
 });

@@ -223,6 +223,7 @@ export const uk = {
   },
   profile: {
     resultTitle: 'Твій профіль шкіри',
+    recommendationsTitle: 'Рекомендації',
     doctorBannerTitle: 'Спершу порадься з лікарем',
     emergencyHeading: 'Екстрена допомога',
     emergencyNumberLabel: 'Номер екстреної допомоги',
