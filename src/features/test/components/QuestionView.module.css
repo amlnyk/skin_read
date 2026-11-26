@@ -85,9 +85,18 @@
   padding: var(--space-2) var(--space-2) var(--space-3);
 }
 
+/* The buttons stay at the bottom of the screen: after a short list they sit at the bottom of
+   the sheet, in a long list they float over the answers while scrolling. The sheet's own bottom
+   padding is taken over by the footer (negative bottom), so nothing shows under it. */
 .footer {
+  position: sticky;
+  bottom: calc(-1 * (var(--space-6) + env(safe-area-inset-bottom)));
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  padding: var(--space-5) var(--space-2) 0;
+  margin: auto calc(-1 * var(--space-3)) calc(-1 * (var(--space-6) + env(safe-area-inset-bottom)));
+  padding: var(--space-5) calc(var(--space-2) + var(--space-3))
+    calc(var(--space-6) + env(safe-area-inset-bottom));
+  background: linear-gradient(to bottom, transparent, var(--color-surface) var(--space-5));
 }

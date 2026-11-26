@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import styles from './Background.module.css';
 
 /** Blob layouts copied from the "фон" groups of the Figma frames. */
-export type BackgroundVariant = 'splash' | 'welcome' | 'sheet' | 'analysis';
+export type BackgroundVariant = 'splash' | 'welcome' | 'sheet' | 'analysis' | 'result';
 
 type Props = {
   variant: BackgroundVariant;

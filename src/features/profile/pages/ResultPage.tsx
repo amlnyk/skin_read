@@ -4,15 +4,24 @@ import { disclaimer } from '@/content';
 import { t, type MessageKey } from '@/i18n';
 import { useServices } from '@/lib/services';
 import type { ProfileNote } from '@/logic/profile';
+import { buildBaseRoutine } from '@/logic/routine';
 import { QUESTION_IDS, SAFETY_MESSAGE_IDS, safetyNoteId } from '@/schemas';
 import { useAppStore } from '@/store';
-import { Background, Button, DoctorBanner, MedicalDisclaimer } from '@/ui';
+import type { Mode } from '@/types';
+import { BackButton, Background, Button, DoctorBanner, MedicalDisclaimer, Modal } from '@/ui';
 import { EmergencyScreen } from '../components/EmergencyScreen';
 import { TextBlocks } from '../components/TextBlocks';
 import { ValueGroup } from '../components/ValueGroup';
 import { groupValues, restrictionValues } from '../utils/describeProfile';
 import { useProfileBuilder } from '../hooks/useProfileBuilder';
 import { optionLabel } from '../utils/labels';
+import {
+  avoidChips,
+  lookForChips,
+  pluralForm,
+  recommendationsFor,
+  splitTypeName,
+} from '../utils/resultSummary';
 import styles from './ResultPage.module.css';
 
 // Service notes: the ids come from the algorithm, the interface texts from i18n.
@@ -22,12 +31,43 @@ const NOTE_KEYS: Record<ProfileNote, MessageKey> = {
   suggest_cycle_diary: 'profile.noteSuggestCycleDiary',
 };
 
-// Shown after the test: the proposed profile. It is saved only when the user confirms it.
+// "Головне зараз" follows the mode of the profile (the order of the algorithm).
+const PRIORITY_KEYS: Record<Mode, MessageKey> = {
+  emergency: 'profile.priorityDoctor',
+  see_doctor: 'profile.priorityDoctor',
+  barrier_first: 'profile.priorityBarrier',
+  standard: 'profile.priorityStandard',
+};
+
+const STEP_KEYS = {
+  one: 'profile.stepsOne',
+  few: 'profile.stepsFew',
+  many: 'profile.stepsMany',
+} as const satisfies Record<string, MessageKey>;
+
+function Chevron() {
+  return (
+    <svg className={styles.chevron} viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+      <path
+        d="m6 3.5 4.5 4.5L6 12.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+// Shown after the test (Figma "result"): the proposed profile as a short summary; the full texts
+// open in a sheet. It is saved only when the user confirms it.
 export function ResultPage() {
   const { content } = useServices();
   const { built, confirm } = useProfileBuilder();
   const navigate = useNavigate();
   const [acknowledged, setAcknowledged] = useState(false);
+  const [details, setDetails] = useState(false);
   const careScenario = useAppStore((state) => state.careSetup.scenario);
 
   if (!built) return <Navigate to="/test" replace />;
@@ -50,42 +90,135 @@ export function ResultPage() {
   const typeBlocks = analysis.textBlocks.filter((block) => block.kind === 'skin_type');
   const conditionBlocks = analysis.textBlocks.filter((block) => block.kind === 'condition');
   const restrictions = restrictionValues(profile, analysis.restrictions, questions);
+  const recommendations = recommendationsFor(analysis.textBlocks, bundle.recommendations);
+  const lookFor = lookForChips(
+    recommendations,
+    analysis.restrictions.reactions,
+    analysis.minorMode,
+  );
+  const avoid = avoidChips(restrictions, recommendations);
+
+  const typeName =
+    (profile.baseType &&
+      bundle.skinTypes.find((item) => item.baseType === profile.baseType)?.nameUk) ??
+    optionLabel(questions, QUESTION_IDS.baseType, profile.baseType ?? 'unsure');
+  const [typeMain, typeRest] = splitTypeName(typeName);
+
+  const routines = buildBaseRoutine(profile, analysis, [], bundle).routines;
+  const stepCount = (slot: 'am' | 'pm') =>
+    routines.find((routine) => routine.slot === slot)?.steps.length ?? 0;
+  const stepsText = (slot: 'am' | 'pm') => {
+    const count = stepCount(slot);
+    return t(STEP_KEYS[pluralForm(count)], { count });
+  };
 
   const onConfirm = () => {
     confirm();
     // The first confirmed profile leads to the question about the care the user already has.
     navigate(careScenario === null ? '/care' : '/profile');
   };
+  const openRoutine = () => {
+    confirm();
+    navigate('/care');
+  };
+
+  const isDoctorMode = analysis.mode === 'see_doctor' || analysis.mode === 'emergency';
+  const hasNotes =
+    analysis.notes.length > 0 || analysis.contradictions.length > 0 || analysis.minorMode;
 
   return (
-    <Background variant="sheet">
+    <Background variant="result" animated>
       <main className={styles.page}>
-        {analysis.mode === 'see_doctor' || analysis.mode === 'emergency' ? (
-          <DoctorBanner message={messageText(SAFETY_MESSAGE_IDS.seeDoctor)} />
-        ) : null}
-        <h1>{t('profile.resultTitle')}</h1>
+        <BackButton onClick={() => navigate('/')} label={t('profile.back')} />
 
-        <section className={styles.section}>
-          <h2>{t('profile.typeTitle')}</h2>
-          <TextBlocks blocks={typeBlocks} content={bundle} />
-        </section>
-        {conditionBlocks.length > 0 ? (
-          <section className={styles.section}>
-            <h2>{t('profile.conditionsTitle')}</h2>
-            <TextBlocks blocks={conditionBlocks} content={bundle} />
+        <header className={styles.header}>
+          <h1 className={styles.caption}>{t('profile.resultTitle')}</h1>
+          <h2 className={styles.type}>
+            <span className={styles.typeMain}>{typeMain}</span>
+            {typeRest ? (
+              <>
+                {' '}
+                <span className={styles.typeRest}>{typeRest}</span>
+              </>
+            ) : null}
+          </h2>
+        </header>
+
+        {isDoctorMode ? <DoctorBanner message={messageText(SAFETY_MESSAGE_IDS.seeDoctor)} /> : null}
+
+        <button type="button" className={styles.priority} onClick={() => setDetails(true)}>
+          <span className={styles.priorityHead}>
+            <span className={styles.priorityLabel}>{t('profile.priorityLabel')}</span>
+            <Chevron />
+          </span>
+          <span className={styles.priorityText}>{t(PRIORITY_KEYS[analysis.mode])}</span>
+        </button>
+
+        {profile.conditions.length > 0 ? (
+          <section className={styles.card} aria-labelledby="result-states">
+            <h3 id="result-states" className={styles.cardTitle}>
+              {t('profile.statesTitle')}
+            </h3>
+            <ul className={styles.chips}>
+              {profile.conditions.map((condition) => (
+                <li key={condition} className={styles.stateChip}>
+                  <span className={`${styles.dot} ${styles[`dot_${condition}`]}`} />
+                  {optionLabel(questions, QUESTION_IDS.conditions, condition)}
+                </li>
+              ))}
+            </ul>
           </section>
         ) : null}
 
-        <ValueGroup
-          title={t('profile.goalsTitle')}
-          values={groupValues('goals', profile, questions)}
-        />
-        <ValueGroup title={t('profile.restrictionsTitle')} values={restrictions} />
+        <div className={styles.routines}>
+          {(['am', 'pm'] as const).map((slot) => (
+            <button key={slot} type="button" className={styles.routine} onClick={openRoutine}>
+              <span className={styles.routineHead}>
+                <span className={`${styles.dot} ${slot === 'am' ? styles.dotAm : styles.dotPm}`} />
+                <Chevron />
+              </span>
+              <span className={styles.routineTitle}>
+                {slot === 'am' ? t('profile.morning') : t('profile.evening')}
+              </span>
+              <span className={styles.routineMeta}>{stepsText(slot)}</span>
+            </button>
+          ))}
+        </div>
+
+        {lookFor.length > 0 ? (
+          <section className={styles.card} aria-labelledby="result-look-for">
+            <h3 id="result-look-for" className={styles.cardTitle}>
+              {t('profile.lookForTitle')}
+            </h3>
+            <ul className={styles.chips}>
+              {lookFor.map((label) => (
+                <li key={label} className={styles.lookChip}>
+                  {label}
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
+
+        {avoid.length > 0 ? (
+          <section className={styles.avoidCard} aria-labelledby="result-avoid">
+            <h3 id="result-avoid" className={styles.avoidTitle}>
+              {t('profile.avoidTitle')}
+            </h3>
+            <ul className={styles.chips}>
+              {avoid.map((label) => (
+                <li key={label} className={styles.avoidChip}>
+                  {label}
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
 
         {analysis.restrictions.medicalNotes.length > 0 ? (
-          <section className={styles.section}>
-            <h2>{t('profile.medicalTitle')}</h2>
-            <ul>
+          <section className={styles.card}>
+            <h3 className={styles.cardTitle}>{t('profile.medicalTitle')}</h3>
+            <ul className={styles.list}>
               {analysis.restrictions.medicalNotes.map((flag) => (
                 <li key={flag}>
                   <strong>{optionLabel(questions, QUESTION_IDS.safetyFlags, flag)}</strong>
@@ -96,10 +229,10 @@ export function ResultPage() {
           </section>
         ) : null}
 
-        {analysis.notes.length > 0 || analysis.contradictions.length > 0 || analysis.minorMode ? (
-          <section className={styles.section}>
-            <h2>{t('profile.notesTitle')}</h2>
-            <ul>
+        {hasNotes ? (
+          <section className={styles.card}>
+            <h3 className={styles.cardTitle}>{t('profile.notesTitle')}</h3>
+            <ul className={styles.list}>
               {analysis.contradictions.length > 0 ? (
                 <li>{t('profile.contradictionNote')}</li>
               ) : null}
@@ -111,11 +244,42 @@ export function ResultPage() {
           </section>
         ) : null}
 
-        <MedicalDisclaimer text={disclaimer.text} />
+        <div className={styles.footnote}>
+          <MedicalDisclaimer text={disclaimer.text} />
+        </div>
         <Button fullWidth onClick={onConfirm}>
           {t('profile.confirm')}
         </Button>
       </main>
+
+      {details ? (
+        <Modal
+          title={t('profile.detailsTitle')}
+          onClose={() => setDetails(false)}
+          actions={
+            <Button fullWidth variant="secondary" onClick={() => setDetails(false)}>
+              {t('profile.close')}
+            </Button>
+          }
+        >
+          <div className={styles.details}>
+            <section className={styles.detailsSection}>
+              <h3>{t('profile.typeTitle')}</h3>
+              <TextBlocks blocks={typeBlocks} content={bundle} />
+            </section>
+            {conditionBlocks.length > 0 ? (
+              <section className={styles.detailsSection}>
+                <h3>{t('profile.conditionsTitle')}</h3>
+                <TextBlocks blocks={conditionBlocks} content={bundle} />
+              </section>
+            ) : null}
+            <ValueGroup
+              title={t('profile.goalsTitle')}
+              values={groupValues('goals', profile, questions)}
+            />
+          </div>
+        </Modal>
+      ) : null}
     </Background>
   );
 }

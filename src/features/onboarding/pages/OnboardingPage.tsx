@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { t } from '@/i18n';
 import { useAppStore } from '@/store';
@@ -21,6 +21,18 @@ export function OnboardingPage() {
   const isFirst = index === 0;
   const isLast = index === STEPS.length - 1;
 
+  // The note about accounts disappears by itself after a few seconds.
+  useEffect(() => {
+    if (!loginNote) return;
+    const timer = window.setTimeout(() => setLoginNote(false), 3500);
+    return () => window.clearTimeout(timer);
+  }, [loginNote]);
+
+  const goTo = (next: number) => {
+    setLoginNote(false);
+    setIndex(next);
+  };
+
   const start = () => {
     complete();
     navigate('/test', { replace: true });
@@ -33,7 +45,7 @@ export function OnboardingPage() {
           {isFirst ? (
             <Logo variant="compact" label={t('brand.name')} />
           ) : (
-            <BackButton onClick={() => setIndex(index - 1)} label={t('onboarding.back')} />
+            <BackButton onClick={() => goTo(index - 1)} label={t('onboarding.back')} />
           )}
           <p className={isFirst ? styles.srOnly : styles.stepLabel}>
             {t('onboarding.stepLabel', { current: index + 1, total: STEPS.length })}
@@ -52,11 +64,11 @@ export function OnboardingPage() {
           ) : null}
           {isFirst ? (
             <>
-              <Button fullWidth onClick={() => setIndex(1)}>
+              <Button fullWidth onClick={() => goTo(1)}>
                 {t('onboarding.begin')}
               </Button>
               {/* Accounts come later (decision 2026-11-26): the button is kept from the design. */}
-              <Button fullWidth variant="secondary" onClick={() => setLoginNote(true)}>
+              <Button fullWidth variant="secondary" onClick={() => setLoginNote((shown) => !shown)}>
                 <span className={styles.loginQuestion}>{t('onboarding.loginQuestion')}</span>
                 <span className={styles.loginAction}>{t('onboarding.loginAction')}</span>
               </Button>
@@ -66,7 +78,7 @@ export function OnboardingPage() {
               {t('onboarding.start')}
             </Button>
           ) : (
-            <Button fullWidth onClick={() => setIndex(index + 1)}>
+            <Button fullWidth onClick={() => goTo(index + 1)}>
               {t('onboarding.next')}
             </Button>
           )}

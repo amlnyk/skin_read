@@ -79,6 +79,18 @@ export const skinRecommendationSchema = z.object({
   }),
   title: text,
   text,
+  // short chip labels taken from the text: what to look for in the composition. A label tied
+  // to a reaction group is hidden for people who reported a reaction to that group.
+  lookFor: z
+    .array(
+      z.object({
+        label: z.string().min(1).max(LIMITS.shortText),
+        reactionGroup: reactionGroupSchema.nullable(),
+      }),
+    )
+    .default([]),
+  // short chip labels taken from the text: what to avoid for now
+  avoid: z.array(z.string().min(1).max(LIMITS.shortText)).default([]),
 });
 export type SkinRecommendation = z.infer<typeof skinRecommendationSchema>;
 

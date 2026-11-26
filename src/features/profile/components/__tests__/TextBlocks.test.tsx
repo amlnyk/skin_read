@@ -50,6 +50,8 @@ describe('TextBlocks', () => {
         target: { baseTypes: ['oily' as const], conditions: [] },
         title: 'rec title',
         text: 'point one\npoint two',
+        lookFor: [],
+        avoid: [],
       },
     ];
     render(
