@@ -26,15 +26,26 @@ describe('visibility rules of the real questionnaire', () => {
     expect(withEffects.indexOf('q6_1_effects')).toBe(withEffects.indexOf('q6_1_cycle') + 1);
   });
 
-  it('6.1 is shown to everyone, whatever the sex answer is', () => {
-    for (const sex of ['female', 'male', 'other_or_undisclosed']) {
+  it('6.1 is hidden for "male" and shown for the other answers and a skipped sex', () => {
+    for (const sex of ['female', 'other_or_undisclosed']) {
       expect(ids({ q6_sex: sex })).toContain('q6_1_cycle');
     }
     expect(ids({})).toContain('q6_1_cycle');
+    expect(ids({ q6_sex: 'male' })).not.toContain('q6_1_cycle');
+    expect(ids({ q6_sex: 'male', q6_1_cycle: ['pre_menstrual'] })).not.toContain('q6_1_effects');
   });
 
-  it('only the effects question depends on another question', () => {
-    expect(questions.filter((q) => q.showIf).map((q) => q.id)).toEqual(['q6_1_effects']);
+  it('pregnancy stays in the safety question for everyone', () => {
+    const safety = question('q9_safety_flags');
+    expect(safety.options.map((o) => o.id)).toContain('pregnancy_or_planning');
+    expect(ids({ q6_sex: 'male' })).toContain('q9_safety_flags');
+  });
+
+  it('only the cycle questions depend on another question', () => {
+    expect(questions.filter((q) => q.showIf).map((q) => q.id)).toEqual([
+      'q6_1_cycle',
+      'q6_1_effects',
+    ]);
   });
 });
 
