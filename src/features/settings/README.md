@@ -3,7 +3,6 @@
 Налаштування, нагадування, згоди, керування даними (етап 10).
 
 - `/profile/settings`: `SettingsPage` (які поля щоденника показувати; посилання на три підсторінки).
-- `/profile/settings/reminders`: `RemindersPage` (лише перемикачі й час; реальних сповіщень ще немає).
 - `/profile/settings/consents`: `ConsentsPage` (згода на фото: видно й можна відкликати).
 - `/profile/settings/data`: `DataPage`: «Які дані зберігаються», експорт у JSON, імпорт з перевіркою,
   видалення категорій (`utils/dataCategories.ts`) і «Видалити все».

@@ -187,16 +187,12 @@ describe('ResultPage', () => {
     expect(screen.getByText(t('profile.noteTypeUnsureRetest'))).toBeInTheDocument();
   });
 
-  it('T5a: the doctor banner is on top, with the text from content', () => {
+  it('T5a: no separate doctor banner on the result (the main card says it)', () => {
     setup('/test/result', 'demo', (s) => {
       finish(s, PERSONAS.T5a);
     });
-    const banner = screen.getByRole('alert');
-    expect(within(banner).getByText(t('profile.doctorBannerTitle'))).toBeInTheDocument();
-    expect(
-      within(banner).getByText(messageText(SAFETY_MESSAGE_IDS.seeDoctor) as string),
-    ).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: t('profile.resultTitle') })).toBeInTheDocument();
+    expect(screen.queryByText(t('profile.doctorBannerTitle'))).not.toBeInTheDocument();
   });
 
   it('T5b: only the emergency message and the number, until the user confirms', () => {
@@ -218,7 +214,6 @@ describe('ResultPage', () => {
 
     fireEvent.click(screen.getByRole('button', { name: t('profile.emergencyAck') }));
     expect(screen.getByRole('heading', { name: t('profile.resultTitle') })).toBeInTheDocument();
-    expect(screen.getByText(t('profile.doctorBannerTitle'))).toBeInTheDocument();
   });
 
   it('T5b with only approved content: the number is still there, the text says "being prepared"', () => {

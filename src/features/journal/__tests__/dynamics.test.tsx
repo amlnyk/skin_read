@@ -25,7 +25,7 @@ const TEN: JournalEntry[] = [1, 2, 4, 5, 7, 9, 12, 14, 17, 20].map((days, index)
 );
 
 const open = (journal: JournalEntry[], extra: Parameters<typeof renderApp>[1] = {}) =>
-  renderApp('/profile/journal', { persona: PERSONAS.T4, journal, now: APP_NOW, ...extra });
+  renderApp('/journal', { persona: PERSONAS.T4, journal, now: APP_NOW, ...extra });
 
 describe('the calendar', () => {
   it('is not shown while the journal is empty', async () => {

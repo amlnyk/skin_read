@@ -17,9 +17,6 @@ export function CollectionPage() {
       <Link to="/care/products/new" className={styles.linkButton}>
         {t('products.add')}
       </Link>
-      <Link to="/care/compare" className={styles.linkButton}>
-        {t('compare.link')}
-      </Link>
       {products.length === 0 ? <p>{t('products.empty')}</p> : null}
       <ul className={styles.list}>
         {products.map((product) => (

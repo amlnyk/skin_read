@@ -6,6 +6,7 @@ import { answersFromProfile } from '@/logic/profile';
 import { QUESTION_IDS } from '@/schemas';
 import { useAppStore, useAppStoreApi } from '@/store';
 import { Button, Modal } from '@/ui';
+import { AccountCard } from '../components/AccountCard';
 import { ValueGroup } from '../components/ValueGroup';
 import { groupValues, PROFILE_GROUPS, type ProfileGroup } from '../utils/describeProfile';
 import styles from './ProfilePage.module.css';
@@ -27,6 +28,7 @@ export function ProfilePage() {
     return (
       <section className={styles.page}>
         <h1>{t('nav.profile')}</h1>
+        <AccountCard />
         <p>{t('profile.empty')}</p>
         <Link to="/test">{t('profile.startTest')}</Link>
         <nav className={styles.links} aria-label={t('profile.moreLabel')}>
@@ -79,6 +81,7 @@ export function ProfilePage() {
   return (
     <section className={styles.page}>
       <h1>{t('nav.profile')}</h1>
+      <AccountCard />
       <p className={styles.updated}>
         {t('profile.updatedAt', { date: new Date(profile.updatedAt).toLocaleDateString('uk-UA') })}
       </p>
@@ -97,8 +100,6 @@ export function ProfilePage() {
       ))}
 
       <nav className={styles.links} aria-label={t('profile.moreLabel')}>
-        <Link to="/profile/journal">{t('profile.journalLink')}</Link>
-        <Link to="/profile/history">{t('scan.history')}</Link>
         <Link to="/profile/settings">{t('profile.settingsLink')}</Link>
         <Link to="/profile/about">{t('profile.aboutLink')}</Link>
         <Link to="/profile/privacy">{t('profile.privacyLink')}</Link>

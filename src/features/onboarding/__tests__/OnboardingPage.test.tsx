@@ -12,6 +12,7 @@ function setup() {
     [
       { path: '/onboarding', element: <OnboardingPage /> },
       { path: '/test', element: <p>test screen</p> },
+      { path: '/login', element: <p>login screen</p> },
     ],
     { initialEntries: ['/onboarding'] },
   );
@@ -74,5 +75,11 @@ describe('OnboardingPage', () => {
     fireEvent.click(screen.getByRole('button', { name: t('onboarding.start') }));
     expect(store.getState().onboarding.completed).toBe(true);
     expect(router.state.location.pathname).toBe('/test');
+  });
+
+  it('"Увійти" opens the login screen', () => {
+    const { router } = setup();
+    fireEvent.click(screen.getByRole('button', { name: new RegExp(t('onboarding.loginAction')) }));
+    expect(router.state.location.pathname).toBe('/login');
   });
 });

@@ -187,14 +187,15 @@ src/content/data/version.json (semver і дата), показується на 
 застосунок». Зміна контенту піднімає версію і записується в CHANGELOG.md.
 
 ## 8. Маршрути
-/ (головна), /onboarding, /test, /result, /care, /care/analysis,
-/care/collection, /care/collection/add, /care/needs, /scan, /scan/review,
-/scan/result/:id, /compat, /profile,
-/profile/journal, /profile/history, /profile/settings, /compare, /about,
-/privacy, /dev/state (лише dev).
+/ («Сьогодні»), /journal (календар), /onboarding, /login, /test, /result,
+/care, /care/analysis, /care/collection, /care/collection/add, /care/needs,
+/scan, /scan/review, /scan/result/:id, /scan/history, /profile,
+/profile/settings, /about, /privacy, /dev/state (лише dev).
+Порівняння засобів, окрема перевірка сумісності й нагадування прибрані
+(decisions.md, 2026-11-26).
 Guards: онбординг (якщо не завершено, редірект на /onboarding); профіль
 потрібен для /care, /scan; блокування екрана emergency до підтвердження.
-Важкі фічі (scan, journal, compare, compat) завантажуються lazy
+Важкі фічі (scan, journal) завантажуються lazy
 (React.lazy, окремі чанки).
 
 ## 9. Помилки, логи, конфіг

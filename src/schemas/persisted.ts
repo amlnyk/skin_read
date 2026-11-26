@@ -11,7 +11,9 @@ import { testDraftSchema } from './test';
 // Everything that is saved to localStorage under 'skinbarrier:v1'.
 // Photos never go here (localStorage is about 5 MB): they use IndexedDB at a later stage.
 export const persistedStateSchema = z.object({
-  onboarding: z.object({ completed: z.boolean() }),
+  // accountEmail: the local account (decision 2026-11-26). Optional, so older saves stay valid.
+  // The password is never saved.
+  onboarding: z.object({ completed: z.boolean(), accountEmail: z.string().max(254).optional() }),
   testDraft: testDraftSchema,
   profile: skinProfileSchema.nullable(),
   careSetup: careSetupSchema,

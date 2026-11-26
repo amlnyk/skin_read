@@ -1,0 +1,78 @@
+.card {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.title {
+  font-size: var(--font-size-md);
+}
+
+.count {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-link);
+}
+
+.list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list li + li {
+  border-top: 1px solid var(--color-divider);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--tap-target);
+  padding: var(--space-2) 0;
+  cursor: pointer;
+}
+
+.box {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  accent-color: var(--color-purple);
+}
+
+.text {
+  display: grid;
+}
+
+/* The line is a background drawn from left to right, so it can be animated. */
+.name {
+  width: fit-content;
+  background-image: linear-gradient(var(--color-purple), var(--color-purple));
+  background-position: 0 55%;
+  background-repeat: no-repeat;
+  background-size: 0% 2px;
+  transition:
+    background-size 0.35s ease,
+    color 0.35s ease;
+}
+
+.struck {
+  background-size: 100% 2px;
+  color: var(--color-text-secondary);
+}
+
+.product {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-link);
+}

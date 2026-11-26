@@ -14,7 +14,6 @@ const BRAND = 'javascript:alert(1)';
 const COMPOSITION = 'Aqua, Glycerin, Panthenol, <script>alert(1)</script>, Squalane';
 
 const evil = productOf('p-evil', NAME, COMPOSITION, { brand: BRAND });
-const plain = productOf('p-plain', 'Plain Cream', 'Aqua, Glycerin, Squalane');
 
 function expectNothingInjected() {
   expect(document.querySelector('script')).toBeNull();
@@ -37,19 +36,6 @@ describe('attacks through the text of a product (A.6: 9, 10, 11)', () => {
     renderApp('/care/products/p-evil', { products: [evil] });
     expect(await screen.findByRole('heading', { name: NAME })).toBeInTheDocument();
     expect(screen.getByText(BRAND).closest('a')).toBeNull();
-    expectNothingInjected();
-  });
-
-  it('the compare screen shows the name as text', async () => {
-    renderApp('/care/compare', { persona: PERSONAS.T2, products: [evil, plain] });
-    await screen.findByRole('heading', { name: t('compare.title') });
-    fireEvent.change(screen.getByLabelText(t('compare.firstLabel')), {
-      target: { value: 'p:p-evil' },
-    });
-    fireEvent.change(screen.getByLabelText(t('compare.secondLabel')), {
-      target: { value: 'p:p-plain' },
-    });
-    expect((await screen.findAllByText(NAME)).length).toBeGreaterThan(0);
     expectNothingInjected();
   });
 

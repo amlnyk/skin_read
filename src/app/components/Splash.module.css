@@ -1,9 +1,10 @@
-/* Covers the app for 3 s, then fades in 0.5 s and stops catching taps. */
+/* Covers the app for 4.3 s, then fades in 0.5 s and stops catching taps (the author asked for
+   a calm, several times slower logo animation). */
 .splash {
   position: fixed;
   inset: 0;
   z-index: 50;
-  animation: splash-out 0.5s ease 3s forwards;
+  animation: splash-out 0.5s ease 4.3s forwards;
 }
 
 .inner {
@@ -16,7 +17,45 @@
 
 /* The logo comes out of a soft blur, rising a little. */
 .logo {
-  animation: logo-in 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) 0.35s both;
+  position: relative;
+  animation: logo-in 1.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s both;
+}
+
+/* The purple bar of the logo (x 131-273, y 47-51 in the 284 x 76 mark): it sweeps down and up
+   over "read" inside the corner frame, then stops where the logo has it. */
+.scanBar {
+  position: absolute;
+  left: calc(131 / 284 * 100%);
+  width: calc(142 / 284 * 100%);
+  height: calc(4 / 76 * 100%);
+  border-radius: 2px;
+  background: var(--color-purple);
+  box-shadow: 0 0 12px var(--color-purple);
+  animation: scan 3s ease-in-out 1.2s both;
+}
+
+@keyframes scan {
+  0% {
+    top: 12%;
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  45% {
+    top: 84%;
+  }
+
+  75% {
+    top: 12%;
+  }
+
+  100% {
+    top: calc(47 / 76 * 100%);
+    box-shadow: none;
+  }
 }
 
 @keyframes logo-in {

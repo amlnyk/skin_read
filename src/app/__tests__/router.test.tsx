@@ -28,12 +28,9 @@ describe('app routes', () => {
     ['/scan/photo', 'scan.photoTitle'], // lazy chunk
     ['/care/products', 'products.title'], // lazy chunk
     ['/care/products/new', 'products.addTitle'], // lazy chunk
-    ['/care/compare', 'compare.title'], // lazy chunk
-    ['/profile/history', 'scan.historyTitle'], // lazy chunk
-    ['/compat', 'compat.title'], // lazy chunk
-    ['/profile/journal', 'journal.title'], // lazy chunk
+    ['/scan/history', 'scan.historyTitle'], // lazy chunk
+    ['/journal', 'journal.title'], // lazy chunk
     ['/profile/settings', 'settings.title'], // lazy chunk
-    ['/profile/settings/reminders', 'settings.remindersTitle'], // lazy chunk
     ['/profile/settings/consents', 'settings.consentsTitle'], // lazy chunk
     ['/profile/settings/data', 'settings.dataTitle'], // lazy chunk
     ['/profile/about', 'about.title'], // lazy chunk
@@ -52,11 +49,6 @@ describe('app routes', () => {
     expect(await screen.findByRole('heading', { name: t('notFound.title') })).toBeInTheDocument();
     fireEvent.click(screen.getByRole('link', { name: t('notFound.toHome') }));
     expect(await screen.findByRole('heading', { name: t('nav.home') })).toBeInTheDocument();
-  });
-
-  it('shows the medical disclaimer on the home page', async () => {
-    renderAt('/');
-    expect(await screen.findByRole('note', { name: t('disclaimer.label') })).toBeInTheDocument();
   });
 
   it('onboarding leads through three steps to the test and is remembered in the store', async () => {
