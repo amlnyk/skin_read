@@ -9,6 +9,8 @@ export const INGREDIENT_COLUMNS = {
   groups: 'Групи',
   category: 'Категорія',
   purpose: 'Для чого',
+  plainWhat: 'Що це простими словами',
+  plainCaution: 'На що зважити простими словами',
   properties: 'Властивості',
   caution1: 'Застереження 1',
   caution1For: 'Застереження 1: для станів',

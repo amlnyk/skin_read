@@ -67,10 +67,7 @@ describe('CompatCheckerPage: the screen', () => {
   it('has the title, a link back and an explanation', () => {
     setup();
     expect(screen.getByRole('heading', { level: 1, name: t('compat.title') })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: t('compat.back') })).toHaveAttribute(
-      'href',
-      '/reference',
-    );
+    expect(screen.getByRole('link', { name: t('compat.back') })).toHaveAttribute('href', '/scan');
     expect(screen.getByText(t('compat.intro'))).toBeInTheDocument();
   });
 

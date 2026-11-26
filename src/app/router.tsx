@@ -9,7 +9,7 @@ import { OnboardingGuard } from './guards/OnboardingGuard';
 import { Layout } from './components/Layout';
 import { NotFoundPage } from './pages/NotFoundPage';
 
-// Heavy features are loaded on demand (separate chunks): scan, reference, compat.
+// Heavy features are loaded on demand (separate chunks): scan, compat.
 // The journal, the compare screen and the settings load on demand too.
 const ScanPage = lazy(() => import('@/features/scan').then((m) => ({ default: m.ScanPage })));
 const PastePage = lazy(() => import('@/features/scan').then((m) => ({ default: m.PastePage })));
@@ -30,9 +30,6 @@ const AddProductPage = lazy(() =>
 );
 const ProductPage = lazy(() =>
   import('@/features/products').then((m) => ({ default: m.ProductPage })),
-);
-const ReferencePage = lazy(() =>
-  import('@/features/reference').then((m) => ({ default: m.ReferencePage })),
 );
 const CompatCheckerPage = lazy(() =>
   import('@/features/compat').then((m) => ({ default: m.CompatCheckerPage })),
@@ -133,8 +130,7 @@ export const appRoutes: RouteObject[] = [
           { path: 'scan/review', element: <ReviewPage /> },
           { path: 'scan/check/:productId', element: <CheckProductPage /> },
           { path: 'scan/result/:id', element: <ScanResultPage /> },
-          { path: 'reference', element: <ReferencePage /> },
-          { path: 'reference/compat', element: <CompatCheckerPage /> },
+          { path: 'compat', element: <CompatCheckerPage /> },
           { path: 'profile', element: <ProfilePage /> },
           { path: 'profile/history', element: <HistoryPage /> },
           { path: 'profile/journal', element: <JournalPage /> },

@@ -189,12 +189,12 @@ src/content/data/version.json (semver і дата), показується на 
 ## 8. Маршрути
 / (головна), /onboarding, /test, /result, /care, /care/analysis,
 /care/collection, /care/collection/add, /care/needs, /scan, /scan/review,
-/scan/result/:id, /reference, /reference/:id, /reference/compat, /profile,
+/scan/result/:id, /compat, /profile,
 /profile/journal, /profile/history, /profile/settings, /compare, /about,
 /privacy, /dev/state (лише dev).
 Guards: онбординг (якщо не завершено, редірект на /onboarding); профіль
 потрібен для /care, /scan; блокування екрана emergency до підтвердження.
-Важкі фічі (scan, journal, compare, reference) завантажуються lazy
+Важкі фічі (scan, journal, compare, compat) завантажуються lazy
 (React.lazy, окремі чанки).
 
 ## 9. Помилки, логи, конфіг

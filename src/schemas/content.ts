@@ -30,6 +30,11 @@ export const ingredientSchema = z.object({
   usage: text,
   knownInteractions: z.array(idSchema),
   supports: z.array(z.string().max(LIMITS.shortText)),
+  // Plain words for ordinary people, shown when a component of a scanned product is tapped:
+  // "what is it" and "what to keep in mind". "What is it for" is `purpose`. Written by the
+  // cosmetologist (decision 2026-11-26); missing means "being prepared".
+  plainWhat: text.optional(),
+  plainCaution: text.optional(),
 });
 export type Ingredient = z.infer<typeof ingredientSchema>;
 

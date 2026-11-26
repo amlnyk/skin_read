@@ -12,7 +12,6 @@ const tabs: readonly Tab[] = [
   { to: '/', labelKey: 'nav.home', end: true, icon: 'home' },
   { to: '/care', labelKey: 'nav.care', end: false, icon: 'care' },
   { to: '/scan', labelKey: 'nav.scan', end: false, icon: 'scan' },
-  { to: '/reference', labelKey: 'nav.reference', end: false, icon: 'reference' },
   { to: '/profile', labelKey: 'nav.profile', end: false, icon: 'profile' },
 ];
 
