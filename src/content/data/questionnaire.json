@@ -488,11 +488,7 @@
       ],
       "showIf": {
         "questionId": "q6_1_cycle",
-        "anyOf": [
-          "pre_menstrual",
-          "during_menstrual",
-          "other_phase"
-        ]
+        "anyOf": ["pre_menstrual", "during_menstrual", "other_phase"]
       }
     },
     {
