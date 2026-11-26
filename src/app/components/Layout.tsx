@@ -38,7 +38,10 @@ export function Layout() {
                     isActive ? `${styles.link} ${styles.active}` : styles.link
                   }
                 >
-                  {t(tab.labelKey)}
+                  <span className={styles.icon}>
+                    <TabIcon name={tab.icon} />
+                  </span>
+                  <span className={styles.label}>{t(tab.labelKey)}</span>
                 </NavLink>
               </li>
             ))}
