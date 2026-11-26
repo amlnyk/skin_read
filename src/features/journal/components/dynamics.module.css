@@ -12,7 +12,7 @@
   padding: var(--space-3);
   border-radius: var(--radius-md);
   background: var(--color-notice-bg);
-  font-weight: 700;
+  font-weight: var(--font-weight-semibold);
 }
 
 .lines {
@@ -32,7 +32,7 @@
 
 .monthTitle {
   padding: var(--space-2) 0;
-  font-weight: 700;
+  font-weight: var(--font-weight-semibold);
   text-align: center;
 }
 
@@ -74,7 +74,7 @@
   background: var(--color-surface);
   color: var(--color-text);
   font: inherit;
-  font-weight: 700;
+  font-weight: var(--font-weight-semibold);
 }
 
 .dayButton[aria-pressed='true'] {
@@ -110,7 +110,7 @@
 .chart {
   width: 100%;
   height: auto;
-  color: var(--color-primary);
+  color: var(--color-link);
 }
 
 .grid {

@@ -1,56 +1,115 @@
-/* Temporary design tokens in the spirit of iOS (light, grouped lists, system font).
-   They will be replaced by the author's design from Figma: change the values here, not in modules.
+/* Design tokens of Skinread, taken from the Figma file "skin_read" and the author's design brief.
+   The design system is still in progress: change values here, never in modules.
    This is the only file allowed to contain raw color values.
+   Every token and its origin is listed in docs/design/DESIGN_SYSTEM.md.
    Contrast is checked by src/styles/__tests__/tokens.test.ts (text 4.5:1, controls 3:1). */
 :root {
   color-scheme: light;
 
+  /* palette from the brief (Figma variables: black, purple) */
+  --color-black: #0b0b0c;
+  --color-white: #ffffff;
+  --color-purple: #7b61ff; /* brand, radio dot, accents; not for small text */
+
   /* surfaces */
-  --color-bg: #f2f2f7; /* grouped background */
-  --color-surface: #ffffff; /* cards, lists, sheets */
-  --color-notice-bg: #e9f1fd; /* calm highlight: notes, banners */
-  --color-primary-soft: #e8f0fe; /* tinted buttons, the active tab */
-  --color-tabbar: rgb(249 249 249 / 92%); /* translucent bottom bar */
+  --color-bg: #ffffff; /* screen background, under the blurred blobs */
+  --color-surface: #ffffff; /* sheets, cards */
+  --color-surface-muted: #f3f3f1; /* brief "surface": selected row, quiet blocks */
+  --color-notice-bg: #f3f3f1; /* calm highlight: notes, banners */
+  --color-primary-soft: #f3f3f1; /* tinted buttons, the active tab */
+  --color-tabbar: rgb(255 255 255 / 92%); /* translucent bottom bar */
+  --color-glass: rgb(255 255 255 / 70%); /* back button, progress track (Figma: white 70%) */
   --color-overlay: rgb(0 0 0 / 40%);
 
   /* text */
-  --color-text: #1c1c1e;
-  --color-text-muted: #636366;
-  --color-primary: #0062cc; /* a darker system blue: 4.5:1 on every surface */
+  --color-text: #0b0b0c;
+  --color-text-secondary: #3a3a37; /* subtitles */
+  --color-text-muted: #5e5e5a; /* brief "textTertiary": option descriptions */
+  --color-link: #5a3fe0; /* brief "purpleText": links, "Обрано 3" */
+  --color-primary: #0b0b0c; /* primary button, selected state */
   --color-on-primary: #ffffff;
 
   /* lines */
-  --color-border: #e5e5ea; /* hairlines and card edges (decorative) */
-  /* Borders of interactive controls: >= 3:1 against surface and bg (WCAG 1.4.11). */
-  --color-control-border: #86868b;
-  --color-focus: #0062cc;
+  --color-border: #e6e6e3; /* brief "line" */
+  --color-divider: #efefec; /* separators inside lists */
+  /* Borders of interactive controls: >= 3:1 against white and surface-muted (WCAG 1.4.11).
+     Figma uses #cfcfcb (1.56:1); the author approved #8a8a85 on 2026-11-26. */
+  --color-control-border: #8a8a85;
+  --color-focus: #7b61ff;
 
-  --shadow-card: 0 1px 2px rgb(0 0 0 / 4%), 0 1px 1px rgb(0 0 0 / 2%);
-  --shadow-sheet: 0 -8px 30px rgb(0 0 0 / 12%);
+  /* indicators: only for marks, bars and fills, never for text */
+  --color-hydration: #3e7bfa;
+  --color-oil: #f2b33d;
+  --color-sensitivity: #ff6a4d;
 
+  /* background blobs (Figma: fill 75%, layer blur 96) */
+  --color-blob-blue: rgb(62 123 250 / 75%);
+  --color-blob-purple: rgb(123 97 255 / 75%);
+  --color-blob-coral: rgb(255 106 77 / 75%);
+  --color-veil: rgb(255 255 255 / 8%); /* the "noise" layer of the splash screen */
+  --blob-blur: 48px; /* CSS blur radius = Figma layer blur / 2 */
+
+  /* shadows */
+  --shadow-button: 0 4px 10px rgb(0 0 0 / 25%); /* Figma effect style "01" */
+  --shadow-card: 0 4px 16px rgb(0 0 0 / 6%); /* cards on the white screen, softer than the sheet */
+  --shadow-sheet: 0 4px 16px rgb(0 0 0 / 8%); /* Figma sheet: drop shadow 0 4 8, black 8% */
+  --shadow-glow: 0 0 18px 4px rgb(123 97 255 / 35%); /* analysis line */
+
+  /* spacing: rhythm of 4 (brief: 4 8 12 16 20 24 32) */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
   --space-4: 16px;
+  --space-page: 20px; /* side margins of a screen (grid "main": offset 20) */
   --space-5: 24px;
   --space-6: 32px;
+  --grid-gutter: 11px;
 
+  /* radii */
+  --radius-xs: 7px; /* checkbox */
   --radius-sm: 10px;
-  --radius-md: 14px;
+  --radius-md: 16px; /* buttons, option rows */
   --radius-lg: 20px;
+  --radius-sheet: 28px; /* top corners of a sheet */
   --radius-pill: 999px;
 
-  --font-family:
-    -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', system-ui, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-size-sm: 1rem; /* footnotes, hints: still 16px */
-  --font-size-md: 1.0625rem; /* body, 17px like iOS */
-  --font-size-lg: 1.25rem; /* section titles */
-  --font-size-xl: 1.875rem; /* large page titles */
-  --line-height: 1.45;
+  /* type: Fixel Display only, no system font as a substitute */
+  --font-family: 'Fixel Display', sans-serif;
+  --font-family-logo: 'Geologica', sans-serif;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-extrabold: 800;
 
+  /* Sizes below 16px are allowed only for secondary text (decision 2026-11-26). */
+  --font-size-caption: 0.75rem; /* 12: section labels, CAPS */
+  --font-size-footnote: 0.8125rem; /* 13: option descriptions */
+  --font-size-link: 0.9375rem; /* 15: links */
+  --font-size-sm: 1rem; /* 16 */
+  --font-size-md: 1rem; /* 16: body text, subtitles */
+  --font-size-option: 1.0625rem; /* 17: option title in a sheet row */
+  --font-size-lg: 1.25rem; /* 20: section titles in older screens */
+  --font-size-xl: 2rem; /* 32: screen title */
+  --font-size-hero: 3.25rem; /* 52: Welcome */
+  --line-height: 1.375; /* 22 / 16 */
+  --line-height-footnote: 1.385; /* 18 / 13 */
+  --line-height-title: 1.125; /* 36 / 32 */
+  --line-height-hero: 0.92;
+  --letter-spacing-title: -0.5px;
+  --font-size-display: 6rem; /* 96: analysis percent */
+  --font-size-unit: 3rem; /* 48: the percent sign */
+  --letter-spacing-caption: 1px;
+
+  /* sizes */
   --tap-target: 44px;
-  --button-height: 50px;
+  --button-height: 52px;
   --nav-height: 64px;
   --content-width: 42rem;
+  --screen-width: 393px; /* the Figma frame (iPhone 16) */
+  --control-size: 24px; /* radio in a row */
+  --checkbox-size: 22px;
+  --control-border-width: 1.5px;
+  --progress-width: 182px;
+  --progress-height: 6px;
+  --glass-blur: 10px; /* back button: backdrop blur 10 in Figma */
 }

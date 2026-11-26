@@ -4,7 +4,7 @@
 }
 
 .label {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
 }
 
 .input {
@@ -12,7 +12,7 @@
   min-height: calc(var(--tap-target) * 2);
   padding: var(--space-3);
   border: 1px solid var(--color-control-border);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   background: var(--color-surface);
   color: var(--color-text);
   resize: vertical;

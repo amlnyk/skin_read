@@ -2,7 +2,7 @@
   "items": [
     {
       "id": "q1_base_type",
-      "source": "content/source/message.txt, розділ 09",
+      "source": "Figma skin_read, тексти авторки (вузли 23:459, 27:565, 27:654), 2026-11-26; content/source/message.txt, розділ 09",
       "reviewStatus": "draft",
       "type": "single",
       "text": "Визнач свій тип шкіри",
@@ -12,7 +12,7 @@
         {
           "id": "oily",
           "label": "Жирна або схильна до жирності",
-          "description": null,
+          "description": "Помітні пори, блиск у Т-зоні або на всьому обличчі, часті висипання, схильність до комедонів.",
           "exclusive": false,
           "proposed": false,
           "hasText": false
@@ -20,7 +20,7 @@
         {
           "id": "dry",
           "label": "Суха або схильна до сухості",
-          "description": null,
+          "description": "Відчуття стягнутості, тьмяність, можуть з’являтися лущення, пори майже непомітні.",
           "exclusive": false,
           "proposed": false,
           "hasText": false
@@ -28,7 +28,7 @@
         {
           "id": "normal",
           "label": "Нормальна / резистентна",
-          "description": null,
+          "description": "Збалансована, комфортна, не реагує на більшість засобів, пори майже непомітні, шкіра рівномірна й стійка до зовнішніх факторів.",
           "exclusive": false,
           "proposed": false,
           "hasText": false
@@ -46,7 +46,7 @@
     },
     {
       "id": "q2_conditions",
-      "source": "content/source/message.txt, розділ 09",
+      "source": "Figma skin_read, тексти авторки (вузли 23:459, 27:565, 27:654), 2026-11-26; content/source/message.txt, розділ 09",
       "reviewStatus": "draft",
       "type": "multi",
       "text": "Опиши стан своєї шкіри зараз",
@@ -56,7 +56,7 @@
         {
           "id": "dehydrated",
           "label": "Зневоднена",
-          "description": null,
+          "description": "Шкіра може бути жирною, але відчувається стягнутою; дрібні зморшки, тьмяність.",
           "exclusive": false,
           "proposed": false,
           "hasText": false
@@ -64,7 +64,7 @@
         {
           "id": "sensitive",
           "label": "Чутлива",
-          "description": null,
+          "description": "Швидко реагує на нові засоби: почервоніння, поколювання або печіння.",
           "exclusive": false,
           "proposed": false,
           "hasText": false
@@ -72,7 +72,7 @@
         {
           "id": "reactive",
           "label": "Реактивна",
-          "description": null,
+          "description": "Сильне подразнення, свербіж чи висип одразу після контакту з косметикою або зовнішніми чинниками.",
           "exclusive": false,
           "proposed": false,
           "hasText": false
@@ -80,7 +80,7 @@
         {
           "id": "combination",
           "label": "Комбінована",
-          "description": null,
+          "description": "Різні ділянки поводяться по-різному: частково сухість, частково жирність або нормальні зони.",
           "exclusive": false,
           "proposed": false,
           "hasText": false
@@ -88,7 +88,7 @@
         {
           "id": "breakouts",
           "label": "З висипаннями / запаленнями",
-          "description": null,
+          "description": "Прищі, комедони, постакне.",
           "exclusive": false,
           "proposed": false,
           "hasText": false
@@ -96,7 +96,7 @@
         {
           "id": "pigmentation",
           "label": "З пігментацією",
-          "description": null,
+          "description": "Плями після сонця або запалень (PIH, PIE).",
           "exclusive": false,
           "proposed": false,
           "hasText": false
@@ -104,7 +104,7 @@
         {
           "id": "aging_signs",
           "label": "З ознаками вікових змін",
-          "description": null,
+          "description": "Знижена пружність, зморшки, тьмяність, втрата еластичності.",
           "exclusive": false,
           "proposed": false,
           "hasText": false
@@ -112,7 +112,7 @@
         {
           "id": "stable",
           "label": "Стабільна",
-          "description": null,
+          "description": "Рівний тон, без подразнень, добре переносить більшість засобів.",
           "exclusive": false,
           "proposed": false,
           "hasText": false
@@ -122,7 +122,7 @@
     },
     {
       "id": "q3_goals",
-      "source": "content/source/message.txt, розділ 09",
+      "source": "Figma skin_read, тексти авторки (вузли 23:459, 27:565, 27:654), 2026-11-26; content/source/message.txt, розділ 09",
       "reviewStatus": "draft",
       "type": "multi",
       "text": "Яка твоя головна мета у догляді?",
@@ -163,7 +163,7 @@
         },
         {
           "id": "anti_aging",
-          "label": "Антивіковий догляд",
+          "label": "Антивіковий догляд (пружність, зморшки)",
           "description": null,
           "exclusive": false,
           "proposed": false,
@@ -179,7 +179,7 @@
         },
         {
           "id": "other",
-          "label": "Інше",
+          "label": "Інше (вкажи своє)",
           "description": null,
           "exclusive": false,
           "proposed": false,
@@ -190,7 +190,7 @@
     },
     {
       "id": "q4_reactions",
-      "source": "content/source/message.txt, розділ 09",
+      "source": "Figma skin_read, тексти авторки (вузли 23:459, 27:565, 27:654), 2026-11-26; content/source/message.txt, розділ 09",
       "reviewStatus": "draft",
       "type": "multi",
       "text": "Чи є у тебе алергії або реакції на певні групи активів?",
@@ -199,7 +199,7 @@
       "options": [
         {
           "id": "acids",
-          "label": "Кислоти AHA, BHA, PHA",
+          "label": "Так, на кислоти (AHA, BHA, PHA)",
           "description": null,
           "exclusive": false,
           "proposed": false,
@@ -207,7 +207,7 @@
         },
         {
           "id": "retinoids",
-          "label": "Ретиноїди",
+          "label": "Так, на ретиноїди (ретинол, ретиналь, третиноїн)",
           "description": null,
           "exclusive": false,
           "proposed": false,
@@ -215,7 +215,7 @@
         },
         {
           "id": "fragrance_essential_oils",
-          "label": "Ефірні олії / ароматизатори",
+          "label": "Так, на ефірні олії / ароматизатори",
           "description": null,
           "exclusive": false,
           "proposed": false,
@@ -223,7 +223,7 @@
         },
         {
           "id": "preservatives_alcohol",
-          "label": "Консерванти або спирт",
+          "label": "Так, на консерванти або спирт",
           "description": null,
           "exclusive": false,
           "proposed": false,
@@ -231,7 +231,7 @@
         },
         {
           "id": "other",
-          "label": "Інші компоненти",
+          "label": "Так, на інші компоненти (вкажи які)",
           "description": null,
           "exclusive": false,
           "proposed": false,
@@ -258,7 +258,7 @@
     },
     {
       "id": "q5_avoid",
-      "source": "content/source/message.txt, розділ 09",
+      "source": "Figma skin_read, тексти авторки (вузли 23:459, 27:565, 27:654), 2026-11-26; content/source/message.txt, розділ 09",
       "reviewStatus": "draft",
       "type": "multi",
       "text": "Яких компонентів уникаєш у догляді?",
@@ -275,7 +275,7 @@
         },
         {
           "id": "sulfates",
-          "label": "Сульфати SLS/SLES",
+          "label": "Сульфати (SLS/SLES)",
           "description": null,
           "exclusive": false,
           "proposed": false,
@@ -430,10 +430,10 @@
     },
     {
       "id": "q6_1_effects",
-      "source": "content/source/message.txt, розділ 09",
+      "source": "Сформульовано Claude на прохання авторки 2026-11-26, чекає перевірки (лише текст питання); content/source/message.txt, розділ 09",
       "reviewStatus": "draft",
       "type": "multi",
-      "text": null,
+      "text": "Як саме змінюється шкіра в ці періоди?",
       "description": null,
       "required": false,
       "options": [
@@ -589,10 +589,10 @@
     },
     {
       "id": "q9_safety_flags",
-      "source": "content/source/message.txt, розділ 09, «Додаткові питання безпеки»",
+      "source": "Сформульовано Claude на прохання авторки 2026-11-26, чекає перевірки (лише текст питання); content/source/message.txt, розділ 09, «Додаткові питання безпеки»",
       "reviewStatus": "draft",
       "type": "multi",
-      "text": null,
+      "text": "Чи стосується тебе щось із цього?",
       "description": "Ці відповіді роблять рекомендації безпечнішими; їх можна пропустити",
       "required": false,
       "options": [
@@ -641,10 +641,10 @@
     },
     {
       "id": "q10_age_band",
-      "source": "content/source/message.txt, розділ 09, «Додаткові питання безпеки»",
+      "source": "Сформульовано Claude на прохання авторки 2026-11-26, чекає перевірки (лише текст питання); content/source/message.txt, розділ 09, «Додаткові питання безпеки»",
       "reviewStatus": "draft",
       "type": "single",
-      "text": null,
+      "text": "Скільки тобі років?",
       "description": "Ці відповіді роблять рекомендації безпечнішими; їх можна пропустити",
       "required": false,
       "options": [

@@ -75,7 +75,7 @@ describe('tokens: nothing bypasses tokens.css', () => {
     for (const file of sources.filter((f) => f.endsWith('.css'))) {
       const text = readFileSync(file, 'utf8');
       for (const match of text.matchAll(/font-size:\s*([^;]+);/g)) {
-        if (!/^var\(--font-size-(sm|md|lg|xl)\)$/.test(match[1]!.trim()))
+        if (!/^var\(--font-size-[a-z]+\)$/.test(match[1]!.trim()))
           offenders.push(`${rel(file)}: ${match[1]}`);
       }
     }
@@ -84,11 +84,23 @@ describe('tokens: nothing bypasses tokens.css', () => {
 });
 
 describe('tokens: accessibility numbers', () => {
-  it('keeps the smallest text size at 16px or more', () => {
-    for (const name of ['--font-size-sm', '--font-size-md', '--font-size-lg', '--font-size-xl']) {
-      const value = token(name);
-      expect(value.endsWith('rem')).toBe(true);
-      expect(parseFloat(value)).toBeGreaterThanOrEqual(1);
+  // Body text is 16px or more. Smaller sizes exist only for secondary text from the design
+  // (labels 12, descriptions 13, links 15): decision of 2026-11-26 in docs/architecture/decisions.md.
+  const SECONDARY_SIZES = ['--font-size-caption', '--font-size-footnote', '--font-size-link'];
+
+  it('keeps body and heading text at 16px or more', () => {
+    const sizes = [...tokensCss.matchAll(/(--font-size-[a-z]+):\s*([^;]+);/g)];
+    expect(sizes.length).toBeGreaterThan(0);
+    for (const [, name, value] of sizes) {
+      expect(value!.trim().endsWith('rem')).toBe(true);
+      if (SECONDARY_SIZES.includes(name!)) continue;
+      expect(parseFloat(value!)).toBeGreaterThanOrEqual(1);
+    }
+  });
+
+  it('keeps secondary text at 12px or more', () => {
+    for (const name of SECONDARY_SIZES) {
+      expect(parseFloat(token(name))).toBeGreaterThanOrEqual(0.75);
     }
   });
 
@@ -102,6 +114,8 @@ describe('tokens: accessibility numbers', () => {
     expect(contrast(token('--color-text'), token(surface))).toBeGreaterThanOrEqual(4.5);
     expect(contrast(token('--color-text-muted'), token(surface))).toBeGreaterThanOrEqual(4.5);
     expect(contrast(token('--color-primary'), token(surface))).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(token('--color-text-secondary'), token(surface))).toBeGreaterThanOrEqual(4.5);
+    expect(contrast(token('--color-link'), token(surface))).toBeGreaterThanOrEqual(4.5);
   });
 
   it('text on a filled button has AA contrast', () => {
@@ -114,7 +128,7 @@ describe('tokens: accessibility numbers', () => {
     expect(parseInt(token('--button-height'), 10)).toBeGreaterThanOrEqual(44);
   });
 
-  it.each(['--color-bg', '--color-surface'])(
+  it.each(['--color-bg', '--color-surface', '--color-surface-muted'])(
     'control borders and focus have 3:1 on %s',
     (surface) => {
       expect(contrast(token('--color-control-border'), token(surface))).toBeGreaterThanOrEqual(3);

@@ -65,7 +65,7 @@ describe('app routes', () => {
     expect(
       await screen.findByRole('heading', { name: t('onboarding.welcomeTitle') }),
     ).toBeInTheDocument();
-    fireEvent.click(screen.getByRole('button', { name: t('onboarding.next') }));
+    fireEvent.click(screen.getByRole('button', { name: t('onboarding.begin') }));
     fireEvent.click(screen.getByRole('button', { name: t('onboarding.next') }));
     fireEvent.click(screen.getByRole('button', { name: t('onboarding.start') }));
     expect(
@@ -86,5 +86,10 @@ describe('app routes', () => {
   it('the developer state screen exists in the dev build (tests run as dev)', async () => {
     renderAt('/dev/state');
     expect(await screen.findByRole('heading', { name: t('dev.stateTitle') })).toBeInTheDocument();
+  });
+
+  it('opens the design review page without the onboarding', async () => {
+    renderAt('/design', false);
+    expect(await screen.findByRole('heading', { name: t('design.title') })).toBeInTheDocument();
   });
 });

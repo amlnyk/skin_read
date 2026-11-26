@@ -13,6 +13,7 @@ import { createUpdateNotifier } from '@/lib/pwa';
 import { ServicesProvider } from '@/lib/services';
 import { StoreProvider } from '@/store';
 import './styles/tokens.css';
+import './styles/fonts.css';
 import './styles/reset.css';
 
 const container = document.getElementById('root');

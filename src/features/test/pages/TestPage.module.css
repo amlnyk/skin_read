@@ -1,34 +1,35 @@
+/* Full-screen test (no tab bar). Figma: 393 wide; on larger screens the column is centred. */
 .page {
-  /* full-screen pages (no tab bar): centred like the layout */
-  width: 100%;
-  max-width: var(--content-width);
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  width: 100%;
+  max-width: 480px;
   min-height: 100dvh;
-  padding: var(--space-4);
+  margin: 0 auto;
 }
 
-.body {
-  flex: 1;
-}
-
-/* The buttons stay at the bottom of the screen, within reach of the thumb. */
-.bar {
-  position: sticky;
-  bottom: 0;
+/* Back button, progress (182 wide) and counter, 54 from the top of the frame. */
+.header {
   display: grid;
-  gap: var(--space-2);
-  margin: 0 calc(var(--space-4) * -1);
-  padding: var(--space-3) var(--space-4);
-  padding-bottom: calc(var(--space-3) + env(safe-area-inset-bottom));
-  border-top: 1px solid var(--color-border);
-  background: var(--color-surface);
+  grid-template-columns: var(--tap-target) 1fr var(--tap-target);
+  align-items: center;
+  gap: var(--space-3);
+  padding: calc(var(--space-3) + env(safe-area-inset-top)) var(--space-page) 0;
+  padding-top: max(54px, calc(var(--space-3) + env(safe-area-inset-top)));
 }
 
-.secondary {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-2);
+.progress {
+  justify-self: center;
+  width: 100%;
+  max-width: var(--progress-width);
+}
+
+.counter {
+  justify-self: end;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.empty {
+  padding: var(--space-6) var(--space-page);
 }

@@ -4,8 +4,9 @@ import conditions from '../data/conditions.json';
 import safetyMessages from '../data/safety-messages.json';
 import skinTypes from '../data/skin-types.json';
 
-// The records for the profile (stage 4). Names are from the spec (section 10);
-// the spec has no descriptions, so they must stay null until the cosmetologist provides them.
+// The records for the profile (stage 4). Names are from the spec (section 10); descriptions
+// come only from the author's Figma texts (node 23:460) and say so in the source.
+const FIGMA = 'Figma skin_read';
 
 describe('skin types', () => {
   it('have a record for each base type that has a description in the spec (not "unsure")', () => {
@@ -15,10 +16,11 @@ describe('skin types', () => {
     );
   });
 
-  it('have names and no invented descriptions', () => {
+  it('have names, and descriptions only from the Figma texts', () => {
     for (const item of skinTypes.items) {
       expect(item.nameUk).toBeTruthy();
-      expect(item.description).toBeNull();
+      expect(item.description).not.toBeNull();
+      expect(item.source).toContain(FIGMA);
       expect(item.reviewStatus).toBe('draft');
     }
   });
@@ -31,12 +33,15 @@ describe('conditions', () => {
     );
   });
 
-  it('have names and no invented descriptions', () => {
+  it('have names, and descriptions only from the Figma texts', () => {
     for (const item of conditions.items) {
       expect(item.nameUk).toBeTruthy();
-      expect(item.description).toBeNull();
+      if (item.description !== null) expect(item.source).toContain(FIGMA);
       expect(item.reviewStatus).toBe('draft');
     }
+    // Figma has no text for the combination skin: it stays empty
+    const combination = conditions.items.find((item) => item.condition === 'combination');
+    expect(combination?.description).toBeNull();
   });
 });
 

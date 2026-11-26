@@ -1,21 +1,28 @@
+/* Progress from the test screens (in Figma not a component yet): 6 high, radius 3,
+   track white 70%, fill black. The width is set by the parent (182 in the test header). */
 .progress {
+  display: block;
   width: 100%;
-  height: 6px;
+  height: var(--progress-height);
   appearance: none;
   border: 0;
-  border-radius: var(--radius-pill);
-  background: var(--color-border);
+  border-radius: 3px;
+  background: var(--color-glass);
   overflow: hidden;
 }
 
 .progress::-webkit-progress-bar {
-  background: var(--color-border);
+  background: var(--color-glass);
+  border-radius: 3px;
 }
 
 .progress::-webkit-progress-value {
   background: var(--color-primary);
+  border-radius: 3px;
+  transition: width 0.25s ease;
 }
 
 .progress::-moz-progress-bar {
   background: var(--color-primary);
+  border-radius: 3px;
 }

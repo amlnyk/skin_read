@@ -13,13 +13,13 @@
 
 .message {
   font-size: var(--font-size-lg);
-  font-weight: 700;
+  font-weight: var(--font-weight-semibold);
 }
 
 .number {
   display: inline-block;
   min-height: var(--tap-target);
   font-size: var(--font-size-xl);
-  font-weight: 700;
-  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-link);
 }

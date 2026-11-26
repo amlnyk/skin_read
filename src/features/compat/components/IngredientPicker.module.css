@@ -57,7 +57,7 @@
 .chosen {
   border-color: var(--color-primary);
   background: var(--color-notice-bg);
-  font-weight: 700;
+  font-weight: var(--font-weight-semibold);
 }
 
 .kind {

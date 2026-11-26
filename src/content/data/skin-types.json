@@ -2,27 +2,27 @@
   "items": [
     {
       "id": "skin-type-oily",
-      "source": "content/source/message.txt, розділ 10, «Структура бази результатів»",
+      "source": "Figma skin_read, тексти авторки (вузол 23:460 «Результати аналізу»), 2026-11-26; content/source/message.txt, розділ 10, «Структура бази результатів»",
       "reviewStatus": "draft",
       "baseType": "oily",
       "nameUk": "Жирна або схильна до жирності",
-      "description": null
+      "description": "Спостерігається гіперсекреція себуму, збільшення діаметра пор і схильність до мікрокомедонів."
     },
     {
       "id": "skin-type-dry",
-      "source": "content/source/message.txt, розділ 10, «Структура бази результатів»",
+      "source": "Figma skin_read, тексти авторки (вузол 23:460 «Результати аналізу»), 2026-11-26; content/source/message.txt, розділ 10, «Структура бази результатів»",
       "reviewStatus": "draft",
       "baseType": "dry",
       "nameUk": "Суха або схильна до сухості",
-      "description": null
+      "description": "Шкіра має недостатній рівень ліпідів і природних зволожувальних факторів (NMF), що призводить до стягнутості, лущення та підвищеної чутливості."
     },
     {
       "id": "skin-type-normal",
-      "source": "content/source/message.txt, розділ 10, «Структура бази результатів»",
+      "source": "Figma skin_read, тексти авторки (вузол 23:460 «Результати аналізу»), 2026-11-26; content/source/message.txt, розділ 10, «Структура бази результатів»",
       "reviewStatus": "draft",
       "baseType": "normal",
       "nameUk": "Нормальна / резистентна",
-      "description": null
+      "description": "Має збалансований рівень себуму та NMF, хорошу бар’єрну функцію й низьку реактивність."
     }
   ]
 }

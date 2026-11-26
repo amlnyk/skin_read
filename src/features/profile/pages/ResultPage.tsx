@@ -6,7 +6,7 @@ import { useServices } from '@/lib/services';
 import type { ProfileNote } from '@/logic/profile';
 import { QUESTION_IDS, SAFETY_MESSAGE_IDS, safetyNoteId } from '@/schemas';
 import { useAppStore } from '@/store';
-import { Button, DoctorBanner, MedicalDisclaimer } from '@/ui';
+import { Background, Button, DoctorBanner, MedicalDisclaimer } from '@/ui';
 import { EmergencyScreen } from '../components/EmergencyScreen';
 import { TextBlocks } from '../components/TextBlocks';
 import { ValueGroup } from '../components/ValueGroup';
@@ -58,60 +58,64 @@ export function ResultPage() {
   };
 
   return (
-    <main className={styles.page}>
-      {analysis.mode === 'see_doctor' || analysis.mode === 'emergency' ? (
-        <DoctorBanner message={messageText(SAFETY_MESSAGE_IDS.seeDoctor)} />
-      ) : null}
-      <h1>{t('profile.resultTitle')}</h1>
+    <Background variant="sheet">
+      <main className={styles.page}>
+        {analysis.mode === 'see_doctor' || analysis.mode === 'emergency' ? (
+          <DoctorBanner message={messageText(SAFETY_MESSAGE_IDS.seeDoctor)} />
+        ) : null}
+        <h1>{t('profile.resultTitle')}</h1>
 
-      <section className={styles.section}>
-        <h2>{t('profile.typeTitle')}</h2>
-        <TextBlocks blocks={typeBlocks} content={bundle} />
-      </section>
-      {conditionBlocks.length > 0 ? (
         <section className={styles.section}>
-          <h2>{t('profile.conditionsTitle')}</h2>
-          <TextBlocks blocks={conditionBlocks} content={bundle} />
+          <h2>{t('profile.typeTitle')}</h2>
+          <TextBlocks blocks={typeBlocks} content={bundle} />
         </section>
-      ) : null}
+        {conditionBlocks.length > 0 ? (
+          <section className={styles.section}>
+            <h2>{t('profile.conditionsTitle')}</h2>
+            <TextBlocks blocks={conditionBlocks} content={bundle} />
+          </section>
+        ) : null}
 
-      <ValueGroup
-        title={t('profile.goalsTitle')}
-        values={groupValues('goals', profile, questions)}
-      />
-      <ValueGroup title={t('profile.restrictionsTitle')} values={restrictions} />
+        <ValueGroup
+          title={t('profile.goalsTitle')}
+          values={groupValues('goals', profile, questions)}
+        />
+        <ValueGroup title={t('profile.restrictionsTitle')} values={restrictions} />
 
-      {analysis.restrictions.medicalNotes.length > 0 ? (
-        <section className={styles.section}>
-          <h2>{t('profile.medicalTitle')}</h2>
-          <ul>
-            {analysis.restrictions.medicalNotes.map((flag) => (
-              <li key={flag}>
-                <strong>{optionLabel(questions, QUESTION_IDS.safetyFlags, flag)}</strong>
-                <p>{messageText(safetyNoteId(flag)) ?? t('common.contentPending')}</p>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
+        {analysis.restrictions.medicalNotes.length > 0 ? (
+          <section className={styles.section}>
+            <h2>{t('profile.medicalTitle')}</h2>
+            <ul>
+              {analysis.restrictions.medicalNotes.map((flag) => (
+                <li key={flag}>
+                  <strong>{optionLabel(questions, QUESTION_IDS.safetyFlags, flag)}</strong>
+                  <p>{messageText(safetyNoteId(flag)) ?? t('common.contentPending')}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
 
-      {analysis.notes.length > 0 || analysis.contradictions.length > 0 || analysis.minorMode ? (
-        <section className={styles.section}>
-          <h2>{t('profile.notesTitle')}</h2>
-          <ul>
-            {analysis.contradictions.length > 0 ? <li>{t('profile.contradictionNote')}</li> : null}
-            {analysis.minorMode ? <li>{t('profile.minorNote')}</li> : null}
-            {analysis.notes.map((note) => (
-              <li key={note}>{t(NOTE_KEYS[note])}</li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
+        {analysis.notes.length > 0 || analysis.contradictions.length > 0 || analysis.minorMode ? (
+          <section className={styles.section}>
+            <h2>{t('profile.notesTitle')}</h2>
+            <ul>
+              {analysis.contradictions.length > 0 ? (
+                <li>{t('profile.contradictionNote')}</li>
+              ) : null}
+              {analysis.minorMode ? <li>{t('profile.minorNote')}</li> : null}
+              {analysis.notes.map((note) => (
+                <li key={note}>{t(NOTE_KEYS[note])}</li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
 
-      <MedicalDisclaimer text={disclaimer.text} />
-      <Button fullWidth onClick={onConfirm}>
-        {t('profile.confirm')}
-      </Button>
-    </main>
+        <MedicalDisclaimer text={disclaimer.text} />
+        <Button fullWidth onClick={onConfirm}>
+          {t('profile.confirm')}
+        </Button>
+      </main>
+    </Background>
   );
 }

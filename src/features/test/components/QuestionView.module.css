@@ -1,32 +1,91 @@
-.fieldset {
-  display: grid;
-  gap: var(--space-3);
+.question {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   min-width: 0;
-  margin: 0;
-  padding: 0;
-  border: 0;
 }
 
-.legend {
-  padding: 0;
-  margin-bottom: var(--space-2);
+/* The title sits over the background: ExtraBold 32 / 36, 20 from the left
+   (Figma: 66 under the header, the sheet 40 under the title). */
+.title {
+  max-width: calc(341px + var(--space-page) * 2);
+  padding: 0 var(--space-page);
+  margin: 66px 0 40px;
+  letter-spacing: var(--letter-spacing-title);
+}
+
+.subtitleRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: 0 var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.subtitle {
+  color: var(--color-text-secondary);
+}
+
+.count {
+  flex: none;
+  color: var(--color-link);
+  font-size: var(--font-size-link);
 }
 
 .description {
+  padding: 0 var(--space-2);
+  margin-bottom: var(--space-3);
   color: var(--color-text-muted);
 }
 
-.hint {
-  color: var(--color-text-muted);
-  font-size: var(--font-size-sm);
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.textField {
+  padding: 0 var(--space-2);
 }
 
 .options {
-  display: grid;
-  gap: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
+/* Dividers between rows (Figma: 1 px "divider", 8 in from each side), never next to a
+   selected row: the selected background is enough. */
 .option {
-  display: grid;
-  gap: var(--space-2);
+  position: relative;
+}
+
+.option + .option::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  right: var(--space-2);
+  left: var(--space-2);
+  height: 1px;
+  background: var(--color-divider);
+}
+
+.option:has([data-selected='true']) + .option::before,
+.option + .option:has([data-selected='true'])::before {
+  display: none;
+}
+
+.other {
+  padding: var(--space-2) var(--space-2) var(--space-3);
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-2) 0;
 }
