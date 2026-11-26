@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
-import { Button, Chip, Field, Modal, ProgressBar } from '../index';
+import { Background, Button, Chip, Field, Logo, Modal, ProgressBar } from '../index';
 
 describe('Button', () => {
   it('calls onClick and can be disabled', () => {
@@ -185,5 +185,32 @@ describe('Modal', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Open' }));
     fireEvent.keyDown(document, { key: 'a' });
     expect(onClose).not.toHaveBeenCalled();
+  });
+});
+
+describe('Logo', () => {
+  it('is an image with the given name in both variants', () => {
+    render(
+      <>
+        <Logo label="brand" />
+        <Logo variant="compact" label="brand" />
+      </>,
+    );
+    const images = screen.getAllByRole('img', { name: 'brand' });
+    expect(images).toHaveLength(2);
+    expect(images[0]).toHaveAttribute('width', '284');
+    expect(images[1]).toHaveAttribute('width', '104');
+  });
+});
+
+describe('Background', () => {
+  it('renders its content and hides the decorative blobs from screen readers', () => {
+    const { container } = render(
+      <Background variant="sheet">
+        <p>content</p>
+      </Background>,
+    );
+    expect(screen.getByText('content')).toBeInTheDocument();
+    expect(container.querySelector('[aria-hidden="true"]')?.children).toHaveLength(4);
   });
 });

@@ -1,0 +1,143 @@
+/* Blurred blobs from Figma. Coordinates are those of the 393 pt Figma frame:
+   --x is converted to a share of the screen width (so narrower phones keep the composition),
+   --y and --s stay in pixels, --o is the layer opacity from Figma. */
+.root {
+  position: relative;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: var(--color-bg);
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+}
+
+.blob {
+  position: absolute;
+  left: calc(var(--x) / 393 * 100%);
+  top: calc(var(--y) * 1px);
+  width: calc(var(--s) * 1px);
+  height: calc(var(--s) * 1px);
+  border-radius: 50%;
+  opacity: var(--o);
+  filter: blur(var(--blob-blur));
+}
+
+.blue {
+  background: var(--color-blob-blue);
+}
+
+.purple {
+  background: var(--color-blob-purple);
+}
+
+.coral {
+  background: var(--color-blob-coral);
+}
+
+/* The "noise" layer of the splash screen: a light white veil on top of the blobs. */
+.veil {
+  display: none;
+  position: absolute;
+  inset: 0;
+  background: var(--color-veil);
+}
+
+/* 01_Welcome, node 12:215 */
+.splash .blue {
+  --x: -291;
+  --y: -7;
+  --s: 526;
+  --o: 0.55;
+}
+
+.splash .purple {
+  --x: 135;
+  --y: 324;
+  --s: 390;
+  --o: 0.6;
+}
+
+.splash .coral {
+  --x: -60;
+  --y: 630;
+  --s: 282;
+  --o: 0.45;
+}
+
+.splash .veil {
+  display: block;
+}
+
+/* 02_Welcome, node 4:116 */
+.welcome .blue {
+  --x: -324;
+  --y: 274;
+  --s: 526;
+  --o: 0.55;
+}
+
+.welcome .purple {
+  --x: 27;
+  --y: -40;
+  --s: 390;
+  --o: 0.6;
+}
+
+.welcome .coral {
+  --x: 135;
+  --y: 537;
+  --s: 282;
+  --o: 0.45;
+}
+
+/* Test screens with a sheet, nodes 27:565 and 27:654 */
+.sheet .blue {
+  --x: -300;
+  --y: -260;
+  --s: 526;
+  --o: 0.55;
+}
+
+.sheet .purple {
+  --x: 150;
+  --y: -160;
+  --s: 390;
+  --o: 0.6;
+}
+
+.sheet .coral {
+  --x: 230;
+  --y: 40;
+  --s: 282;
+  --o: 0.45;
+}
+
+/* Analysis (loading) screen, node 29:793 */
+.analysis .blue {
+  --x: -66;
+  --y: 235;
+  --s: 296;
+  --o: 0.44;
+}
+
+.analysis .purple {
+  --x: 12;
+  --y: 0;
+  --s: 346;
+  --o: 0.48;
+}
+
+.analysis .coral {
+  --x: 141;
+  --y: 242;
+  --s: 282;
+  --o: 0.36;
+}

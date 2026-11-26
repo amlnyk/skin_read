@@ -1,0 +1,208 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-page);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.secondary {
+  color: var(--color-text-secondary);
+}
+
+.token {
+  font-family: ui-monospace, monospace;
+  font-size: var(--font-size-caption);
+  color: var(--color-text-muted);
+}
+
+/* colors */
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--space-3);
+  padding: 0;
+  list-style: none;
+}
+
+.swatchItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.swatch {
+  display: block;
+  height: 56px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.swatchName {
+  font-weight: var(--font-weight-semibold);
+}
+
+.black {
+  background: var(--color-black);
+}
+
+.purple {
+  background: var(--color-purple);
+}
+
+.purpleText {
+  background: var(--color-link);
+}
+
+.white {
+  background: var(--color-white);
+}
+
+.surface {
+  background: var(--color-surface-muted);
+}
+
+.line {
+  background: var(--color-border);
+}
+
+.divider {
+  background: var(--color-divider);
+}
+
+.textSecondary {
+  background: var(--color-text-secondary);
+}
+
+.textTertiary {
+  background: var(--color-text-muted);
+}
+
+.controlBorder {
+  background: var(--color-control-border);
+}
+
+.hydration {
+  background: var(--color-hydration);
+}
+
+.oil {
+  background: var(--color-oil);
+}
+
+.sensitivity {
+  background: var(--color-sensitivity);
+}
+
+/* type */
+.specimens {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.sample {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.hero {
+  font-size: var(--font-size-hero);
+  font-weight: var(--font-weight-extrabold);
+  line-height: var(--line-height-hero);
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-extrabold);
+  line-height: var(--line-height-title);
+}
+
+.body {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height);
+}
+
+.option {
+  font-size: var(--font-size-option);
+  font-weight: var(--font-weight-medium);
+}
+
+.optionSelected {
+  font-size: var(--font-size-option);
+  font-weight: var(--font-weight-semibold);
+}
+
+.footnote {
+  max-width: 293px;
+  font-size: var(--font-size-footnote);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-footnote);
+  color: var(--color-text-muted);
+}
+
+.link {
+  font-size: var(--font-size-link);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-link);
+}
+
+.caption {
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-caption);
+  text-transform: uppercase;
+}
+
+/* logo */
+.logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+/* backgrounds: each Figma frame (393 x 852) shown at 40% */
+.frames {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+.frameItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.frameBox {
+  width: calc(var(--screen-width) * 0.4);
+  height: calc(852px * 0.4);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.frame {
+  width: var(--screen-width);
+  height: 852px;
+  transform: scale(0.4);
+  transform-origin: top left;
+}

@@ -87,4 +87,9 @@ describe('app routes', () => {
     renderAt('/dev/state');
     expect(await screen.findByRole('heading', { name: t('dev.stateTitle') })).toBeInTheDocument();
   });
+
+  it('opens the design review page without the onboarding', async () => {
+    renderAt('/design', false);
+    expect(await screen.findByRole('heading', { name: t('design.title') })).toBeInTheDocument();
+  });
 });

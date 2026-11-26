@@ -63,6 +63,12 @@ const DisclaimerPage = lazy(() =>
 // The test has its own full-screen layout (no bottom navigation) and loads on demand.
 const TestPage = lazy(() => import('@/features/test').then((m) => ({ default: m.TestPage })));
 
+// Design review page (temporary, see features/design/README.md): kept in every build so the
+// author can check the design on Vercel Preview from a phone.
+const DesignPage = lazy(() =>
+  import('@/features/design').then((m) => ({ default: m.DesignPage })),
+);
+
 function Loading() {
   return <p role="status">{t('common.loading')}</p>;
 }
@@ -88,6 +94,14 @@ const devRoutes: RouteObject[] = DevStatePage
 
 export const appRoutes: RouteObject[] = [
   { path: '/onboarding', element: <OnboardingPage /> },
+  {
+    path: '/design',
+    element: (
+      <Suspense fallback={<Loading />}>
+        <DesignPage />
+      </Suspense>
+    ),
+  },
   ...devRoutes,
   {
     element: <OnboardingGuard />,

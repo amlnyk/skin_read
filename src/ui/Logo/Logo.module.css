@@ -1,0 +1,7 @@
+/* The SVG keeps its own size from Figma; the image never stretches. */
+.full,
+.compact {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}

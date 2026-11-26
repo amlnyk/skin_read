@@ -31,7 +31,7 @@ const pwa = VitePWA({
     ],
   },
   workbox: {
-    globPatterns: ['**/*.{js,css,html,svg,png,webmanifest,json}'],
+    globPatterns: ['**/*.{js,css,html,svg,png,webmanifest,json,woff2}'],
     navigateFallback: '/index.html',
     navigateFallbackDenylist: [/^\/api\//],
     cleanupOutdatedCaches: true,

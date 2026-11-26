@@ -78,6 +78,7 @@ skin-barrier/
     source/           оригінали матеріалів авторки, не редагувати
   docs/
     architecture/     ARCHITECTURE, STACK, API, decisions, states, pwa
+    design/           DESIGN_SYSTEM (токени й компоненти з Figma, що перенести назад у Figma)
     quality/          accessibility, security-report, test-report, tz-compliance
     content/          content-guide (інструкція косметологу), content-inventory
     setup/            ci-setup, setup-security
@@ -98,6 +99,7 @@ skin-barrier/
       data/           усі *.json контенту (форма { "items": [...] }) і version.json
       import/         імпорт таблиць косметолога
     schemas/  types/  store/ (migrations/)  lib/ (ai, idb, image, ...)  ui/<Компонент>/  i18n/  styles/
+    styles/fonts/     файли шрифтів (Fixel Display *.woff2, Geologica *.ttf) і їхні ліцензії OFL.txt
     test/             setup.ts (vitest), helpers/ (TestProviders, appHarness, fakes),
                       data/ (персони й тестовий контент), __tests__/ (наскрізні тести)
   tests/fixtures/     JSON-фікстури (аліас @fixtures)
@@ -242,7 +244,7 @@ CHANGELOG.md за Keep a Changelog.
 - Продуктивність (цілі): початковий JS головного маршруту не більше 200 КБ
 gzip; Lighthouse Performance на мобільному не нижче 90; шрифти власні (woff2,
 font-display swap); важкі фічі lazy.
-- Доступність: WCAG 2.1 AA; шрифт від 16px; зона натискання від 44px;
+- Доступність: WCAG 2.1 AA; основний текст від 16px (допоміжний 12–15px за дизайном, рішення 2026-11-26); зона натискання від 44px;
 контраст 4.5:1; клавіатура; aria-label; prefers-reduced-motion.
 - Браузери: iOS Safari 16+, Android Chrome і настільні Chrome, Firefox, Edge
 (останні дві версії).
