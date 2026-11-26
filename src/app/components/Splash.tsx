@@ -2,7 +2,7 @@ import { t } from '@/i18n';
 import { Background, Logo } from '@/ui';
 import styles from './Splash.module.css';
 
-// The loading screen (Figma 01_Welcome), shown on every launch for 2 seconds: the blobs
+// The loading screen (Figma 01_Welcome), shown on every launch for about 5 seconds: the blobs
 // drift, the logo appears, a purple bar scans the word "read" like a scanner and settles in its
 // place from the logo, then the screen fades away by itself. Pure CSS, so nothing waits on
 // a timer and the app under it loads in the meantime. Decoration only: hidden from screen readers.

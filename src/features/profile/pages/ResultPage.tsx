@@ -8,7 +8,7 @@ import { buildBaseRoutine } from '@/logic/routine';
 import { QUESTION_IDS, SAFETY_MESSAGE_IDS, safetyNoteId } from '@/schemas';
 import { useAppStore } from '@/store';
 import type { Mode } from '@/types';
-import { BackButton, Background, Button, DoctorBanner, MedicalDisclaimer, Modal } from '@/ui';
+import { BackButton, Background, Button, MedicalDisclaimer, Modal } from '@/ui';
 import { EmergencyScreen } from '../components/EmergencyScreen';
 import { TextBlocks } from '../components/TextBlocks';
 import { ValueGroup } from '../components/ValueGroup';
@@ -145,7 +145,6 @@ export function ResultPage() {
     navigate('/care');
   };
 
-  const isDoctorMode = analysis.mode === 'see_doctor' || analysis.mode === 'emergency';
   const hasNotes =
     analysis.notes.length > 0 || analysis.contradictions.length > 0 || analysis.minorMode;
 
@@ -167,7 +166,7 @@ export function ResultPage() {
           </h2>
         </header>
 
-        {isDoctorMode ? <DoctorBanner message={messageText(SAFETY_MESSAGE_IDS.seeDoctor)} /> : null}
+        {/* No separate doctor banner here (decision of the author): "Головне зараз" already says it. */}
 
         <button type="button" className={styles.priority} onClick={() => setDetails(true)}>
           <span className={styles.priorityHead}>

@@ -1,9 +1,10 @@
-/* Covers the app for 1.6 s, then fades in 0.4 s (2 s in all) and stops catching taps. */
+/* Covers the app for 4.3 s, then fades in 0.5 s and stops catching taps (the author asked for
+   a calm, several times slower logo animation). */
 .splash {
   position: fixed;
   inset: 0;
   z-index: 50;
-  animation: splash-out 0.4s ease 1.6s forwards;
+  animation: splash-out 0.5s ease 4.3s forwards;
 }
 
 .inner {
@@ -17,7 +18,7 @@
 /* The logo comes out of a soft blur, rising a little. */
 .logo {
   position: relative;
-  animation: logo-in 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.1s both;
+  animation: logo-in 1.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s both;
 }
 
 /* The purple bar of the logo (x 131-273, y 47-51 in the 284 x 76 mark): it sweeps down and up
@@ -30,7 +31,7 @@
   border-radius: 2px;
   background: var(--color-purple);
   box-shadow: 0 0 12px var(--color-purple);
-  animation: scan 1s ease-in-out 0.5s both;
+  animation: scan 3s ease-in-out 1.2s both;
 }
 
 @keyframes scan {
